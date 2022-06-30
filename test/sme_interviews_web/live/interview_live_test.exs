@@ -20,7 +20,7 @@ defmodule SMEInterviewsWeb.InterviewLiveTest do
       {:ok, _index_live, html} = live(conn, Routes.interview_index_path(conn, :index))
 
       assert html =~ "Listing Interviews"
-      assert html =~ interview.description
+      assert html =~ interview.name
     end
 
     test "saves new interview", %{conn: conn} do
@@ -42,7 +42,7 @@ defmodule SMEInterviewsWeb.InterviewLiveTest do
         |> follow_redirect(conn, Routes.interview_index_path(conn, :index))
 
       assert html =~ "Interview created successfully"
-      assert html =~ "some description"
+      assert html =~ "some name"
     end
 
     test "updates interview in listing", %{conn: conn, interview: interview} do
@@ -64,7 +64,7 @@ defmodule SMEInterviewsWeb.InterviewLiveTest do
         |> follow_redirect(conn, Routes.interview_index_path(conn, :index))
 
       assert html =~ "Interview updated successfully"
-      assert html =~ "some updated description"
+      assert html =~ "some updated name"
     end
 
     test "deletes interview in listing", %{conn: conn, interview: interview} do
@@ -82,7 +82,7 @@ defmodule SMEInterviewsWeb.InterviewLiveTest do
       {:ok, _show_live, html} = live(conn, Routes.interview_show_path(conn, :show, interview))
 
       assert html =~ "Show Interview"
-      assert html =~ interview.description
+      assert html =~ interview.name
     end
 
     test "updates interview within modal", %{conn: conn, interview: interview} do
@@ -104,7 +104,7 @@ defmodule SMEInterviewsWeb.InterviewLiveTest do
         |> follow_redirect(conn, Routes.interview_show_path(conn, :show, interview))
 
       assert html =~ "Interview updated successfully"
-      assert html =~ "some updated description"
+      assert html =~ "some updated name"
     end
   end
 end

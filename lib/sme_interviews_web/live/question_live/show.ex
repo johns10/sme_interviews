@@ -5,7 +5,11 @@ defmodule SMEInterviewsWeb.QuestionLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {
+      :ok,
+      socket
+      |> assign(:return_to, Routes.interview_index_path(socket, :index))
+    }
   end
 
   @impl true

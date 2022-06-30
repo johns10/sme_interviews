@@ -1,10 +1,13 @@
 defmodule SMEInterviews.Interviews.Interview do
   use Ecto.Schema
   import Ecto.Changeset
+  alias SMEInterviews.Questions.Question
 
   schema "interviews" do
     field :description, :string
     field :name, :string
+
+    has_many :questions, Question
 
     timestamps()
   end

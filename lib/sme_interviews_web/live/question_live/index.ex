@@ -6,7 +6,12 @@ defmodule SMEInterviewsWeb.QuestionLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :questions, list_questions())}
+    {
+      :ok,
+      socket
+      |> assign(:questions, list_questions())
+      |> assign(:return_to, Routes.question_index_path(socket, :index))
+    }
   end
 
   @impl true

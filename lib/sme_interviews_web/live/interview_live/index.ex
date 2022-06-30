@@ -6,7 +6,12 @@ defmodule SMEInterviewsWeb.InterviewLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :interviews, list_interviews())}
+    {
+      :ok,
+      socket
+      |> assign(:interviews, list_interviews())
+      |> assign(:return_to, Routes.interview_index_path(socket, :index))
+    }
   end
 
   @impl true
@@ -40,7 +45,7 @@ defmodule SMEInterviewsWeb.InterviewLive.Index do
     {:noreply, assign(socket, :interviews, list_interviews())}
   end
   def handle_event("close_modal", _, socket) do
-    {:noreply, push_patch(socket, to: Routes.interview_index_path(socket, :index))}
+    {:noreply, push_patch(socket, to: socket.assigns.return_to)}
   end
 
   defp list_interviews do

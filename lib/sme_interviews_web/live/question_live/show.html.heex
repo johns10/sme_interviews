@@ -1,11 +1,10 @@
 <h1>Show Question</h1>
 
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.question_show_path(@socket, :show, @question)}>
+  <.modal title={@page_title} return_to={Routes.question_show_path(@socket, :show, @question)}>
     <.live_component
       module={SMEInterviewsWeb.QuestionLive.FormComponent}
       id={@question.id}
-      title={@page_title}
       action={@live_action}
       question={@question}
       return_to={Routes.question_show_path(@socket, :show, @question)}
