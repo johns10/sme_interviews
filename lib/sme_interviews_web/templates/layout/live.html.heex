@@ -1,0 +1,20 @@
+<.container class="bg-gray-800 dark:bg-gray-800 h-screen" max_width="full">
+  <div class="pb-8" />
+  <.alert
+    color="info"
+    class="mb-5"
+    label={live_flash(@flash, :info)}
+    phx-click="lv:clear-flash"
+    phx-value-key="info"
+  />
+
+  <.alert
+    color="danger"
+    class="mb-5"
+    label={live_flash(@flash, :error)}
+    phx-click="lv:clear-flash"
+    phx-value-key="error"
+  />
+
+  <%= @inner_content %>
+</.container>

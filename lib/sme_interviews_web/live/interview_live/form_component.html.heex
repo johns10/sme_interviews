@@ -1,0 +1,26 @@
+<div>
+  <.form
+    let={f}
+    for={@changeset}
+    id="interview-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+  
+    <.form_field
+      type="text_input"
+      form={f}
+      field={:name}
+      placeholder="Interview Name"
+    />
+  
+    <.form_field
+      type="textarea"
+      form={f}
+      field={:description}
+      placeholder="Enter a Description"
+    />
+  
+    <.button type="submit" color="success" label="Save" />
+  </.form>
+</div>

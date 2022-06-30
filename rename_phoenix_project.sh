@@ -17,8 +17,8 @@ then
     exit 1
 fi
 
-CURRENT_NAME="SMEInterviews"
-CURRENT_OTP="sme_interviews"
+CURRENT_NAME="PetalBoilerplate"
+CURRENT_OTP="petal_boilerplate"
 
 ack -l $CURRENT_NAME --ignore-file=is:rename_phoenix_project.sh | xargs sed -i '' -e "s/$CURRENT_NAME/$NEW_NAME/g"
 ack -l $CURRENT_OTP --ignore-file=is:rename_phoenix_project.sh | xargs sed -i '' -e "s/$CURRENT_OTP/$NEW_OTP/g"

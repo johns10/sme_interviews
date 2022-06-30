@@ -7,14 +7,14 @@
 # General application configuration
 import Config
 
-config :petal_boilerplate,
-  ecto_repos: [PetalBoilerplate.Repo]
+config :sme_interviews,
+  ecto_repos: [SMEInterviews.Repo]
 
 # Configures the endpoint
-config :petal_boilerplate, PetalBoilerplateWeb.Endpoint,
+config :sme_interviews, SMEInterviewsWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: PetalBoilerplateWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: PetalBoilerplate.PubSub,
+  render_errors: [view: SMEInterviewsWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: SMEInterviews.PubSub,
   live_view: [signing_salt: "Fd8SWPu3"]
 
 # Configures the mailer
@@ -24,7 +24,7 @@ config :petal_boilerplate, PetalBoilerplateWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :petal_boilerplate, PetalBoilerplate.Mailer, adapter: Swoosh.Adapters.Local
+config :sme_interviews, SMEInterviews.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
@@ -47,7 +47,7 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :petal_components, :error_translator_function, {PetalBoilerplateWeb.ErrorHelpers, :translate_error}
+config :petal_components, :error_translator_function, {SMEInterviewsWeb.ErrorHelpers, :translate_error}
 
 config :tailwind,
   version: "3.0.12",
