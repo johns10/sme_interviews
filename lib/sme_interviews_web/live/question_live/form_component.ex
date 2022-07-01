@@ -1,31 +1,23 @@
 defmodule SMEInterviewsWeb.QuestionLive.FormComponent do
   use SMEInterviewsWeb, :live_component
 
+  import SMEInterviews.QuestionLive.FormHandlers
   alias SMEInterviews.Questions
 
   @impl true
-  def update(%{question: question} = assigns, socket) do
-    changeset = Questions.change_question(question)
-
-    {:ok,
-     socket
-     |> assign(assigns)
-     |> assign(:changeset, changeset)}
+  def update(assigns, socket) do
+    update_socket(assigns, socket)
   end
 
   @impl true
   def handle_event("validate", %{"question" => question_params}, socket) do
-    changeset =
-      socket.assigns.question
-      |> Questions.change_question(question_params)
-      |> Map.put(:action, :validate)
-
-    {:noreply, assign(socket, :changeset, changeset)}
+    validate(question_params, socket)
   end
 
   def handle_event("save", %{"question" => question_params}, socket) do
     save_question(socket, socket.assigns.action, question_params)
   end
+
 
   defp save_question(socket, :edit, question_params) do
     case Questions.update_question(socket.assigns.question, question_params) do

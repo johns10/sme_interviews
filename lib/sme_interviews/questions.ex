@@ -5,7 +5,7 @@ defmodule SMEInterviews.Questions do
 
   import Ecto.Query, warn: false
   alias SMEInterviews.Repo
-
+  alias SMEInterviews.Subscription
   alias SMEInterviews.Questions.Question
 
   def list_questions do
@@ -18,16 +18,19 @@ defmodule SMEInterviews.Questions do
     %Question{}
     |> Question.changeset(attrs)
     |> Repo.insert()
+    |> Subscription.broadcast_result()
   end
 
   def update_question(%Question{} = question, attrs) do
     question
     |> Question.changeset(attrs)
     |> Repo.update()
+    |> Subscription.broadcast_result()
   end
 
   def delete_question(%Question{} = question) do
     Repo.delete(question)
+    |> Subscription.broadcast_result()
   end
 
   def change_question(%Question{} = question, attrs \\ %{}) do

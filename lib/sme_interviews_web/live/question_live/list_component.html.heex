@@ -1,0 +1,18 @@
+<div>
+  <.h2>Questions</.h2>
+  <%= for question <- @interview.questions do %>
+    <.live_component
+      module={SMEInterviewsWeb.QuestionLive.InlineFormComponentUpdate}
+      id={"#{question.id}"}
+      action={:edit}
+      interview={@interview}
+      question={question}
+    />
+  <% end %>
+  <.live_component
+    module={SMEInterviewsWeb.QuestionLive.InlineFormComponentNew}
+    id={"new-question-#{@interview.id}"}
+    interview={@interview}
+    question={%SMEInterviews.Questions.Question{}}
+  />
+</div>

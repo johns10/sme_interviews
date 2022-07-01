@@ -26,8 +26,6 @@ defmodule SMEInterviewsWeb.Router do
   end
 
   if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
-
     scope "/", SMEInterviewsWeb do
       pipe_through :browser
       # live_dashboard "/dashboard", metrics: SMEInterviewsWeb.Telemetry

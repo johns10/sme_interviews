@@ -1,4 +1,4 @@
-<h1>Show Interview</h1>
+<.h1>Show Interview</.h1>
 
 <%= if @live_action in [:edit] do %>
   <.modal title={@page_title} return_to={Routes.interview_show_path(@socket, :show, @interview)}>
@@ -13,18 +13,26 @@
 <% end %>
 
 <ul>
-
   <li>
-    <strong>Name:</strong>
-    <%= @interview.name %>
+    <.p>
+      <strong>Name:</strong>
+      <%= @interview.name %>
+    </.p>
   </li>
 
   <li>
-    <strong>Description:</strong>
-    <%= @interview.description %>
+    <.p>
+      <strong>Description:</strong>
+      <%= @interview.description %>
+    </.p>
   </li>
-
 </ul>
 
 <span><%= live_patch "Edit", to: Routes.interview_show_path(@socket, :edit, @interview), class: "button" %></span> |
 <span><%= live_redirect "Back", to: Routes.interview_index_path(@socket, :index) %></span>
+
+<.live_component
+  module={SMEInterviewsWeb.QuestionLive.ListComponent}
+  id="questions"
+  interview={@interview}
+/>
