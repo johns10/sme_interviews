@@ -50,6 +50,13 @@ defmodule SMEInterviewsWeb.Router do
 
       live "/answers/:id", AnswerLive.Show, :show
       live "/answers/:id/show/edit", AnswerLive.Show, :edit
+
+      live "/chat_message", ChatMessageLive.Index, :index
+      live "/chat_message/new", ChatMessageLive.Index, :new
+      live "/chat_message/:id/edit", ChatMessageLive.Index, :edit
+
+      live "/chat_message/:id", ChatMessageLive.Show, :show
+      live "/chat_message/:id/show/edit", ChatMessageLive.Show, :edit
     end
   end
 

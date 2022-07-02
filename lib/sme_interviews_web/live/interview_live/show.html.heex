@@ -1,29 +1,31 @@
-<.h1>Interview <%= @interview.name %></.h1>
+<.layout show_sidebar={@show_sidebar}>
+  <.h1>Interview <%= @interview.name %></.h1>
 
-<%= if @live_action in [:edit] do %>
-  <.modal title={@page_title} return_to={Routes.interview_show_path(@socket, :show, @interview)}>
-    <.live_component
-      module={SMEInterviewsWeb.InterviewLive.FormComponent}
-      id={@interview.id}
-      action={@live_action}
-      interview={@interview}
-      return_to={Routes.interview_show_path(@socket, :show, @interview)}
-    />
-  </.modal>
-<% end %>
+  <%= if @live_action in [:edit] do %>
+    <.modal title={@page_title} return_to={Routes.interview_show_path(@socket, :show, @interview)}>
+      <.live_component
+        module={SMEInterviewsWeb.InterviewLive.FormComponent}
+        id={@interview.id}
+        action={@live_action}
+        interview={@interview}
+        return_to={Routes.interview_show_path(@socket, :show, @interview)}
+      />
+    </.modal>
+  <% end %>
 
-<.live_component
-  module={SMEInterviewsWeb.InterviewLive.DescriptionFormComponent}
-  id={"interview-form-#{@interview.id}"}
-  action={@live_action}
-  interview={@interview}
-/>
+  <.live_component
+    module={SMEInterviewsWeb.InterviewLive.DescriptionFormComponent}
+    id={"interview-form-#{@interview.id}"}
+    action={@live_action}
+    interview={@interview}
+  />
 
-<span><%= live_patch "Edit", to: Routes.interview_show_path(@socket, :edit, @interview), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.interview_index_path(@socket, :index) %></span>
+  <span><%= live_patch "Edit", to: Routes.interview_show_path(@socket, :edit, @interview), class: "button" %></span> |
+  <span><%= live_redirect "Back", to: Routes.interview_index_path(@socket, :index) %></span>
 
-<.live_component
-  module={SMEInterviewsWeb.QuestionLive.ListComponent}
-  id="questions"
-  interview={@interview}
-/>
+  <.live_component
+    module={SMEInterviewsWeb.QuestionLive.ListComponent}
+    id="questions"
+    interview={@interview}
+  />
+</.layout>

@@ -10,7 +10,7 @@ defmodule SMEInterviewsWeb.InterviewLive.Show do
   @impl true
   def mount(params, _session, socket) do
     SMEInterviewsWeb.Endpoint.subscribe("interview:1")
-    {:ok, socket}
+    {:ok, socket |> assign(:show_sidebar, false)}
   end
 
   @impl true
@@ -107,6 +107,29 @@ defmodule SMEInterviewsWeb.InterviewLive.Show do
 
   def handle_event("close_modal", _, socket) do
     {:noreply, push_patch(socket, to: Routes.interview_show_path(socket, :show, socket.assigns.interview))}
+  end
+
+  def layout(%{show_sidebar: false} = assigns) do
+    ~H"""
+    <div class="grid grid-cols-3">
+      <div class="col-span-2">
+        <%= render_slot(@inner_block) %>
+      </div>
+      <div class="col-span-1">
+        test
+      </div>
+    </div>
+    """
+  end
+
+  def layout(%{show_sidebar: false} = assigns) do
+    ~H"""
+    <div class="grid grid-cols-3">
+      <div class="col-span-3">
+        <%= render_slot(@inner_block) %>
+      </div>
+    </div>
+    """
   end
 
   defp page_title(:show), do: "Show Interview"

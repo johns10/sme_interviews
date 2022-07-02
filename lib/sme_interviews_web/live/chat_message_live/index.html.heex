@@ -1,0 +1,39 @@
+<h1>Listing Chat message</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.chat_message_index_path(@socket, :index)} title={@page_title}>
+    <.live_component
+      module={SMEInterviewsWeb.ChatMessageLive.FormComponent}
+      id={@chat_message.id || :new}
+      action={@live_action}
+      title={@page_title}
+      chat_message={@chat_message}
+      return_to={Routes.chat_message_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Body</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="chat_message">
+    <%= for chat_message <- @chat_message_collection do %>
+      <tr id={"chat_message-#{chat_message.id}"}>
+        <td><%= chat_message.body %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.chat_message_show_path(@socket, :show, chat_message) %></span>
+          <span><%= live_patch "Edit", to: Routes.chat_message_index_path(@socket, :edit, chat_message) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: chat_message.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Chat message", to: Routes.chat_message_index_path(@socket, :new) %></span>
