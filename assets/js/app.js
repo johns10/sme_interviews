@@ -24,14 +24,20 @@ import topbar from "../vendor/topbar";
 import "./lib/color-scheme-switch";
 import ColorThemeHook from "./hooks/color-theme-hook";
 
+let Hooks = { ColorThemeHook }
+
+Hooks.MaintainAttrs = {
+  attrs(){ return this.el.getAttribute("data-attrs").split(", ") },
+  beforeUpdate(){ this.prevAttrs = this.attrs().map(name => [name, this.el.getAttribute(name)]) },
+  updated(){ this.prevAttrs.forEach(([name, val]) => this.el.setAttribute(name, val)) }
+}
+
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
-  hooks: {
-    ColorThemeHook,
-  },
+  hooks: Hooks,
   dom: {
     onBeforeElUpdated(from, to) {
       if (from._x_dataStack) {

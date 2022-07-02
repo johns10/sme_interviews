@@ -1,0 +1,38 @@
+<div>
+  <%= for answer <- sort(@question.answers) do %>
+    <div class="flex">
+      <div class="flex-grow">
+        <.live_component
+          module={SMEInterviewsWeb.AnswerLive.InlineFormComponentUpdate}
+          id={"answer-form-#{answer.id}"}
+          action={:edit}
+          question={@question}
+          answer={answer}
+        />
+      </div>
+      <.icon_button 
+        icon={:x} 
+        color="danger" 
+        label="X" 
+        variant="outline" 
+        phx_click="delete-answer" 
+        phx_value_id={answer.id} 
+        class="ml-2" 
+        data-confirm="Are you sure you want to delete this answer?" 
+      />
+    </div>
+  <% end %>
+  <%= if @question.answers != [] do %>
+    <div class="relative flex py-4 items-center">
+      <div class="flex-grow border-t border-gray-500"></div>
+      <span class="flex-shrink mx-4 text-gray-500">New Answer</span>
+      <div class="flex-grow border-t border-gray-500"></div>
+    </div>
+  <% end %>
+  <.live_component
+    module={SMEInterviewsWeb.AnswerLive.InlineFormComponentNew}
+    id={"new-answer-#{@question.id}"}
+    question={@question}
+    answer={%SMEInterviews.Answers.Answer{}}
+  />
+</div>

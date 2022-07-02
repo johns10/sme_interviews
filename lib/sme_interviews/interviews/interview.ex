@@ -16,6 +16,6 @@ defmodule SMEInterviews.Interviews.Interview do
   def changeset(interview, attrs) do
     interview
     |> cast(attrs, [:name, :description])
-    |> validate_required([:name, :description])
+    |> validate_required([:name])
   end
 end

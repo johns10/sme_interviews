@@ -2,16 +2,16 @@
   <.form
     let={f}
     for={@changeset}
-    id="interview-form"
+    id={@id}
     phx-target={@myself}
-    phx-change="validate"
-    phx-submit="save">
+    phx-change="save">
   
     <.form_field
-      type="text_input"
+      type="textarea"
       form={f}
-      field={:name}
-      placeholder="Interview Name"
+      field={:description}
+      placeholder="Enter a Description"
+      phx_debounce="blur" 
     />
   
     <.button type="submit" color="success" label="Save" />

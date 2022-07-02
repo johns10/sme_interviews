@@ -1,4 +1,4 @@
-<.h1>Show Interview</.h1>
+<.h1>Interview <%= @interview.name %></.h1>
 
 <%= if @live_action in [:edit] do %>
   <.modal title={@page_title} return_to={Routes.interview_show_path(@socket, :show, @interview)}>
@@ -12,21 +12,12 @@
   </.modal>
 <% end %>
 
-<ul>
-  <li>
-    <.p>
-      <strong>Name:</strong>
-      <%= @interview.name %>
-    </.p>
-  </li>
-
-  <li>
-    <.p>
-      <strong>Description:</strong>
-      <%= @interview.description %>
-    </.p>
-  </li>
-</ul>
+<.live_component
+  module={SMEInterviewsWeb.InterviewLive.DescriptionFormComponent}
+  id={"interview-form-#{@interview.id}"}
+  action={@live_action}
+  interview={@interview}
+/>
 
 <span><%= live_patch "Edit", to: Routes.interview_show_path(@socket, :edit, @interview), class: "button" %></span> |
 <span><%= live_redirect "Back", to: Routes.interview_index_path(@socket, :index) %></span>

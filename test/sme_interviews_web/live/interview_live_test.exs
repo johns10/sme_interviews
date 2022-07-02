@@ -4,9 +4,9 @@ defmodule SMEInterviewsWeb.InterviewLiveTest do
   import Phoenix.LiveViewTest
   import SMEInterviews.InterviewsFixtures
 
-  @create_attrs %{description: "some description", name: "some name"}
-  @update_attrs %{description: "some updated description", name: "some updated name"}
-  @invalid_attrs %{description: nil, name: nil}
+  @create_attrs %{name: "some name"}
+  @update_attrs %{name: "some updated name"}
+  @invalid_attrs %{name: nil}
 
   defp create_interview(_) do
     interview = interview_fixture()

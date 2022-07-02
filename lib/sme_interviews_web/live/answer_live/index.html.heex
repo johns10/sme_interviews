@@ -1,0 +1,43 @@
+<h1>Listing Answers</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal title={@page_title} return_to={Routes.answer_index_path(@socket, :index)}>
+    <.live_component
+      module={SMEInterviewsWeb.AnswerLive.FormComponent}
+      id={@answer.id || :new}
+      title={@page_title}
+      action={@live_action}
+      answer={@answer}
+      return_to={Routes.answer_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Body</th>
+      <th>Order</th>
+      <th>Selected</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="answers">
+    <%= for answer <- @answers do %>
+      <tr id={"answer-#{answer.id}"}>
+        <td><%= answer.body %></td>
+        <td><%= answer.order %></td>
+        <td><%= answer.selected %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.answer_show_path(@socket, :show, answer) %></span>
+          <span><%= live_patch "Edit", to: Routes.answer_index_path(@socket, :edit, answer) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: answer.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Answer", to: Routes.answer_index_path(@socket, :new) %></span>

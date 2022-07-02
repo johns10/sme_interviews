@@ -11,7 +11,6 @@ defmodule SMEInterviews.Subscription do
     {:ok, struct}
   end
   def broadcast_result({:ok, %{inserted_at: same_time, updated_at: same_time} = struct}) do
-    IO.puts("sending create on #{channel(struct)}")
     broadcast(channel(struct), "create", struct)
     {:ok, struct}
   end
@@ -25,6 +24,9 @@ defmodule SMEInterviews.Subscription do
 
   def channel(%SMEInterviews.Questions.Question{interview_id: interview_id}) do
     "interview:#{interview_id}"
+  end
+  def channel(%SMEInterviews.Answers.Answer{question_id: question_id}) do
+    "question:#{question_id}"
   end
   def channel(_), do: raise("#{__MODULE__} Channel call failed")
 end

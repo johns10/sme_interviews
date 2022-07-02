@@ -2,6 +2,7 @@ defmodule SMEInterviews.Questions.Question do
   use Ecto.Schema
   import Ecto.Changeset
   alias SMEInterviews.Interviews.Interview
+  alias SMEInterviews.Answers.Answer
 
   @values [:open, :closed, :cancelled]
   def values(), do: @values
@@ -12,6 +13,8 @@ defmodule SMEInterviews.Questions.Question do
     field :status, Ecto.Enum, values: @values
 
     belongs_to :interview, Interview
+
+    has_many :answers, Answer
 
     timestamps()
   end

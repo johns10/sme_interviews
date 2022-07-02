@@ -9,5 +9,7 @@ defmodule SMEInterviews.Repo.Migrations.CreateQuestions do
 
       timestamps()
     end
+
+    create index(:questions, [:interview_id])
   end
 end

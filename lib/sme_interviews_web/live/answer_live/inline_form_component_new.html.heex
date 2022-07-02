@@ -2,24 +2,18 @@
   <.form
     let={f}
     for={@changeset}
-    id="question-form"
+    id={@id}
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save">
 
-    <%= hidden_input(f, :interview_id, value: @interview.id) %>
+    <%= hidden_input(f, :question_id, value: @question.id) %>
   
     <div class="flex w-full items-end">
       <div class="flex-grow mr-4">
-        <.form_label form={f} field={:question} />
+        <.form_label form={f} field={:answer} />
         <.textarea form={f} field={:body} rows="1" phx_hook="MaintainAttrs" />
         <.form_field_error form={f} field={:body} class="mt-1" />
-      </div>
-
-      <div class="flex-shrink mr-4">
-        <.form_label form={f} field={:status} />
-        <.select form={f} field={:status} options={SMEInterviews.Questions.Question.status_select_options} />
-        <.form_field_error form={f} field={:status} class="mt-1" />
       </div>
 
       <.button color="success" type="submit" class="flex-shrink mb-1" phx_disable_with="Saving...">

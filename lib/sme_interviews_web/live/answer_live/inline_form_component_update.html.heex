@@ -1,0 +1,24 @@
+<div>
+  <.form
+    let={f}
+    for={@changeset}
+    id={"answer-form-#{@answer.id}"}
+    phx-target={@myself}
+    phx-change="save">
+
+    <%= hidden_input(f, :question_id, value: @question.id) %>
+  
+    <div class="flex w-full items-end">
+      <div class="flex-grow mr-4">
+        <.textarea form={f} field={:body} rows="1" phx_debounce="blur" class="border-0 outline-0 ring-0" phx_hook="MaintainAttrs" />
+        <.form_field_error form={f} field={:body} class="mt-1"  />
+      </div>
+
+      <div class="flex-shrink mr-4">
+        <.switch form={f} field={:selected} />
+        <.form_field_error form={f} field={:selected} class="mt-1" />
+      </div>
+    </div>
+  
+  </.form>
+</div>

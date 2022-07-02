@@ -1,0 +1,36 @@
+<h1>Show Answer</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal title={@page_title} return_to={Routes.answer_show_path(@socket, :show, @answer)}>
+    <.live_component
+      module={SMEInterviewsWeb.AnswerLive.FormComponent}
+      id={@answer.id}
+      title={@page_title}
+      action={@live_action}
+      answer={@answer}
+      return_to={Routes.answer_show_path(@socket, :show, @answer)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Body:</strong>
+    <%= @answer.body %>
+  </li>
+
+  <li>
+    <strong>Order:</strong>
+    <%= @answer.order %>
+  </li>
+
+  <li>
+    <strong>Selected:</strong>
+    <%= @answer.selected %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.answer_show_path(@socket, :edit, @answer), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.answer_index_path(@socket, :index) %></span>

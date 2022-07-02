@@ -14,6 +14,15 @@ defmodule SMEInterviews.Interviews do
 
   def get_interview!(id), do: Repo.get!(Interview, id)
 
+  def get_complete_interview!(id) do
+    Interview
+    |> where([i], i.id == ^id)
+    |> join(:left, [i], q in assoc(i, :questions))
+    |> join(:left, [i, q], a in assoc(q, :answers))
+    |> preload([i, q, a], [questions: {q, answers: a}])
+    |> Repo.one!()
+  end
+
   def preload_interview(interview, preloads), do: Repo.preload(interview, preloads)
 
   def create_interview(attrs \\ %{}) do

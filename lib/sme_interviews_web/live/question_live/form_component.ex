@@ -1,7 +1,7 @@
 defmodule SMEInterviewsWeb.QuestionLive.FormComponent do
   use SMEInterviewsWeb, :live_component
 
-  import SMEInterviews.QuestionLive.FormHandlers
+  import SMEInterviewsWeb.QuestionLive.FormHandlers
   alias SMEInterviews.Questions
 
   @impl true

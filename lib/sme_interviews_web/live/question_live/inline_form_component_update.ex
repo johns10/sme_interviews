@@ -1,7 +1,7 @@
 defmodule SMEInterviewsWeb.QuestionLive.InlineFormComponentUpdate do
   use SMEInterviewsWeb, :live_component
 
-  import SMEInterviews.QuestionLive.FormHandlers
+  import SMEInterviewsWeb.QuestionLive.FormHandlers
 
   @impl true
   def update(assigns, socket) do

@@ -1,9 +1,9 @@
-defmodule SMEInterviewsWeb.QuestionLive.FormHandlers do
+defmodule SMEInterviewsWeb.InterviewLive.FormHandlers do
   import Phoenix.LiveView
-  alias SMEInterviews.Questions
+  alias SMEInterviews.Interviews
 
-  def update_socket(%{question: question} = assigns, socket) do
-    changeset = Questions.change_question(question)
+  def update_socket(%{interview: interview} = assigns, socket) do
+    changeset = Interviews.change_interview(interview)
 
     {:ok,
      socket
@@ -13,19 +13,19 @@ defmodule SMEInterviewsWeb.QuestionLive.FormHandlers do
 
   def validate(params, socket) do
     changeset =
-      socket.assigns.question
-      |> Questions.change_question(params)
+      socket.assigns.interview
+      |> Interviews.change_interview(params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
   def save_no_redirect(socket, :edit, question_params) do
-    case Questions.update_question(socket.assigns.question, question_params) do
-      {:ok, _question} ->
+    case Interviews.update_interview(socket.assigns.interview, question_params) do
+      {:ok, _interview} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Question updated successfully")}
+         |> put_flash(:info, "Interview updated successfully")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -33,11 +33,11 @@ defmodule SMEInterviewsWeb.QuestionLive.FormHandlers do
   end
 
   def save_no_redirect(socket, :new, question_params) do
-    case Questions.create_question(question_params) do
-      {:ok, _question} ->
+    case Interviews.create_interview(question_params) do
+      {:ok, _interview} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Question created successfully")}
+         |> put_flash(:info, "Interview created successfully")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
