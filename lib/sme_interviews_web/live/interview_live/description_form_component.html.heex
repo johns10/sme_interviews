@@ -5,15 +5,8 @@
     id={@id}
     phx-target={@myself}
     phx-change="save">
-  
-    <.form_field
-      type="textarea"
-      form={f}
-      field={:description}
-      placeholder="Enter a Description"
-      phx_debounce="blur" 
-    />
-  
-    <.button type="submit" color="success" label="Save" />
+
+    <.textarea form={f} field={:description} rows="1" phx_hook="MaintainAttrs" />
+    <.form_field_error form={f} field={:body} class="mt-1" />
   </.form>
 </div>

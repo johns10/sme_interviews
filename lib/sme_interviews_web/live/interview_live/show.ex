@@ -116,7 +116,10 @@ defmodule SMEInterviewsWeb.InterviewLive.Show do
         <%= render_slot(@inner_block) %>
       </div>
       <div class="col-span-1">
-        test
+        <.live_component
+          module={SMEInterviewsWeb.ChatMessageLive.ChatBar}
+          id="chat"
+        />
       </div>
     </div>
     """

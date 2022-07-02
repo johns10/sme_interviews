@@ -1,11 +1,20 @@
 <.layout show_sidebar={@show_sidebar}>
-  <.h1>Interview <%= @interview.name %></.h1>
+  <div class="flex-col items-center justify-between mb-4">
+    <div class="flex items-start">
+      <.h1 class="mr-2">Interview <%= @interview.name %></.h1>
+      <.icon_button icon={:pencil} link_type="a" to={Routes.interview_show_path(@socket, :edit, @interview)} class="h-8 w-8">
+      </.icon_button>
+    </div>
+    <.button icon link_type="a" to={Routes.interview_index_path(@socket, :index)} class="mr-2">
+      <Heroicons.Solid.arrow_left class="w-5 h-5" />
+    </.button>
+  </div>
 
   <%= if @live_action in [:edit] do %>
     <.modal title={@page_title} return_to={Routes.interview_show_path(@socket, :show, @interview)}>
       <.live_component
         module={SMEInterviewsWeb.InterviewLive.FormComponent}
-        id={@interview.id}
+        id={"interview-form-#{@interview.id}"}
         action={@live_action}
         interview={@interview}
         return_to={Routes.interview_show_path(@socket, :show, @interview)}
@@ -15,13 +24,10 @@
 
   <.live_component
     module={SMEInterviewsWeb.InterviewLive.DescriptionFormComponent}
-    id={"interview-form-#{@interview.id}"}
-    action={@live_action}
+    id={"interview-description-form-#{@interview.id}"}
+    action={:edit}
     interview={@interview}
   />
-
-  <span><%= live_patch "Edit", to: Routes.interview_show_path(@socket, :edit, @interview), class: "button" %></span> |
-  <span><%= live_redirect "Back", to: Routes.interview_index_path(@socket, :index) %></span>
 
   <.live_component
     module={SMEInterviewsWeb.QuestionLive.ListComponent}

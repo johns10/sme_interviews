@@ -1,0 +1,9 @@
+<div id={@id}>
+  <%= for chat_message <- [] do %>
+    <p id={"chat_message-#{chat_message.id}"}>
+      <%= chat_message.body %>
+    </p>
+  <% end %>
+
+  <span><%= live_patch "New Chat message", to: Routes.chat_message_index_path(@socket, :new) %></span>
+</div>

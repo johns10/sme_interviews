@@ -16,17 +16,14 @@
 <.table class="my-4">
   <.tr class="flex">
     <.th class="flex-grow">Name</.th>
-
-    <.th class="flex-shrink"></.th>
   </.tr>
   <%= for interview <- @interviews do %>
-    <.tr class="flex" id={"interview-#{interview.id}"}>
-      <.td class="flex-grow"><%= interview.name %></.td>
-
-      <.td class="flex-shrink">
-        <span><%= live_redirect "Show", to: Routes.interview_show_path(@socket, :show, interview) %></span>
-        <span><%= live_patch "Edit", to: Routes.interview_index_path(@socket, :edit, interview) %></span>
-        <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: interview.id, data: [confirm: "Are you sure?"] %></span>
+    <.tr 
+      class="flex" 
+      id={"interview-#{interview.id}"}
+    >
+      <.td class="!p-0 flex flex-grow" x-on:click="alert('Hello World!')">
+        <%= live_patch "Edit", to: Routes.interview_show_path(@socket, :show, interview), class: "flex-grow px-6 py-4" %>
       </.td>
     </.tr>
   <% end %>
