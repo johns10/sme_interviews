@@ -88,7 +88,7 @@ defmodule SMEInterviewsWeb.InterviewLiveTest do
     test "updates interview within modal", %{conn: conn, interview: interview} do
       {:ok, show_live, _html} = live(conn, Routes.interview_show_path(conn, :show, interview))
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
+      assert show_live |> element("#edit-interview") |> render_click() =~
                "Edit Interview"
 
       assert_patch(show_live, Routes.interview_show_path(conn, :edit, interview))

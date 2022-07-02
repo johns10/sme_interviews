@@ -26,15 +26,14 @@
       <.td class="!p-0 flex flex-grow" x-on:click="alert('Hello World!')">
         <%= live_patch interview.name, to: Routes.interview_show_path(@socket, :show, interview), class: "flex-grow px-6 py-4" %>
       </.td>
-      <.td>
-        <.icon_button 
-          icon={:x} 
-          color="danger" 
-          label="X" 
-          variant="outline" 
+      <.td class="flex items-center !p-0">
+        <.link link_type="live_patch" to={Routes.interview_index_path(@socket, :edit, interview)} class="mr-4" label="Edit Name" />
+        <.link 
+          to="#" 
           phx_click="delete" 
           phx_value_id={interview.id} 
-          class="ml-2" 
+          label="Delete" 
+          class="mr-4"
           data-confirm="Are you sure you want to delete this interview? This action will delete all its questions, answers and chat entries." 
         />
       </.td>
