@@ -1,8 +1,9 @@
-<.layout show_sidebar={@show_sidebar}>
+<.layout active_chat={@active_chat}>
   <div class="flex-col items-center justify-between mb-4">
     <div class="flex items-start">
       <.h1 class="mr-2">Interview <%= @interview.name %></.h1>
       <.icon_button icon={:pencil} link_type="a" to={Routes.interview_show_path(@socket, :edit, @interview)} class="h-8 w-8">
+        Edit
       </.icon_button>
     </div>
     <.button icon link_type="a" to={Routes.interview_index_path(@socket, :index)} class="mr-2">

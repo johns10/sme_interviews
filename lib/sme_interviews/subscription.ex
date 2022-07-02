@@ -11,7 +11,6 @@ defmodule SMEInterviews.Subscription do
     {:ok, struct}
   end
   def broadcast_result({:ok, %{inserted_at: same_time, updated_at: same_time} = struct}) do
-    IO.puts("Creating on #{channel(struct)}")
     broadcast(channel(struct), "create", struct)
     {:ok, struct}
   end

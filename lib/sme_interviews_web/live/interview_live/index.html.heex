@@ -1,4 +1,4 @@
-<.h1>Listing Interviews</.h1>
+<.h1>Your Interviews</.h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal title={@page_title} return_to={Routes.interview_index_path(@socket, :index)}>
@@ -16,6 +16,7 @@
 <.table class="my-4">
   <.tr class="flex">
     <.th class="flex-grow">Name</.th>
+    <.th></.th>
   </.tr>
   <%= for interview <- @interviews do %>
     <.tr 
@@ -23,7 +24,19 @@
       id={"interview-#{interview.id}"}
     >
       <.td class="!p-0 flex flex-grow" x-on:click="alert('Hello World!')">
-        <%= live_patch "Edit", to: Routes.interview_show_path(@socket, :show, interview), class: "flex-grow px-6 py-4" %>
+        <%= live_patch interview.name, to: Routes.interview_show_path(@socket, :show, interview), class: "flex-grow px-6 py-4" %>
+      </.td>
+      <.td>
+        <.icon_button 
+          icon={:x} 
+          color="danger" 
+          label="X" 
+          variant="outline" 
+          phx_click="delete" 
+          phx_value_id={interview.id} 
+          class="ml-2" 
+          data-confirm="Are you sure you want to delete this interview? This action will delete all its questions, answers and chat entries." 
+        />
       </.td>
     </.tr>
   <% end %>

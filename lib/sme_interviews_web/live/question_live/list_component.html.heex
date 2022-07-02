@@ -16,6 +16,16 @@
             x-show="expanded"
             x-on:click="expanded = !expanded" 
           />
+          
+          <div class="flex-grow">
+            <.live_component
+              module={SMEInterviewsWeb.QuestionLive.InlineFormComponentUpdate}
+              id={"#{question.id}"}
+              action={:edit}
+              interview={@interview}
+              question={question}
+            />
+          </div>
           <.icon_button 
             icon={:x} 
             color="danger" 
@@ -26,15 +36,16 @@
             class="ml-2" 
             data-confirm="Are you sure you want to delete this question? This action will delete all it's answers and chat entries." 
           />
-          <div class="flex-grow">
-            <.live_component
-              module={SMEInterviewsWeb.QuestionLive.InlineFormComponentUpdate}
-              id={"#{question.id}"}
-              action={:edit}
-              interview={@interview}
-              question={question}
-            />
-          </div>
+          <.icon_button 
+            icon={:arrow_right} 
+            color="success" 
+            label="X" 
+            variant="outline" 
+            phx_click="delete-question" 
+            phx_value_id={question.id} 
+            class="ml-2" 
+            data-confirm="Are you sure you want to delete this question? This action will delete all it's answers and chat entries." 
+          />
         </div>
       </div>
       <div x-collapse="" x-show="expanded" class="accordion-content-container" style="height: auto;">

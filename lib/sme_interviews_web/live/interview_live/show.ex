@@ -10,7 +10,9 @@ defmodule SMEInterviewsWeb.InterviewLive.Show do
   @impl true
   def mount(params, _session, socket) do
     SMEInterviewsWeb.Endpoint.subscribe("interview:1")
-    {:ok, socket |> assign(:show_sidebar, false)}
+    {:ok,
+    socket
+    |> assign(:active_chat, nil)}
   end
 
   @impl true
@@ -109,7 +111,7 @@ defmodule SMEInterviewsWeb.InterviewLive.Show do
     {:noreply, push_patch(socket, to: Routes.interview_show_path(socket, :show, socket.assigns.interview))}
   end
 
-  def layout(%{show_sidebar: false} = assigns) do
+  def layout(%{active_chat: thing} = assigns) do
     ~H"""
     <div class="grid grid-cols-3">
       <div class="col-span-2">
@@ -125,7 +127,7 @@ defmodule SMEInterviewsWeb.InterviewLive.Show do
     """
   end
 
-  def layout(%{show_sidebar: false} = assigns) do
+  def layout(%{active_chat: nil} = assigns) do
     ~H"""
     <div class="grid grid-cols-3">
       <div class="col-span-3">
