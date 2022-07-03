@@ -5,99 +5,45 @@ defmodule SMEInterviews.ChatMessages do
 
   import Ecto.Query, warn: false
   alias SMEInterviews.Repo
-
+  alias SMEInterviews.Subscription
   alias SMEInterviews.ChatMessages.ChatMessage
 
-  @doc """
-  Returns the list of chat_message.
+  def list_chat_message(opts \\ []) do
+    filters = Keyword.get(opts, :filters, [])
 
-  ## Examples
-
-      iex> list_chat_message()
-      [%ChatMessage{}, ...]
-
-  """
-  def list_chat_message do
-    Repo.all(ChatMessage)
+    ChatMessage
+    |> maybe_filter_by_question_id(filters[:question_id])
+    |> Repo.all()
   end
 
-  @doc """
-  Gets a single chat_message.
+  defp maybe_filter_by_question_id(query, nil), do: query
 
-  Raises `Ecto.NoResultsError` if the Chat message does not exist.
+  defp maybe_filter_by_question_id(query, question_id) do
+    query
+    |> where([c], c.question_id == ^question_id)
+  end
 
-  ## Examples
-
-      iex> get_chat_message!(123)
-      %ChatMessage{}
-
-      iex> get_chat_message!(456)
-      ** (Ecto.NoResultsError)
-
-  """
   def get_chat_message!(id), do: Repo.get!(ChatMessage, id)
 
-  @doc """
-  Creates a chat_message.
-
-  ## Examples
-
-      iex> create_chat_message(%{field: value})
-      {:ok, %ChatMessage{}}
-
-      iex> create_chat_message(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def create_chat_message(attrs \\ %{}) do
     %ChatMessage{}
     |> ChatMessage.changeset(attrs)
     |> Repo.insert()
+    |> Subscription.broadcast_result()
   end
 
-  @doc """
-  Updates a chat_message.
-
-  ## Examples
-
-      iex> update_chat_message(chat_message, %{field: new_value})
-      {:ok, %ChatMessage{}}
-
-      iex> update_chat_message(chat_message, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def update_chat_message(%ChatMessage{} = chat_message, attrs) do
     chat_message
     |> ChatMessage.changeset(attrs)
     |> Repo.update()
+    |> Subscription.broadcast_result()
   end
 
-  @doc """
-  Deletes a chat_message.
-
-  ## Examples
-
-      iex> delete_chat_message(chat_message)
-      {:ok, %ChatMessage{}}
-
-      iex> delete_chat_message(chat_message)
-      {:error, %Ecto.Changeset{}}
-
-  """
   def delete_chat_message(%ChatMessage{} = chat_message) do
     Repo.delete(chat_message)
+    |> Subscription.broadcast_result()
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking chat_message changes.
-
-  ## Examples
-
-      iex> change_chat_message(chat_message)
-      %Ecto.Changeset{data: %ChatMessage{}}
-
-  """
   def change_chat_message(%ChatMessage{} = chat_message, attrs \\ %{}) do
     ChatMessage.changeset(chat_message, attrs)
   end

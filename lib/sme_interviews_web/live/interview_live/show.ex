@@ -6,13 +6,17 @@ defmodule SMEInterviewsWeb.InterviewLive.Show do
   alias SMEInterviews.Questions.Question
   alias SMEInterviews.Answers
   alias SMEInterviews.Answers.Answer
+  alias SMEInterviews.ChatMessages.ChatMessage
 
   @impl true
-  def mount(_params, _session, socket) do
-    SMEInterviewsWeb.Endpoint.subscribe("interview:1")
+  def mount(%{"id" => id}, _session, socket) do
+    SMEInterviewsWeb.Endpoint.subscribe("interview:#{id}")
+
     {:ok,
-    socket
-    |> assign(:active_chat, nil)}
+     socket
+     |> assign(:active_question_id, nil)
+     |> assign(:main_span, 3)
+     |> assign(:sidebar_span, 0)}
   end
 
   @impl true
@@ -92,6 +96,11 @@ defmodule SMEInterviewsWeb.InterviewLive.Show do
     {:noreply, assign(socket, :interview, interview)}
   end
 
+  def handle_info(%{event: "create", payload: %ChatMessage{question_id: question_id} = chat_message}, socket) do
+    send_update(self(), SMEInterviewsWeb.ChatMessageLive.ChatBar, id: "chat", chat_message: chat_message)
+    {:noreply, socket}
+  end
+
   @impl true
   def handle_event("delete-answer", %{"id" => id}, socket) do
     answer = Answers.get_answer!(id)
@@ -108,33 +117,16 @@ defmodule SMEInterviewsWeb.InterviewLive.Show do
   end
 
   def handle_event("close_modal", _, socket) do
-    {:noreply, push_patch(socket, to: Routes.interview_show_path(socket, :show, socket.assigns.interview))}
+    {:noreply,
+     push_patch(socket, to: Routes.interview_show_path(socket, :show, socket.assigns.interview))}
   end
 
-  def layout(%{active_chat: thing} = assigns) do
-    ~H"""
-    <div class="grid grid-cols-3">
-      <div class="col-span-2">
-        <%= render_slot(@inner_block) %>
-      </div>
-      <div class="col-span-1">
-        <.live_component
-          module={SMEInterviewsWeb.ChatMessageLive.ChatBar}
-          id="chat"
-        />
-      </div>
-    </div>
-    """
+  def handle_event("open-chat", %{"id" => id}, socket) do
+    {:noreply, socket |> assign(:active_question_id, String.to_integer(id))}
   end
 
-  def layout(%{active_chat: nil} = assigns) do
-    ~H"""
-    <div class="grid grid-cols-3">
-      <div class="col-span-3">
-        <%= render_slot(@inner_block) %>
-      </div>
-    </div>
-    """
+  def handle_event("close-chat", _, socket) do
+    {:noreply, socket |> assign(:active_question_id, nil)}
   end
 
   defp page_title(:show), do: "Show Interview"

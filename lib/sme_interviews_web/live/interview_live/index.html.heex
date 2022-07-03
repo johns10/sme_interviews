@@ -23,7 +23,7 @@
       class="flex" 
       id={"interview-#{interview.id}"}
     >
-      <.td class="!p-0 flex flex-grow" x-on:click="alert('Hello World!')">
+      <.td class="!p-0 flex flex-grow">
         <%= live_patch interview.name, to: Routes.interview_show_path(@socket, :show, interview), class: "flex-grow px-6 py-4" %>
       </.td>
       <.td class="flex items-center !p-0">

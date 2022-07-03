@@ -1,27 +1,14 @@
 defmodule SMEInterviewsWeb.ChatMessageLive.FormComponent do
   use SMEInterviewsWeb, :live_component
-
+  import SMEInterviewsWeb.ChatMessageLive.FormHandlers
   alias SMEInterviews.ChatMessages
 
   @impl true
-  def update(%{chat_message: chat_message} = assigns, socket) do
-    changeset = ChatMessages.change_chat_message(chat_message)
-
-    {:ok,
-     socket
-     |> assign(assigns)
-     |> assign(:changeset, changeset)}
-  end
+  def update(assigns, socket), do: update_socket(assigns, socket)
 
   @impl true
-  def handle_event("validate", %{"chat_message" => chat_message_params}, socket) do
-    changeset =
-      socket.assigns.chat_message
-      |> ChatMessages.change_chat_message(chat_message_params)
-      |> Map.put(:action, :validate)
-
-    {:noreply, assign(socket, :changeset, changeset)}
-  end
+  def handle_event("validate", %{"chat_message" => chat_message_params}, socket),
+    do: validate(chat_message_params, socket)
 
   def handle_event("save", %{"chat_message" => chat_message_params}, socket) do
     save_chat_message(socket, socket.assigns.action, chat_message_params)

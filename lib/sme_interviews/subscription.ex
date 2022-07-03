@@ -28,5 +28,8 @@ defmodule SMEInterviews.Subscription do
   def channel(%SMEInterviews.Answers.Answer{question_id: question_id}) do
     "question:#{question_id}"
   end
+  def channel(%SMEInterviews.ChatMessages.ChatMessage{question_id: question_id}) do
+    "question:#{question_id}"
+  end
   def channel(_), do: raise("#{__MODULE__} Channel call failed")
 end

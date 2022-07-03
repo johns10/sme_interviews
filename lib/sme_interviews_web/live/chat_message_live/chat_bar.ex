@@ -2,24 +2,24 @@ defmodule SMEInterviewsWeb.ChatMessageLive.ChatBar do
   use SMEInterviewsWeb, :live_component
 
   alias SMEInterviews.ChatMessages
-  alias SMEInterviews.ChatMessages.ChatMessage
 
   @impl true
-  def update(assigns, socket) do
+  def update(%{active_question_id: question_id} = assigns, socket) do
     {:ok,
      socket
-     |> assign(assigns)}
+     |> assign(assigns)
+     |> assign(:chat_message_collection, list_chat_message(question_id))}
+  end
+  def update(%{chat_message: chat_message} = assigns, socket) do
+    current_messages = socket.assigns.chat_message_collection
+    updated_messages = safe_create(current_messages, chat_message)
+    {:ok, socket |> assign(:chat_message_collection, updated_messages)}
   end
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    chat_message = ChatMessages.get_chat_message!(id)
-    {:ok, _} = ChatMessages.delete_chat_message(chat_message)
+  defp list_chat_message(nil), do: []
 
-    {:noreply, assign(socket, :chat_message_collection, list_chat_message())}
-  end
-
-  defp list_chat_message do
-    ChatMessages.list_chat_message()
+  defp list_chat_message(question_id) do
+    [filters: [question_id: question_id]]
+    |> ChatMessages.list_chat_message()
   end
 end

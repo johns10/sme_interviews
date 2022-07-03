@@ -1,5 +1,4 @@
 <div>
-  <.h2>Questions</.h2>
   <%= for question <- @interview.questions do %>
     <h2 x-data="{expanded: false}">
       <div class="flex-col w-full p-3 text-left text-gray-500 border border-gray-200 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 accordion-button">
@@ -28,7 +27,6 @@
           </div>
           <.icon_button 
             icon={:x} 
-            color="danger" 
             label="X" 
             variant="outline" 
             phx_click="delete-question" 
@@ -36,16 +34,23 @@
             class="ml-2" 
             data-confirm="Are you sure you want to delete this question? This action will delete all it's answers and chat entries." 
           />
-          <.icon_button 
-            icon={:arrow_right} 
-            color="success" 
-            label="X" 
-            variant="outline" 
-            phx_click="delete-question" 
-            phx_value_id={question.id} 
-            class="ml-2" 
-            data-confirm="Are you sure you want to delete this question? This action will delete all it's answers and chat entries." 
-          />
+          <%= if @active_question_id == question.id do %>
+            <.icon_button 
+              icon={:arrow_right}
+              color="success" 
+              variant="outline" 
+              phx_click="close-chat" 
+              class="ml-2" 
+            />
+          <% else %>
+            <.icon_button 
+              icon={:chat} 
+              variant="outline" 
+              phx_click="open-chat" 
+              phx_value_id={question.id} 
+              class="ml-2" 
+            />
+          <% end %>
         </div>
       </div>
       <div x-collapse="" x-show="expanded" class="accordion-content-container" style="height: auto;">
@@ -61,17 +66,4 @@
       </div>
     </h2>
   <% end %>
-  <%= if @interview.questions != [] do %>
-    <div class="relative flex py-4 items-center">
-      <div class="flex-grow border-t border-gray-500"></div>
-      <span class="flex-shrink mx-4 text-gray-500">New Question</span>
-      <div class="flex-grow border-t border-gray-500"></div>
-    </div>
-  <% end %>
-  <.live_component
-    module={SMEInterviewsWeb.QuestionLive.InlineFormComponentNew}
-    id={"new-question-#{@interview.id}"}
-    interview={@interview}
-    question={%SMEInterviews.Questions.Question{}}
-  />
 </div>

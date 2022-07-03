@@ -13,16 +13,16 @@
       <div class="flex-grow mr-4">
         <.form_label form={f} field={:question} />
         <.textarea form={f} field={:body} rows="1" phx_hook="MaintainAttrs" />
-        <.form_field_error form={f} field={:body} class="mt-1" />
+        <.form_field_error form={f} field={:body}/>
       </div>
 
       <div class="flex-shrink mr-4">
         <.form_label form={f} field={:status} />
         <.select form={f} field={:status} options={SMEInterviews.Questions.Question.status_select_options} />
-        <.form_field_error form={f} field={:status} class="mt-1" />
+        <.form_field_error form={f} field={:status} />
       </div>
 
-      <.button color="success" type="submit" class="flex-shrink mb-1" phx_disable_with="Saving...">
+      <.button color="success" type="submit" class="flex-shrink" phx_disable_with="Saving...">
         Save
       </.button>
     </div>

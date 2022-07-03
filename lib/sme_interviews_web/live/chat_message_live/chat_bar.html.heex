@@ -1,9 +1,9 @@
-<div id={@id}>
-  <%= for chat_message <- [] do %>
-    <p id={"chat_message-#{chat_message.id}"}>
+<div 
+  class="p-2 mx-2 rounded border border-gray-200 dark:border-gray-700 dark:text-gray-400" 
+  id={@id}>
+  <%= for chat_message <- @chat_message_collection do %>
+    <p class="p-0.5" id={"chat_message-#{chat_message.id}"}>
       <%= chat_message.body %>
     </p>
   <% end %>
-
-  <span><%= live_patch "New Chat message", to: Routes.chat_message_index_path(@socket, :new) %></span>
 </div>

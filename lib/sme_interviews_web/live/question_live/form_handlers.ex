@@ -34,10 +34,12 @@ defmodule SMEInterviewsWeb.QuestionLive.FormHandlers do
 
   def save_no_redirect(socket, :new, question_params) do
     case Questions.create_question(question_params) do
-      {:ok, _question} ->
+      {:ok, question} ->
+        changeset = Questions.change_question(question)
         {:noreply,
          socket
-         |> put_flash(:info, "Question created successfully")}
+         |> put_flash(:info, "Question created successfully")
+         |> assign(:changeset, changeset)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

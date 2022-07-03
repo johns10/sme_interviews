@@ -1,0 +1,20 @@
+<div>
+  <.form
+    let={f}
+    for={@changeset}
+    id={@id}
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+
+    <%= hidden_input(f, :question_id, value: @question_id) %>
+  
+    <div class="flex w-full items-center mt-2">
+      <.text_input form={f} field={:body} rows="1" class="flex-grow rounded-r-none" />
+      <.button icon color="success" type="submit" class="flex-shrink rounded-l-none" phx_disable_with="Saving...">
+        <Heroicons.Solid.check class="w-5 h-5" />
+      </.button>
+    </div>
+  
+  </.form>
+</div>
