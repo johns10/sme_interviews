@@ -9,15 +9,13 @@ config :sme_interviews, SmeInterviewsWeb.Endpoint,
   url: [host: "${APP_NAME}.gigalixirapp.com", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json",
   version: Mix.Project.config[:version], # to bust cache during hot upgrades
-  check_origin: ["${APP_NAME}.gigalixirapp.com"]
+  check_origin: ["//gigalixirapp.com"]
 
 config :sme_interviews, SmeInterviews.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: "${DATABASE_URL}",
   database: "",
-  ssl: true,
+  # ssl: true,
   pool_size: 2 # Free tier db only allows 4 connections. Rolling deploys need pool_size*(n+1) connections where n is the number of app replicas.
 
 config :logger, level: :info
-
-import_config "prod.secret.exs"
