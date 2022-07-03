@@ -18,11 +18,12 @@ defmodule SMEInterviewsWeb.Router do
   scope "/", SMEInterviewsWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
-    live "/live", PageLive, :index
-    live "/live/modal/:size", PageLive, :modal
-    live "/live/slide_over/:origin", PageLive, :slide_over
-    live "/live/pagination/:page", PageLive, :pagination
+    live "/interviews", InterviewLive.Index, :index
+    live "/interviews/new", InterviewLive.Index, :new
+    live "/interviews/:id/edit", InterviewLive.Index, :edit
+
+    live "/interviews/:id", InterviewLive.Show, :show
+    live "/interviews/:id/show/edit", InterviewLive.Show, :edit
   end
 
   if Mix.env() in [:dev, :test] do
@@ -30,12 +31,12 @@ defmodule SMEInterviewsWeb.Router do
       pipe_through :browser
       # live_dashboard "/dashboard", metrics: SMEInterviewsWeb.Telemetry
 
-      live "/interviews", InterviewLive.Index, :index
-      live "/interviews/new", InterviewLive.Index, :new
-      live "/interviews/:id/edit", InterviewLive.Index, :edit
+      get "/", PageController, :index
+      live "/live", PageLive, :index
+      live "/live/modal/:size", PageLive, :modal
+      live "/live/slide_over/:origin", PageLive, :slide_over
+      live "/live/pagination/:page", PageLive, :pagination
 
-      live "/interviews/:id", InterviewLive.Show, :show
-      live "/interviews/:id/show/edit", InterviewLive.Show, :edit
 
       live "/questions", QuestionLive.Index, :index
       live "/questions/new", QuestionLive.Index, :new
