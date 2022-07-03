@@ -1,12 +1,12 @@
-defmodule SMEInterviews.ChatMessages do
+defmodule SmeInterviews.ChatMessages do
   @moduledoc """
   The ChatMessages context.
   """
 
   import Ecto.Query, warn: false
-  alias SMEInterviews.Repo
-  alias SMEInterviews.Subscription
-  alias SMEInterviews.ChatMessages.ChatMessage
+  alias SmeInterviews.Repo
+  alias SmeInterviews.Subscription
+  alias SmeInterviews.ChatMessages.ChatMessage
 
   def list_chat_message(opts \\ []) do
     filters = Keyword.get(opts, :filters, [])

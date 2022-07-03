@@ -1,6 +1,6 @@
-defmodule SMEInterviewsWeb.InterviewLive.DescriptionFormComponent do
-  use SMEInterviewsWeb, :live_component
-  import SMEInterviewsWeb.InterviewLive.FormHandlers
+defmodule SmeInterviewsWeb.InterviewLive.DescriptionFormComponent do
+  use SmeInterviewsWeb, :live_component
+  import SmeInterviewsWeb.InterviewLive.FormHandlers
 
   @impl true
   def update(assigns, socket), do: update_socket(assigns, socket)

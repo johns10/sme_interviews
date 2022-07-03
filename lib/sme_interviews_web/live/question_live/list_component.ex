@@ -1,5 +1,5 @@
-defmodule SMEInterviewsWeb.QuestionLive.ListComponent do
-  use SMEInterviewsWeb, :live_component
+defmodule SmeInterviewsWeb.QuestionLive.ListComponent do
+  use SmeInterviewsWeb, :live_component
 
   @impl true
   def update(assigns, socket) do

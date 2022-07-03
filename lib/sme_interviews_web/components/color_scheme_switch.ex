@@ -1,4 +1,4 @@
-defmodule SMEInterviewsWeb.Components.ColorSchemeSwitch do
+defmodule SmeInterviewsWeb.Components.ColorSchemeSwitch do
   use Phoenix.Component
 
   @doc """

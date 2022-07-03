@@ -1,7 +1,7 @@
-defmodule SMEInterviews.InterviewsFixtures do
+defmodule SmeInterviews.InterviewsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `SMEInterviews.Interviews` context.
+  entities via the `SmeInterviews.Interviews` context.
   """
 
   @doc """
@@ -14,7 +14,7 @@ defmodule SMEInterviews.InterviewsFixtures do
         description: "some description",
         name: "some name"
       })
-      |> SMEInterviews.Interviews.create_interview()
+      |> SmeInterviews.Interviews.create_interview()
 
     interview
   end

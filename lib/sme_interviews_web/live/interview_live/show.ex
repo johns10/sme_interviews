@@ -1,16 +1,16 @@
-defmodule SMEInterviewsWeb.InterviewLive.Show do
-  use SMEInterviewsWeb, :live_view
+defmodule SmeInterviewsWeb.InterviewLive.Show do
+  use SmeInterviewsWeb, :live_view
 
-  alias SMEInterviews.Interviews
-  alias SMEInterviews.Questions
-  alias SMEInterviews.Questions.Question
-  alias SMEInterviews.Answers
-  alias SMEInterviews.Answers.Answer
-  alias SMEInterviews.ChatMessages.ChatMessage
+  alias SmeInterviews.Interviews
+  alias SmeInterviews.Questions
+  alias SmeInterviews.Questions.Question
+  alias SmeInterviews.Answers
+  alias SmeInterviews.Answers.Answer
+  alias SmeInterviews.ChatMessages.ChatMessage
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
-    SMEInterviewsWeb.Endpoint.subscribe("interview:#{id}")
+    SmeInterviewsWeb.Endpoint.subscribe("interview:#{id}")
 
     {:ok,
      socket
@@ -22,7 +22,7 @@ defmodule SMEInterviewsWeb.InterviewLive.Show do
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
     interview = Interviews.get_complete_interview!(id)
-    SMEInterviewsWeb.Endpoint.subscribe("interview:#{interview.id}")
+    SmeInterviewsWeb.Endpoint.subscribe("interview:#{interview.id}")
 
     {:noreply,
      socket
@@ -97,7 +97,7 @@ defmodule SMEInterviewsWeb.InterviewLive.Show do
   end
 
   def handle_info(%{event: "create", payload: %ChatMessage{question_id: question_id} = chat_message}, socket) do
-    send_update(self(), SMEInterviewsWeb.ChatMessageLive.ChatBar, id: "chat", chat_message: chat_message)
+    send_update(self(), SmeInterviewsWeb.ChatMessageLive.ChatBar, id: "chat", chat_message: chat_message)
     {:noreply, socket}
   end
 

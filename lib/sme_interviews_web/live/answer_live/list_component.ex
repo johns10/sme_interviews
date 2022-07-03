@@ -1,9 +1,9 @@
-defmodule SMEInterviewsWeb.AnswerLive.ListComponent do
-  use SMEInterviewsWeb, :live_component
+defmodule SmeInterviewsWeb.AnswerLive.ListComponent do
+  use SmeInterviewsWeb, :live_component
 
   @impl true
   def update(%{question: question} = assigns, socket) do
-    SMEInterviewsWeb.Endpoint.subscribe("question:#{question.id}")
+    SmeInterviewsWeb.Endpoint.subscribe("question:#{question.id}")
     {:ok,
      socket
      |> assign(assigns)}

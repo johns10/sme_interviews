@@ -1,5 +1,5 @@
-defmodule SMEInterviewsWeb.PageLive do
-  use SMEInterviewsWeb, :live_view
+defmodule SmeInterviewsWeb.PageLive do
+  use SmeInterviewsWeb, :live_view
 
   @impl true
   def mount(_params, session, socket) do

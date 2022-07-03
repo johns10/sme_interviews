@@ -18,7 +18,7 @@
           
           <div class="flex-grow">
             <.live_component
-              module={SMEInterviewsWeb.QuestionLive.InlineFormComponentUpdate}
+              module={SmeInterviewsWeb.QuestionLive.InlineFormComponentUpdate}
               id={"#{question.id}"}
               action={:edit}
               interview={@interview}
@@ -56,7 +56,7 @@
       <div x-collapse="" x-show="expanded" class="accordion-content-container" style="height: auto;">
         <div class="p-5 border border-gray-200 dark:border-gray-700 dark:bg-gray-900 border-t-0">
           <.live_component
-            module={SMEInterviewsWeb.AnswerLive.ListComponent}
+            module={SmeInterviewsWeb.AnswerLive.ListComponent}
             id={"#{question.id}"}
             action={:edit}
             interview={@interview}

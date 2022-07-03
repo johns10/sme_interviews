@@ -1,7 +1,7 @@
-defmodule SMEInterviewsWeb.ChatMessageLive.FormComponent do
-  use SMEInterviewsWeb, :live_component
-  import SMEInterviewsWeb.ChatMessageLive.FormHandlers
-  alias SMEInterviews.ChatMessages
+defmodule SmeInterviewsWeb.ChatMessageLive.FormComponent do
+  use SmeInterviewsWeb, :live_component
+  import SmeInterviewsWeb.ChatMessageLive.FormHandlers
+  alias SmeInterviews.ChatMessages
 
   @impl true
   def update(assigns, socket), do: update_socket(assigns, socket)

@@ -1,7 +1,7 @@
-defmodule SMEInterviews.ChatMessagesFixtures do
+defmodule SmeInterviews.ChatMessagesFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `SMEInterviews.ChatMessages` context.
+  entities via the `SmeInterviews.ChatMessages` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule SMEInterviews.ChatMessagesFixtures do
       |> Enum.into(%{
         body: "some body"
       })
-      |> SMEInterviews.ChatMessages.create_chat_message()
+      |> SmeInterviews.ChatMessages.create_chat_message()
 
     chat_message
   end

@@ -1,7 +1,7 @@
-defmodule SMEInterviews.ChatMessages.ChatMessage do
+defmodule SmeInterviews.ChatMessages.ChatMessage do
   use Ecto.Schema
   import Ecto.Changeset
-  alias SMEInterviews.Questions.Question
+  alias SmeInterviews.Questions.Question
 
   schema "chat_message" do
     field :body, :string

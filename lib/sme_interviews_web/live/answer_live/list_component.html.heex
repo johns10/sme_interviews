@@ -3,7 +3,7 @@
     <div class="flex">
       <div class="flex-grow">
         <.live_component
-          module={SMEInterviewsWeb.AnswerLive.InlineFormComponentUpdate}
+          module={SmeInterviewsWeb.AnswerLive.InlineFormComponentUpdate}
           id={"answer-form-#{answer.id}"}
           action={:edit}
           question={@question}
@@ -30,9 +30,9 @@
     </div>
   <% end %>
   <.live_component
-    module={SMEInterviewsWeb.AnswerLive.InlineFormComponentNew}
+    module={SmeInterviewsWeb.AnswerLive.InlineFormComponentNew}
     id={"new-answer-#{@question.id}"}
     question={@question}
-    answer={%SMEInterviews.Answers.Answer{}}
+    answer={%SmeInterviews.Answers.Answer{}}
   />
 </div>

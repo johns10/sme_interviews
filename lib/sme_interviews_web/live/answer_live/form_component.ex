@@ -1,8 +1,8 @@
-defmodule SMEInterviewsWeb.AnswerLive.FormComponent do
-  use SMEInterviewsWeb, :live_component
+defmodule SmeInterviewsWeb.AnswerLive.FormComponent do
+  use SmeInterviewsWeb, :live_component
 
-  import SMEInterviewsWeb.AnswerLive.FormHandlers
-  alias SMEInterviews.Answers
+  import SmeInterviewsWeb.AnswerLive.FormHandlers
+  alias SmeInterviews.Answers
 
   @impl true
   def update(assigns, socket), do: update_socket(assigns, socket)

@@ -1,12 +1,12 @@
-defmodule SMEInterviews.Interviews do
+defmodule SmeInterviews.Interviews do
   @moduledoc """
   The Interviews context.
   """
 
   import Ecto.Query, warn: false
-  alias SMEInterviews.Repo
+  alias SmeInterviews.Repo
 
-  alias SMEInterviews.Interviews.Interview
+  alias SmeInterviews.Interviews.Interview
 
   def list_interviews do
     Repo.all(Interview)

@@ -1,5 +1,5 @@
-defmodule SMEInterviewsWeb.ErrorView do
-  use SMEInterviewsWeb, :view
+defmodule SmeInterviewsWeb.ErrorView do
+  use SmeInterviewsWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

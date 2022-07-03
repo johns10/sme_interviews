@@ -1,8 +1,8 @@
-defmodule SMEInterviews.Questions.Question do
+defmodule SmeInterviews.Questions.Question do
   use Ecto.Schema
   import Ecto.Changeset
-  alias SMEInterviews.Interviews.Interview
-  alias SMEInterviews.Answers.Answer
+  alias SmeInterviews.Interviews.Interview
+  alias SmeInterviews.Answers.Answer
 
   @values [:open, :closed, :cancelled]
   def values(), do: @values

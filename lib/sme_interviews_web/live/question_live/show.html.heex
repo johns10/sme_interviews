@@ -3,7 +3,7 @@
 <%= if @live_action in [:edit] do %>
   <.modal title={@page_title} return_to={Routes.question_show_path(@socket, :show, @question)}>
     <.live_component
-      module={SMEInterviewsWeb.QuestionLive.FormComponent}
+      module={SmeInterviewsWeb.QuestionLive.FormComponent}
       id={@question.id}
       action={@live_action}
       question={@question}

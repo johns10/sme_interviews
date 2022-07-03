@@ -1,5 +1,5 @@
-defmodule SMEInterviewsWeb.PageControllerTest do
-  use SMEInterviewsWeb.ConnCase
+defmodule SmeInterviewsWeb.PageControllerTest do
+  use SmeInterviewsWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")

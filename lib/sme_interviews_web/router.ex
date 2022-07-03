@@ -1,11 +1,11 @@
-defmodule SMEInterviewsWeb.Router do
-  use SMEInterviewsWeb, :router
+defmodule SmeInterviewsWeb.Router do
+  use SmeInterviewsWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {SMEInterviewsWeb.LayoutView, :root}
+    plug :put_root_layout, {SmeInterviewsWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :set_color_scheme
@@ -15,7 +15,7 @@ defmodule SMEInterviewsWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", SMEInterviewsWeb do
+  scope "/", SmeInterviewsWeb do
     pipe_through :browser
 
     live "/interviews", InterviewLive.Index, :index
@@ -27,9 +27,9 @@ defmodule SMEInterviewsWeb.Router do
   end
 
   if Mix.env() in [:dev, :test] do
-    scope "/", SMEInterviewsWeb do
+    scope "/", SmeInterviewsWeb do
       pipe_through :browser
-      # live_dashboard "/dashboard", metrics: SMEInterviewsWeb.Telemetry
+      # live_dashboard "/dashboard", metrics: SmeInterviewsWeb.Telemetry
 
       get "/", PageController, :index
       live "/live", PageLive, :index

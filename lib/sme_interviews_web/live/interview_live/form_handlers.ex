@@ -1,6 +1,6 @@
-defmodule SMEInterviewsWeb.InterviewLive.FormHandlers do
+defmodule SmeInterviewsWeb.InterviewLive.FormHandlers do
   import Phoenix.LiveView
-  alias SMEInterviews.Interviews
+  alias SmeInterviews.Interviews
 
   def update_socket(%{interview: interview} = assigns, socket) do
     changeset = Interviews.change_interview(interview)

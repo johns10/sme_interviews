@@ -6,7 +6,7 @@
       <.icon_button icon={:pencil} link_type="live_patch" to={Routes.interview_show_path(@socket, :edit, @interview)} class="h-8 w-8" id="edit-interview" />
     </div>
     <.live_component
-      module={SMEInterviewsWeb.InterviewLive.DescriptionFormComponent}
+      module={SmeInterviewsWeb.InterviewLive.DescriptionFormComponent}
       id={"interview-description-form-#{@interview.id}"}
       action={:edit}
       interview={@interview}
@@ -19,7 +19,7 @@
         <.h2>Questions</.h2>
         <div class="overflow-auto">
           <.live_component
-            module={SMEInterviewsWeb.QuestionLive.ListComponent}
+            module={SmeInterviewsWeb.QuestionLive.ListComponent}
             id="questions"
             interview={@interview}
             active_question_id={@active_question_id}
@@ -28,10 +28,10 @@
       </div>
       <div class="p-2">
         <.live_component
-          module={SMEInterviewsWeb.QuestionLive.InlineFormComponentNew}
+          module={SmeInterviewsWeb.QuestionLive.InlineFormComponentNew}
           id={"new-question-#{@interview.id}"}
           interview={@interview}
-          question={%SMEInterviews.Questions.Question{}}
+          question={%SmeInterviews.Questions.Question{}}
         />
       </div>
     </main>
@@ -41,15 +41,15 @@
           <.h2>Chat</.h2>
           <div class="overflow-auto">
             <.live_component
-              module={SMEInterviewsWeb.ChatMessageLive.ChatBar}
+              module={SmeInterviewsWeb.ChatMessageLive.ChatBar}
               active_question_id={@active_question_id}
               id="chat" />
           </div>
         </div>
         <div class="p-2">
           <.live_component 
-            module={SMEInterviewsWeb.ChatMessageLive.InlineFormComponentNew}
-            chat_message={%SMEInterviews.ChatMessages.ChatMessage{}}
+            module={SmeInterviewsWeb.ChatMessageLive.InlineFormComponentNew}
+            chat_message={%SmeInterviews.ChatMessages.ChatMessage{}}
             question_id={@active_question_id}
             id={"new-chat-message-form"}
           />
@@ -61,7 +61,7 @@
   <%= if @live_action in [:edit] do %>
     <.modal title={@page_title} return_to={Routes.interview_show_path(@socket, :show, @interview)}>
       <.live_component
-        module={SMEInterviewsWeb.InterviewLive.FormComponent}
+        module={SmeInterviewsWeb.InterviewLive.FormComponent}
         id={"interview-form-#{@interview.id}"}
         action={@live_action}
         interview={@interview}

@@ -5,7 +5,7 @@ import Config
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
-config :sme_interviews, SMEInterviews.Repo,
+config :sme_interviews, SmeInterviews.Repo,
   username: "postgres",
   password: "postgres",
   database: "sme_interviews_test#{System.get_env("MIX_TEST_PARTITION")}",
@@ -15,13 +15,13 @@ config :sme_interviews, SMEInterviews.Repo,
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :sme_interviews, SMEInterviewsWeb.Endpoint,
+config :sme_interviews, SmeInterviewsWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "cPNzM6yNbuYM9FcYYtqL/PPFpiGQD5Tdxe4pRe8KYGFJ8gwI3Zgl6VL80H6pFeOp",
   server: false
 
 # In test we don't send emails.
-config :sme_interviews, SMEInterviews.Mailer, adapter: Swoosh.Adapters.Test
+config :sme_interviews, SmeInterviews.Mailer, adapter: Swoosh.Adapters.Test
 
 # Print only warnings and errors during test
 config :logger, level: :warn

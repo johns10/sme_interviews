@@ -1,7 +1,7 @@
-defmodule SMEInterviews.QuestionsFixtures do
+defmodule SmeInterviews.QuestionsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `SMEInterviews.Questions` context.
+  entities via the `SmeInterviews.Questions` context.
   """
 
   @doc """
@@ -14,7 +14,7 @@ defmodule SMEInterviews.QuestionsFixtures do
         body: "some body",
         status: :open
       })
-      |> SMEInterviews.Questions.create_question()
+      |> SmeInterviews.Questions.create_question()
 
     question
   end

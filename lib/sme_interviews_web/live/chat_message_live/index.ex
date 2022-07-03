@@ -1,8 +1,8 @@
-defmodule SMEInterviewsWeb.ChatMessageLive.Index do
-  use SMEInterviewsWeb, :live_view
+defmodule SmeInterviewsWeb.ChatMessageLive.Index do
+  use SmeInterviewsWeb, :live_view
 
-  alias SMEInterviews.ChatMessages
-  alias SMEInterviews.ChatMessages.ChatMessage
+  alias SmeInterviews.ChatMessages
+  alias SmeInterviews.ChatMessages.ChatMessage
 
   @impl true
   def mount(_params, _session, socket) do

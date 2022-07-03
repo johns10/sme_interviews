@@ -1,8 +1,8 @@
-defmodule SMEInterviewsWeb.InterviewLiveTest do
-  use SMEInterviewsWeb.ConnCase
+defmodule SmeInterviewsWeb.InterviewLiveTest do
+  use SmeInterviewsWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import SMEInterviews.InterviewsFixtures
+  import SmeInterviews.InterviewsFixtures
 
   @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}

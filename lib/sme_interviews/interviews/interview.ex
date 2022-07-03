@@ -1,7 +1,7 @@
-defmodule SMEInterviews.Interviews.Interview do
+defmodule SmeInterviews.Interviews.Interview do
   use Ecto.Schema
   import Ecto.Changeset
-  alias SMEInterviews.Questions.Question
+  alias SmeInterviews.Questions.Question
 
   schema "interviews" do
     field :description, :string

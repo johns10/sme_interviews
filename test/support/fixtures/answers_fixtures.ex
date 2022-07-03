@@ -1,7 +1,7 @@
-defmodule SMEInterviews.AnswersFixtures do
+defmodule SmeInterviews.AnswersFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `SMEInterviews.Answers` context.
+  entities via the `SmeInterviews.Answers` context.
   """
 
   @doc """
@@ -15,7 +15,7 @@ defmodule SMEInterviews.AnswersFixtures do
         order: 42,
         selected: true
       })
-      |> SMEInterviews.Answers.create_answer()
+      |> SmeInterviews.Answers.create_answer()
 
     answer
   end

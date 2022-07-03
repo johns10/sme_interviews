@@ -1,7 +1,7 @@
 import Config
 
 # Configure your database
-config :sme_interviews, SMEInterviews.Repo,
+config :sme_interviews, SmeInterviews.Repo,
   username: "postgres",
   password: "postgres",
   database: "sme_interviews_dev",
@@ -15,7 +15,7 @@ config :sme_interviews, SMEInterviews.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with esbuild to bundle .js and .css sources.
-config :sme_interviews, SMEInterviewsWeb.Endpoint,
+config :sme_interviews, SmeInterviewsWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
@@ -53,7 +53,7 @@ config :sme_interviews, SMEInterviewsWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :sme_interviews, SMEInterviewsWeb.Endpoint,
+config :sme_interviews, SmeInterviewsWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",

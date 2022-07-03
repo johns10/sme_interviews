@@ -1,8 +1,8 @@
-defmodule SMEInterviewsWeb.QuestionLiveTest do
-  use SMEInterviewsWeb.ConnCase
+defmodule SmeInterviewsWeb.QuestionLiveTest do
+  use SmeInterviewsWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import SMEInterviews.QuestionsFixtures
+  import SmeInterviews.QuestionsFixtures
 
   @create_attrs %{body: "some body", status: :open}
   @update_attrs %{body: "some updated body", status: :closed}

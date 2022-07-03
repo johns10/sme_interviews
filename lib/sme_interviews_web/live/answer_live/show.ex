@@ -1,7 +1,7 @@
-defmodule SMEInterviewsWeb.AnswerLive.Show do
-  use SMEInterviewsWeb, :live_view
+defmodule SmeInterviewsWeb.AnswerLive.Show do
+  use SmeInterviewsWeb, :live_view
 
-  alias SMEInterviews.Answers
+  alias SmeInterviews.Answers
 
   @impl true
   def mount(_params, _session, socket) do

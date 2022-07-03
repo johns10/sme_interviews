@@ -1,7 +1,7 @@
-defmodule SMEInterviewsWeb.ChatMessageLive.ChatBar do
-  use SMEInterviewsWeb, :live_component
+defmodule SmeInterviewsWeb.ChatMessageLive.ChatBar do
+  use SmeInterviewsWeb, :live_component
 
-  alias SMEInterviews.ChatMessages
+  alias SmeInterviews.ChatMessages
 
   @impl true
   def update(%{active_question_id: question_id} = assigns, socket) do

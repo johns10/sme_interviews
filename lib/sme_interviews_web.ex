@@ -1,11 +1,11 @@
-defmodule SMEInterviewsWeb do
+defmodule SmeInterviewsWeb do
   def controller do
     quote do
-      use Phoenix.Controller, namespace: SMEInterviewsWeb
+      use Phoenix.Controller, namespace: SmeInterviewsWeb
 
       import Plug.Conn
-      import SMEInterviewsWeb.Gettext
-      alias SMEInterviewsWeb.Router.Helpers, as: Routes
+      import SmeInterviewsWeb.Gettext
+      alias SmeInterviewsWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -13,7 +13,7 @@ defmodule SMEInterviewsWeb do
     quote do
       use Phoenix.View,
         root: "lib/sme_interviews_web/templates",
-        namespace: SMEInterviewsWeb
+        namespace: SmeInterviewsWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -27,7 +27,7 @@ defmodule SMEInterviewsWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {SMEInterviewsWeb.LayoutView, "live.html"}
+        layout: {SmeInterviewsWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
     end
@@ -54,7 +54,7 @@ defmodule SMEInterviewsWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import SMEInterviewsWeb.Gettext
+      import SmeInterviewsWeb.Gettext
     end
   end
 
@@ -65,18 +65,18 @@ defmodule SMEInterviewsWeb do
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
-      import SMEInterviewsWeb.LiveHelpers
-      import SMEInterviewsWeb.LiveHelpers
+      import SmeInterviewsWeb.LiveHelpers
+      import SmeInterviewsWeb.LiveHelpers
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import SMEInterviewsWeb.ErrorHelpers
-      import SMEInterviewsWeb.Gettext
-      alias SMEInterviewsWeb.Router.Helpers, as: Routes
+      import SmeInterviewsWeb.ErrorHelpers
+      import SmeInterviewsWeb.Gettext
+      alias SmeInterviewsWeb.Router.Helpers, as: Routes
 
       # Import global components
-      import SMEInterviewsWeb.Components.{
+      import SmeInterviewsWeb.Components.{
         ColorSchemeSwitch
       }
 

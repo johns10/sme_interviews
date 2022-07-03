@@ -1,12 +1,12 @@
-defmodule SMEInterviews.InterviewsTest do
-  use SMEInterviews.DataCase
+defmodule SmeInterviews.InterviewsTest do
+  use SmeInterviews.DataCase
 
-  alias SMEInterviews.Interviews
+  alias SmeInterviews.Interviews
 
   describe "interviews" do
-    alias SMEInterviews.Interviews.Interview
+    alias SmeInterviews.Interviews.Interview
 
-    import SMEInterviews.InterviewsFixtures
+    import SmeInterviews.InterviewsFixtures
 
     @invalid_attrs %{description: nil, name: nil}
 

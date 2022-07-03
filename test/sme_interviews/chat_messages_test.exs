@@ -1,12 +1,12 @@
-defmodule SMEInterviews.ChatMessagesTest do
-  use SMEInterviews.DataCase
+defmodule SmeInterviews.ChatMessagesTest do
+  use SmeInterviews.DataCase
 
-  alias SMEInterviews.ChatMessages
+  alias SmeInterviews.ChatMessages
 
   describe "chat_message" do
-    alias SMEInterviews.ChatMessages.ChatMessage
+    alias SmeInterviews.ChatMessages.ChatMessage
 
-    import SMEInterviews.ChatMessagesFixtures
+    import SmeInterviews.ChatMessagesFixtures
 
     @invalid_attrs %{body: nil}
 

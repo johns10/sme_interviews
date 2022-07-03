@@ -8,13 +8,13 @@
 import Config
 
 config :sme_interviews,
-  ecto_repos: [SMEInterviews.Repo]
+  ecto_repos: [SmeInterviews.Repo]
 
 # Configures the endpoint
-config :sme_interviews, SMEInterviewsWeb.Endpoint,
+config :sme_interviews, SmeInterviewsWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: SMEInterviewsWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: SMEInterviews.PubSub,
+  render_errors: [view: SmeInterviewsWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: SmeInterviews.PubSub,
   live_view: [signing_salt: "Fd8SWPu3"]
 
 # Configures the mailer
@@ -24,7 +24,7 @@ config :sme_interviews, SMEInterviewsWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :sme_interviews, SMEInterviews.Mailer, adapter: Swoosh.Adapters.Local
+config :sme_interviews, SmeInterviews.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
@@ -47,7 +47,7 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :petal_components, :error_translator_function, {SMEInterviewsWeb.ErrorHelpers, :translate_error}
+config :petal_components, :error_translator_function, {SmeInterviewsWeb.ErrorHelpers, :translate_error}
 
 config :tailwind,
   version: "3.0.12",

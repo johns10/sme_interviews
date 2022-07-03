@@ -1,8 +1,8 @@
-defmodule SMEInterviewsWeb.AnswerLiveTest do
-  use SMEInterviewsWeb.ConnCase
+defmodule SmeInterviewsWeb.AnswerLiveTest do
+  use SmeInterviewsWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import SMEInterviews.AnswersFixtures
+  import SmeInterviews.AnswersFixtures
 
   @create_attrs %{body: "some body", order: 42, selected: true}
   @update_attrs %{body: "some updated body", order: 43, selected: false}

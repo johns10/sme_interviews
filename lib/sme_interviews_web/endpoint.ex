@@ -1,4 +1,4 @@
-defmodule SMEInterviewsWeb.Endpoint do
+defmodule SmeInterviewsWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :sme_interviews
 
   # The session will be stored in the cookie and signed,
@@ -46,5 +46,5 @@ defmodule SMEInterviewsWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug SMEInterviewsWeb.Router
+  plug SmeInterviewsWeb.Router
 end

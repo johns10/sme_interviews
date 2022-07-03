@@ -1,3 +1,3 @@
-defmodule SMEInterviewsWeb.PageViewTest do
-  use SMEInterviewsWeb.ConnCase, async: true
+defmodule SmeInterviewsWeb.PageViewTest do
+  use SmeInterviewsWeb.ConnCase, async: true
 end

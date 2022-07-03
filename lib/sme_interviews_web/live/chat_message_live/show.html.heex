@@ -3,7 +3,7 @@
 <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.chat_message_show_path(@socket, :show, @chat_message)} title={@page_title}>
     <.live_component
-      module={SMEInterviewsWeb.ChatMessageLive.FormComponent}
+      module={SmeInterviewsWeb.ChatMessageLive.FormComponent}
       id={@chat_message.id}
       action={@live_action}
       title={@page_title}

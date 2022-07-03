@@ -3,7 +3,7 @@
 <%= if @live_action in [:new, :edit] do %>
   <.modal title={@page_title}>
     <.live_component
-      module={SMEInterviewsWeb.QuestionLive.FormComponent}
+      module={SmeInterviewsWeb.QuestionLive.FormComponent}
       id={@question.id || :new}
       action={@live_action}
       question={@question}

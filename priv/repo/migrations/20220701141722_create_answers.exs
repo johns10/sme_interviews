@@ -1,4 +1,4 @@
-defmodule SMEInterviews.Repo.Migrations.CreateAnswers do
+defmodule SmeInterviews.Repo.Migrations.CreateAnswers do
   use Ecto.Migration
 
   def change do

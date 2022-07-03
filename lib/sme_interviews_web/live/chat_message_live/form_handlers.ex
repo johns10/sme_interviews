@@ -1,6 +1,6 @@
-defmodule SMEInterviewsWeb.ChatMessageLive.FormHandlers do
+defmodule SmeInterviewsWeb.ChatMessageLive.FormHandlers do
   import Phoenix.LiveView
-  alias SMEInterviews.ChatMessages
+  alias SmeInterviews.ChatMessages
 
   def update_socket(%{chat_message: chat_message} = assigns, socket) do
     changeset = ChatMessages.change_chat_message(chat_message)

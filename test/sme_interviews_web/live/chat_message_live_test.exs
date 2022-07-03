@@ -1,8 +1,8 @@
-defmodule SMEInterviewsWeb.ChatMessageLiveTest do
-  use SMEInterviewsWeb.ConnCase
+defmodule SmeInterviewsWeb.ChatMessageLiveTest do
+  use SmeInterviewsWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import SMEInterviews.ChatMessagesFixtures
+  import SmeInterviews.ChatMessagesFixtures
 
   @create_attrs %{body: "some body"}
   @update_attrs %{body: "some updated body"}

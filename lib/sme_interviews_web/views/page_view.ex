@@ -1,3 +1,3 @@
-defmodule SMEInterviewsWeb.PageView do
-  use SMEInterviewsWeb, :view
+defmodule SmeInterviewsWeb.PageView do
+  use SmeInterviewsWeb, :view
 end

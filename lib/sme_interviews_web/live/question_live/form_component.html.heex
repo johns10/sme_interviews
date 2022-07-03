@@ -12,7 +12,7 @@
     <%= error_tag f, :body %>
   
     <%= label f, :status %>
-    <%= select f, :status, Ecto.Enum.values(SMEInterviews.Questions.Question, :status), prompt: "Choose a value" %>
+    <%= select f, :status, Ecto.Enum.values(SmeInterviews.Questions.Question, :status), prompt: "Choose a value" %>
     <%= error_tag f, :status %>
   
     <div>

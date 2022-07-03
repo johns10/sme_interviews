@@ -1,4 +1,4 @@
-defmodule SMEInterviewsWeb.LiveHelpers do
+defmodule SmeInterviewsWeb.LiveHelpers do
   # import Phoenix.LiveView
   # import Phoenix.LiveView.Helpers
 
