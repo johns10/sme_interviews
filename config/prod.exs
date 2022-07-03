@@ -7,7 +7,8 @@ config :sme_interviews, SmeInterviewsWeb.Endpoint,
   secret_key_base: "${SECRET_KEY_BASE}",
   url: [host: "${APP_NAME}.gigalixirapp.com", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json",
-  version: Mix.Project.config[:version] # to bust cache during hot upgrades
+  version: Mix.Project.config[:version] # to bust cache during hot upgrades,
+  check_origin: ["${APP_NAME}.gigalixirapp.com"]
 
 config :sme_interviews, SmeInterviews.Repo,
   adapter: Ecto.Adapters.Postgres,
