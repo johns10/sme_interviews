@@ -1,12 +1,59 @@
-<.layout active_chat={@active_chat}>
-  <div class="flex-col items-center justify-between mb-4">
-    <div class="flex items-start">
+<div class="max-h-screen overflow-hidden" id="interview-container">
+  <.container class="mb-4 sticky top-0 !px-0 !mx-0" id="interview-header">
+    <div class="flex items-start justify-start px-0 pt-4">
+      <.icon_button icon={:arrow_left} link_type="a" to={Routes.interview_index_path(@socket, :index)} class="w-6 h-6 mr-4" />
       <.h1 class="mr-2">Interview <%= @interview.name %></.h1>
       <.icon_button icon={:pencil} link_type="live_patch" to={Routes.interview_show_path(@socket, :edit, @interview)} class="h-8 w-8" id="edit-interview" />
     </div>
-    <.button icon link_type="a" to={Routes.interview_index_path(@socket, :index)} class="mr-2">
-      <Heroicons.Solid.arrow_left class="w-5 h-5" />
-    </.button>
+    <.live_component
+      module={SMEInterviewsWeb.InterviewLive.DescriptionFormComponent}
+      id={"interview-description-form-#{@interview.id}"}
+      action={:edit}
+      interview={@interview}
+    />
+  </.container>
+
+  <div 
+    class="flex overflow-hidden"
+    :style="'height: ' + (containerHeight - headerHeight) + 'px;'"
+    x-data="{ headerHeight: 0, containerHeight: 0 }"
+    x-init="
+      header = document.getElementById('interview-header')
+      container = document.getElementById('interview-container')
+      const setHeaderHeight = () => headerHeight = header.offsetHeight + 16 
+      const setContainerHeight = () => containerHeight = container.offsetHeight
+      setHeaderHeight()
+      setContainerHeight()
+      const headerResizeObserver = new ResizeObserver(setHeaderHeight).observe(header)
+      const containerResizeObserver = new ResizeObserver(setContainerHeight).observe(container)
+
+    "
+  >
+    <main class="flex-grow overflow-hidden">
+      <.h2>Questions</.h2>
+      <div class="pr-2 overflow-auto"
+    :style="'height: ' + (containerHeight - headerHeight) + 'px;'">
+        <.live_component
+          module={SMEInterviewsWeb.QuestionLive.ListComponent}
+          id="questions"
+          interview={@interview}
+          active_question_id={@active_question_id}
+        />
+      </div>
+
+      <.live_component
+        module={SMEInterviewsWeb.QuestionLive.InlineFormComponentNew}
+        id={"new-question-#{@interview.id}"}
+        interview={@interview}
+        question={%SMEInterviews.Questions.Question{}}
+      />
+    </main>
+    <aside class="h-screen sticky" :style="'top: ' + headerHeight + 'px;' " >
+      <.live_component
+        module={SMEInterviewsWeb.ChatMessageLive.ChatBar}
+        active_question_id={@active_question_id}
+        id="chat" />
+    </aside>
   </div>
 
   <%= if @live_action in [:edit] do %>
@@ -20,17 +67,4 @@
       />
     </.modal>
   <% end %>
-
-  <.live_component
-    module={SMEInterviewsWeb.InterviewLive.DescriptionFormComponent}
-    id={"interview-description-form-#{@interview.id}"}
-    action={:edit}
-    interview={@interview}
-  />
-
-  <.live_component
-    module={SMEInterviewsWeb.QuestionLive.ListComponent}
-    id="questions"
-    interview={@interview}
-  />
-</.layout>
+</div>
