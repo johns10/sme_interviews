@@ -1,6 +1,8 @@
 defmodule SmeInterviewsWeb.Router do
   use SmeInterviewsWeb, :router
 
+  import SmeInterviewsWeb.UserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,7 @@ defmodule SmeInterviewsWeb.Router do
     plug :put_root_layout, {SmeInterviewsWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
     plug :set_color_scheme
   end
 
@@ -15,28 +18,19 @@ defmodule SmeInterviewsWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", SmeInterviewsWeb do
-    pipe_through :browser
-
-    live "/interviews", InterviewLive.Index, :index
-    live "/interviews/new", InterviewLive.Index, :new
-    live "/interviews/:id/edit", InterviewLive.Index, :edit
-
-    live "/interviews/:id", InterviewLive.Show, :show
-    live "/interviews/:id/show/edit", InterviewLive.Show, :edit
-  end
-
   if Mix.env() in [:dev, :test] do
     scope "/", SmeInterviewsWeb do
       pipe_through :browser
       # live_dashboard "/dashboard", metrics: SmeInterviewsWeb.Telemetry
 
-      get "/", PageController, :index
-      live "/live", PageLive, :index
-      live "/live/modal/:size", PageLive, :modal
-      live "/live/slide_over/:origin", PageLive, :slide_over
-      live "/live/pagination/:page", PageLive, :pagination
+      # get "/", PageController, :index
 
+      # live "/interviews", InterviewLive.Index, :index
+      # live "/interviews/new", InterviewLive.Index, :new
+      # live "/interviews/:id/edit", InterviewLive.Index, :edit
+
+      # live "/interviews/:id", InterviewLive.Show, :show
+      # live "/interviews/:id/show/edit", InterviewLive.Show, :edit
 
       live "/questions", QuestionLive.Index, :index
       live "/questions/new", QuestionLive.Index, :new
@@ -59,6 +53,28 @@ defmodule SmeInterviewsWeb.Router do
       live "/chat_message/:id", ChatMessageLive.Show, :show
       live "/chat_message/:id/show/edit", ChatMessageLive.Show, :edit
     end
+    scope "/dev" do
+      pipe_through :browser
+
+      forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+  end
+
+  scope "/", SmeInterviewsWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    get "/", PageController, :index
+  end
+
+  scope "/", SmeInterviewsWeb do
+    pipe_through [:browser, :require_authenticated_user, :require_confirmed_user]
+
+    live "/interviews", InterviewLive.Index, :index
+    live "/interviews/new", InterviewLive.Index, :new
+    live "/interviews/:id/edit", InterviewLive.Index, :edit
+
+    live "/interviews/:id", InterviewLive.Show, :show
+    live "/interviews/:id/show/edit", InterviewLive.Show, :edit
   end
 
   # Enables the Swoosh mailbox preview in development.
@@ -66,11 +82,6 @@ defmodule SmeInterviewsWeb.Router do
   # Note that preview only shows emails that were sent by the same
   # node running the Phoenix server.
   if Mix.env() == :dev do
-    scope "/dev" do
-      pipe_through :browser
-
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
-    end
   end
 
   # Use this plug to set a "dark" css class on <html> element
@@ -80,5 +91,38 @@ defmodule SmeInterviewsWeb.Router do
     conn
     |> assign(:color_scheme, color_scheme)
     |> put_session(:color_scheme, color_scheme)
+  end
+
+  ## Authentication routes
+
+  scope "/", SmeInterviewsWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    get "/users/register", UserRegistrationController, :new
+    post "/users/register", UserRegistrationController, :create
+    get "/users/log_in", UserSessionController, :new
+    post "/users/log_in", UserSessionController, :create
+    get "/users/reset_password", UserResetPasswordController, :new
+    post "/users/reset_password", UserResetPasswordController, :create
+    get "/users/reset_password/:token", UserResetPasswordController, :edit
+    put "/users/reset_password/:token", UserResetPasswordController, :update
+  end
+
+  scope "/", SmeInterviewsWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    get "/users/settings", UserSettingsController, :edit
+    put "/users/settings", UserSettingsController, :update
+    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+  end
+
+  scope "/", SmeInterviewsWeb do
+    pipe_through [:browser]
+
+    delete "/users/log_out", UserSessionController, :delete
+    get "/users/confirm", UserConfirmationController, :new
+    post "/users/confirm", UserConfirmationController, :create
+    get "/users/confirm/:token", UserConfirmationController, :edit
+    post "/users/confirm/:token", UserConfirmationController, :update
   end
 end

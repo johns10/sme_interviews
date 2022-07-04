@@ -1,5 +1,6 @@
 defmodule SmeInterviewsWeb.ChatMessageLive.Index do
   use SmeInterviewsWeb, :live_view
+  on_mount SmeInterviewsWeb.UserLiveAuth
 
   alias SmeInterviews.ChatMessages
   alias SmeInterviews.ChatMessages.ChatMessage

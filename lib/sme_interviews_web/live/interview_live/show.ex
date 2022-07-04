@@ -1,5 +1,6 @@
 defmodule SmeInterviewsWeb.InterviewLive.Show do
   use SmeInterviewsWeb, :live_view
+  on_mount SmeInterviewsWeb.UserLiveAuth
 
   alias SmeInterviews.Interviews
   alias SmeInterviews.Questions
@@ -16,7 +17,8 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
      socket
      |> assign(:active_question_id, nil)
      |> assign(:main_span, 3)
-     |> assign(:sidebar_span, 0)}
+     |> assign(:sidebar_span, 0),
+     layout: {SmeInterviewsWeb.LayoutView, "empty.html"}}
   end
 
   @impl true

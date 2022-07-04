@@ -1,19 +1,53 @@
-<.container class="bg-gray-800 dark:bg-gray-800 h-screen overflow-auto" max_width="full">
-  <.alert
-    color="info"
-    class="mb-5"
-    label={live_flash(@flash, :info)}
-    phx-click="lv:clear-flash"
-    phx-value-key="info"
-  />
+<div class="h-screen overflow-auto dark:bg-gray-900">
+  <nav class="flex items-center justify-between w-full h-16 bg-white dark:bg-gray-900">
+    <div class="flex ml-3 sm:ml-10">
+      <a class="inline-flex hover:opacity-90" href="/">
+        <.h3 class="py-0 !my-0">SME Interviews</.h3>
+      </a>
+    </div>
 
-  <.alert
-    color="danger"
-    class="mb-5"
-    label={live_flash(@flash, :error)}
-    phx-click="lv:clear-flash"
-    phx-value-key="error"
-  />
+    <div class="flex justify-end items-center gap-3 pr-4">
+      <.link label="Interviews" to={Routes.interview_index_path(@socket, :index)} class="inline-flex items-center gap-2 p-2 text-gray-500 rounded dark:text-gray-400 dark:hover:text-gray-500 hover:text-gray-400 group">
+        <Heroicons.Solid.clipboard_list />
+        <span class="hidden font-semibold sm:block">
+          Interviews
+        </span>
+      </.link>
+      <.dropdown>
+        <:trigger_element>
+          <div class="inline-flex items-center justify-center w-full align-middle focus:outline-none">
+            <Heroicons.Solid.user class="w-6 h-6 ml-1 -mr-1 text-gray-500 rounded dark:text-gray-400 dark:hover:text-gray-500 hover:text-gray-400" />
+            <Heroicons.Solid.chevron_down class="w-4 h-4 ml-1 -mr-1 text-gray-500 rounded dark:text-gray-400 dark:hover:text-gray-500 hover:text-gray-400" />
+          </div>
+        </:trigger_element>
+        <%= if @current_user do %>
+          <.dropdown_menu_item link_type="a" label="Settings" to={Routes.user_settings_path(@socket, :edit)} />
+          <.dropdown_menu_item link_type="a" label="Log out" method="delete" to={Routes.user_session_path(@socket, :delete)} />
+        <% else %>
+          <.dropdown_menu_item link_type="a" label="Register" to={Routes.user_registration_path(@socket, :new)} />
+          <.dropdown_menu_item link_type="a" label="Log in" method="delete" to={Routes.user_session_path(@socket, :new)} />
+        <% end %>
+      </.dropdown>  
+      <.color_scheme_switch color_scheme={@color_scheme} />
+    </div>
+  </nav>
+  <.container max_width="full">
+    <.alert
+      color="info"
+      class="mb-5"
+      label={live_flash(@flash, :info)}
+      phx-click="lv:clear-flash"
+      phx-value-key="info"
+    />
 
-  <%= @inner_content %>
-</.container>
+    <.alert
+      color="danger"
+      class="mb-5"
+      label={live_flash(@flash, :error)}
+      phx-click="lv:clear-flash"
+      phx-value-key="error"
+    />
+    
+    <%= @inner_content %>
+  </.container>
+</div>

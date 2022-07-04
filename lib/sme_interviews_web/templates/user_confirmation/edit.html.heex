@@ -1,0 +1,11 @@
+<.h1>Confirm account</.h1>
+
+<.form let={_f} for={:user} action={Routes.user_confirmation_path(@conn, :update, @token)}>
+   <.button type="submit" color="success" label="Confirm My Account" class="w-full" />
+</.form>
+
+<div class="flex justify-center py-2">
+  <.link label="Register" to={Routes.user_registration_path(@conn, :new)} class="text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:text-gray-900 hover:underline" />
+  <div class="px-4 text-gray-700 dark:text-gray-400">|</div> 
+  <.link label="Forgot your password?" to={Routes.user_reset_password_path(@conn, :new)} class="text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:text-gray-900 hover:underline" />
+</div>

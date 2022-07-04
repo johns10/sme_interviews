@@ -3,6 +3,9 @@ defmodule SmeInterviewsWeb.AnswerLiveTest do
 
   import Phoenix.LiveViewTest
   import SmeInterviews.AnswersFixtures
+  import SmeInterviews.AccountsFixtures
+
+  setup :register_confirm_and_log_in_user
 
   @create_attrs %{body: "some body", order: 42, selected: true}
   @update_attrs %{body: "some updated body", order: 43, selected: false}

@@ -1,5 +1,6 @@
 defmodule SmeInterviewsWeb.InterviewLive.Index do
   use SmeInterviewsWeb, :live_view
+  on_mount SmeInterviewsWeb.UserLiveAuth
 
   alias SmeInterviews.Interviews
   alias SmeInterviews.Interviews.Interview

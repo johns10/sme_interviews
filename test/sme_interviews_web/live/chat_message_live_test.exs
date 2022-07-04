@@ -3,6 +3,9 @@ defmodule SmeInterviewsWeb.ChatMessageLiveTest do
 
   import Phoenix.LiveViewTest
   import SmeInterviews.ChatMessagesFixtures
+  import SmeInterviews.AccountsFixtures
+
+  setup :register_confirm_and_log_in_user
 
   @create_attrs %{body: "some body"}
   @update_attrs %{body: "some updated body"}
