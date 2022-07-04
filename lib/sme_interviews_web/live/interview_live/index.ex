@@ -7,6 +7,7 @@ defmodule SmeInterviewsWeb.InterviewLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    Application.get_env(:sme_interviews, SmeInterviewsWeb.Endpoint) |> IO.inspect()
     {
       :ok,
       socket
