@@ -1,14 +1,15 @@
-<.h1>Public Interviews</.h1>
+<.h1>Your Interviews</.h1>
 
 <%= if @live_action in [:new, :edit] do %>
-  <.modal title={@page_title} return_to={Routes.interview_index_path(@socket, :index)}>
+  <.modal title={@page_title} return_to={Routes.interview_user_index_path(@socket, :index)}>
     <.live_component
-      module={SmeInterviewsWeb.InterviewLive.FormComponent}
+      module={SmeInterviewsWeb.InterviewLive.UserFormComponent}
       id={@interview.id || :new}
       title={@page_title}
       action={@live_action}
       interview={@interview}
       return_to={@return_to}
+      user_id={@current_user.id}
     />
   </.modal>
 <% end %>
@@ -27,7 +28,7 @@
         <%= live_patch interview.name, to: Routes.interview_show_path(@socket, :show, interview), class: "flex-grow px-6 py-4" %>
       </.td>
       <.td class="flex items-center !p-0">
-        <.link link_type="live_patch" to={Routes.interview_index_path(@socket, :edit, interview)} class="mr-4" label="Edit Name" />
+        <.link link_type="live_patch" to={Routes.interview_user_index_path(@socket, :edit, interview)} class="mr-4" label="Edit Name" />
         <.link 
           to="#" 
           phx_click="delete" 
@@ -41,6 +42,6 @@
   <% end %>
 </.table>
 
-<.link link_type="live_patch" to={Routes.interview_index_path(@socket, :new)}>
-  <.button color="success" label="New Interview" to={Routes.interview_index_path(@socket, :new)} />
+<.link link_type="live_patch" to={Routes.interview_user_index_path(@socket, :new)}>
+  <.button color="success" label="New Interview" />
 </.link>

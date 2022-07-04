@@ -51,6 +51,8 @@ defmodule SmeInterviews.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:petal_components, "~> 0.16.0"},
+      {:hackney, "~> 1.18"},
+      {:gen_smtp, "~> 1.1"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]

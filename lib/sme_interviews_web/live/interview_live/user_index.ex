@@ -1,4 +1,4 @@
-defmodule SmeInterviewsWeb.InterviewLive.Index do
+defmodule SmeInterviewsWeb.InterviewLive.UserIndex do
   use SmeInterviewsWeb, :live_view
   on_mount SmeInterviewsWeb.UserLiveAuth
 
@@ -6,12 +6,12 @@ defmodule SmeInterviewsWeb.InterviewLive.Index do
   alias SmeInterviews.Interviews.Interview
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, _session, %{assigns: %{current_user: user}} = socket) do
     {
       :ok,
       socket
-      |> assign(:return_to, Routes.interview_index_path(socket, :index))
-      |> assign(:interviews, list_interviews())
+      |> assign(:return_to, Routes.interview_user_index_path(socket, :index))
+      |> assign(:interviews, list_interviews(user.id))
     }
   end
 
@@ -43,13 +43,13 @@ defmodule SmeInterviewsWeb.InterviewLive.Index do
     interview = Interviews.get_interview!(id)
     {:ok, _} = Interviews.delete_interview(interview)
 
-    {:noreply, assign(socket, :interviews, list_interviews())}
+    {:noreply, assign(socket, :interviews, list_interviews(socket.assigns.current_user.id))}
   end
   def handle_event("close_modal", _, socket) do
     {:noreply, push_patch(socket, to: socket.assigns.return_to)}
   end
 
-  defp list_interviews() do
-    Interviews.list_interviews([filters: [user_id: nil]])
+  defp list_interviews(user_id) do
+    Interviews.list_interviews(filters: [user_id: user_id])
   end
 end

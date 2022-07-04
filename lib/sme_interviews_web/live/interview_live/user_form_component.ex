@@ -1,4 +1,4 @@
-defmodule SmeInterviewsWeb.InterviewLive.FormComponent do
+defmodule SmeInterviewsWeb.InterviewLive.UserFormComponent do
   use SmeInterviewsWeb, :live_component
   import SmeInterviewsWeb.InterviewLive.FormHandlers
 

@@ -8,8 +8,21 @@ defmodule SmeInterviews.Interviews do
 
   alias SmeInterviews.Interviews.Interview
 
-  def list_interviews do
-    Repo.all(Interview)
+  def list_interviews(opts \\ []) do
+    filters = Keyword.get(opts, :filters, [])
+    Interview
+    |> maybe_filter_by_user_id(filters[:user_id])
+    |> Repo.all()
+  end
+
+  defp maybe_filter_by_user_id(query, nil) do
+    query
+    |> where([i], is_nil(i.user_id))
+  end
+
+  defp maybe_filter_by_user_id(query, user_id) do
+    query
+    |> where([i], i.user_id == ^user_id)
   end
 
   def get_interview!(id), do: Repo.get!(Interview, id)

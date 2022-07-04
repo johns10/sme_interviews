@@ -43,4 +43,30 @@ defmodule SmeInterviewsWeb.InterviewLive.FormHandlers do
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
+
+  def save_redirect(socket, :edit, interview_params) do
+    case Interviews.update_interview(socket.assigns.interview, interview_params) do
+      {:ok, _interview} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Interview updated successfully")
+         |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
+  def save_redirect(socket, :new, interview_params) do
+    case Interviews.create_interview(interview_params) do
+      {:ok, _interview} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Interview created successfully")
+         |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
 end

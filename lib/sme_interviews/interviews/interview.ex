@@ -18,7 +18,8 @@ defmodule SmeInterviews.Interviews.Interview do
   @doc false
   def changeset(interview, attrs) do
     interview
-    |> cast(attrs, [:name, :description])
+    |> cast(attrs, [:name, :description, :user_id])
     |> validate_required([:name])
+    |> foreign_key_constraint(:user_id)
   end
 end

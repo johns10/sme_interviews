@@ -8,7 +8,7 @@ defmodule SmeInterviews.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"SmeInterviews", "contact@example.com"})
+      |> from({"SmeInterviews", "info@smeinterviews.com"})
       |> subject(subject)
       |> text_body(body)
 

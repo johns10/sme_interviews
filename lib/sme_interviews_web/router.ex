@@ -69,6 +69,10 @@ defmodule SmeInterviewsWeb.Router do
   scope "/", SmeInterviewsWeb do
     pipe_through [:browser, :require_authenticated_user, :require_confirmed_user]
 
+    live "/user_interviews", InterviewLive.UserIndex, :index
+    live "/user_interviews/new", InterviewLive.UserIndex, :new
+    live "/user_interviews/:id/edit", InterviewLive.UserIndex, :edit
+
     live "/interviews", InterviewLive.Index, :index
     live "/interviews/new", InterviewLive.Index, :new
     live "/interviews/:id/edit", InterviewLive.Index, :edit
