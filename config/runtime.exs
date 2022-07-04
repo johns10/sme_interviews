@@ -77,5 +77,18 @@ if config_env() == :prod do
   #
   #     config :swoosh, :api_client, Swoosh.ApiClient.Hackney
   #
-  # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
+  # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details
+
+  config :sme_interviews, SmeInterviews.Mailer,
+    adapter: Swoosh.Adapters.SMTP,
+    relay: "smeinterviews.com",
+    username: "info@smeinterviews.com",
+    password: System.get_env("SMTP_PASSWORD"),
+    ssl: true,
+    tls: :if_available,
+    auth: :always,
+    port: 465,
+    retries: 2,
+    no_mx_lookups: true
+
 end
