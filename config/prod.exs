@@ -19,3 +19,15 @@ config :sme_interviews, SmeInterviews.Repo,
   pool_size: 2 # Free tier db only allows 4 connections. Rolling deploys need pool_size*(n+1) connections where n is the number of app replicas.
 
 config :logger, level: :info
+
+config :sme_interviews, SmeInterviews.Mailer,
+  adapter: Swoosh.Adapters.SMTP,
+  relay: "smeinterviews.com",
+  username: "info@smeinterviews.com",
+  password: "${SMTP_PASSWORD}",
+  ssl: true,
+  tls: :if_available,
+  auth: :always,
+  port: 465,
+  retries: 2,
+  no_mx_lookups: true
