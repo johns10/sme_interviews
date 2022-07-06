@@ -16,7 +16,11 @@
 
 <.table class="my-4">
   <.tr class="flex">
+  <%= if Enum.count(@interviews) > 0 do %>
     <.th class="flex-grow">Name</.th>
+  <% else %>
+    <.th class="flex-grow">You don't have any interviews yet. Let's create one!</.th>
+  <% end %>
     <.th></.th>
   </.tr>
   <%= for interview <- @interviews do %>
