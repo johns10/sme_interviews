@@ -3,13 +3,13 @@ import Config
 config :sme_interviews, SmeInterviewsWeb.Endpoint,
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   load_from_system_env: true,
-  http: [port: {:system, "PORT"}], # Needed for Phoenix 1.2 and 1.4. Doesn't hurt for 1.3.
+  # http: [port: {:system, "PORT"}], # Needed for Phoenix 1.2 and 1.4. Doesn't hurt for 1.3.
   server: true, # Without this line, your app will not start the web server!
   secret_key_base: "${SECRET_KEY_BASE}",
   # url: [host: "${APP_NAME}.gigalixirapp.com", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json",
   version: Mix.Project.config[:version], # to bust cache during hot upgrades
-  check_origin: ["//gigalixirapp.com", "https://opulent-frizzy-toad.gigalixirapp.com"]
+  check_origin: []
 
 config :sme_interviews, SmeInterviews.Repo,
   adapter: Ecto.Adapters.Postgres,
