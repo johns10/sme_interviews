@@ -263,6 +263,8 @@ defmodule SmeInterviews.Accounts do
     else
       {encoded_token, user_token} = UserToken.build_email_token(user, "confirm")
       Repo.insert!(user_token)
+      Application.get_env(:sme_interviews, SmeInterviewsWeb.Endpoint) |> IO.inspect()
+      IO.inspect(confirmation_url_fun)
       IO.inspect(confirmation_url_fun.(encoded_token))
       UserNotifier.deliver_confirmation_instructions(user, confirmation_url_fun.(encoded_token))
     end
