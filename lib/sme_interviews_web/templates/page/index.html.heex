@@ -1,8 +1,12 @@
 <div class="py-2" />
 <.h2>Welcome to SME Interviews</.h2>
-<%= if @current_user.confirmed_at do %>
-  <.p>Click the "Interviews" button above to get started!</.p>
+<%= if @current_user != nil do %>
+  <%= if @current_user.confirmed_at do %>
+    <.p>Click the "Interviews" button above to get started!</.p>
+  <% else %>
+    <.p>You haven't confirmed your user. You'll need to do so before you can use the app.</.p>
+    <.p>You'll need to confirm your user before you can use the App.</.p>
+  <% end %>
 <% else %>
-  <.p>You haven't confirmed your user. You'll need to do so before you can use the app.</.p>
-  <.p>You'll need to confirm your user before you can use the App.</.p>
+  <.p>You haven't logged in. You'll need to log in to use the app.</.p>
 <% end %>

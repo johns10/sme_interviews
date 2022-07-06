@@ -61,9 +61,13 @@ defmodule SmeInterviewsWeb.Router do
   end
 
   scope "/", SmeInterviewsWeb do
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through [:browser]
 
     get "/", PageController, :index
+  end
+
+  scope "/", SmeInterviewsWeb do
+    pipe_through [:browser, :require_authenticated_user]
   end
 
   scope "/", SmeInterviewsWeb do
