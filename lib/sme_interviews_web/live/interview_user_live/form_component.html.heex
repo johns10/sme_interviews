@@ -1,0 +1,25 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@form_changeset}
+    id="interview_user-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+
+    <.form_label form={f} field={:email} />
+    <.email_input form={f} field={:email} />
+    <.form_field_error form={f} field={:email} />
+ 
+
+    <.form_label form={f} field={:interview_id} />
+    <.number_input form={f} field={:interview_id}} />
+    <.form_field_error form={f} field={:interview_id} /> 
+
+    <div>
+      <%= submit "Save", phx_disable_with: "Saving..." %>
+    </div>
+  </.form>
+</div>
