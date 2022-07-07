@@ -3,7 +3,6 @@ defmodule SmeInterviewsWeb.AnswerLiveTest do
 
   import Phoenix.LiveViewTest
   import SmeInterviews.AnswersFixtures
-  import SmeInterviews.AccountsFixtures
 
   setup :register_confirm_and_log_in_user
 

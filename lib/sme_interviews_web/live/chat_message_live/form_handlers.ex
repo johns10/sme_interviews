@@ -37,10 +37,12 @@ defmodule SmeInterviewsWeb.ChatMessageLive.FormHandlers do
 
   def save_no_redirect(socket, :new, params) do
     case ChatMessages.create_chat_message(params) do
-      {:ok, _chat_message} ->
+      {:ok, chat_message} ->
+        changeset = ChatMessages.change_chat_message(chat_message)
         {:noreply,
          socket
-         |> put_flash(:info, "Chat message created successfully")}
+         |> put_flash(:info, "Chat message created successfully")
+         |> assign(:changeset, changeset)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

@@ -76,3 +76,19 @@ config :phoenix, :plug_init_mode, :runtime
 
 config :sme_interviews, SmeInterviews.Mailer,
   adapter: Swoosh.Adapters.Local
+
+# config :sme_interviews, SmeInterviews.Mailer,
+#   adapter: Swoosh.Adapters.Sendgrid,
+#   api_key: "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"
+
+# config :sme_interviews, SmeInterviews.Mailer,
+#   adapter: Swoosh.Adapters.SMTP,
+#   relay: "smeinterviews.com",
+#   username: "info@smeinterviews.com",
+#   password: System.get_env("SMTP_PASSWORD"),
+#   ssl: true,
+#   tls: :if_available,
+#   auth: :always,
+#   port: 465,
+#   retries: 2,
+#   no_mx_lookups: true

@@ -2,7 +2,6 @@ defmodule SmeInterviewsWeb.InterviewLiveTest do
   use SmeInterviewsWeb.ConnCase
   import Phoenix.LiveViewTest
   import SmeInterviews.InterviewsFixtures
-  import SmeInterviews.AccountsFixtures
 
   setup :register_confirm_and_log_in_user
 
