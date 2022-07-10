@@ -1,14 +1,14 @@
 <h1>Listing Interview users</h1>
 
 <%= if @live_action in [:new, :edit] do %>
-  <.modal title={@page_title} return_to={Routes.interview_user_index_path(@socket, :index)}>
+  <.modal title={@page_title} return_to={Routes.interview_private_index_path(@socket, :index)}>
     <.live_component
       module={SmeInterviewsWeb.InterviewUserLive.FormComponent}
       id={@interview_user.id || :new}
       title={@page_title}
       action={@live_action}
       interview_user={@interview_user}
-      return_to={Routes.interview_user_index_path(@socket, :index)}
+      return_to={Routes.interview_private_index_path(@socket, :index)}
     />
   </.modal>
 <% end %>
@@ -26,7 +26,7 @@
 
         <td>
           <span><%= live_redirect "Show", to: Routes.interview_user_show_path(@socket, :show, interview_user) %></span>
-          <span><%= live_patch "Edit", to: Routes.interview_user_index_path(@socket, :edit, interview_user) %></span>
+          <span><%= live_patch "Edit", to: Routes.interview_private_index_path(@socket, :edit, interview_user) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: interview_user.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>
@@ -34,4 +34,4 @@
   </tbody>
 </table>
 
-<span><%= live_patch "New Interview user", to: Routes.interview_user_index_path(@socket, :new) %></span>
+<span><%= live_patch "New Interview user", to: Routes.interview_private_index_path(@socket, :new) %></span>

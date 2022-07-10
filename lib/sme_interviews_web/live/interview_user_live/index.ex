@@ -10,7 +10,7 @@ defmodule SmeInterviewsWeb.InterviewUserLive.Index do
     {:ok,
      socket
       |> assign(:interview_users, list_interview_users())
-      |> assign(:return_to, Routes.interview_user_index_path(socket, :index))}
+      |> assign(:return_to, Routes.interview_private_index_path(socket, :index))}
     end
 
   @impl true

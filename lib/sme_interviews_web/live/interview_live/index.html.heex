@@ -1,4 +1,4 @@
-<.h1>Public Interviews</.h1>
+<.h1>Interviews</.h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal title={@page_title} return_to={Routes.interview_index_path(@socket, :index)}>
@@ -9,6 +9,7 @@
       action={@live_action}
       interview={@interview}
       return_to={@return_to}
+      user_id={@current_user.id}
     />
   </.modal>
 <% end %>
@@ -38,7 +39,6 @@
           phx_value_id={interview.id} 
           label="Delete" 
           class="mr-4"
-          data-confirm="Are you sure you want to delete this interview? This action will delete all its questions, answers and chat entries." 
         />
       </.td>
     </.tr>

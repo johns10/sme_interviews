@@ -9,13 +9,16 @@ defmodule SmeInterviewsWeb.InterviewLiveTest do
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
 
-  defp create_interview(_) do
-    interview = interview_fixture()
+  defp create_interview(%{user: %{id: id}}) do
+    interview = interview_fixture(%{user_id: id})
     %{interview: interview}
   end
 
   describe "Index" do
-    setup [:create_interview]
+    setup [
+      :register_confirm_and_log_in_user,
+      :create_interview
+    ]
 
     test "lists all interviews", %{conn: conn, interview: interview} do
       {:ok, _index_live, html} = live(conn, Routes.interview_index_path(conn, :index))
