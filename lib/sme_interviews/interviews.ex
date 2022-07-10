@@ -15,14 +15,14 @@ defmodule SmeInterviews.Interviews do
     |> Repo.all()
   end
 
-  defp maybe_filter_by_user_id(query, nil) do
-    query
-    |> where([i], is_nil(i.user_id))
-  end
+  defp maybe_filter_by_user_id(query, nil), do: query
 
   defp maybe_filter_by_user_id(query, user_id) do
     query
-    |> where([i], i.user_id == ^user_id)
+    |> join(:left, [i], u in assoc(i, :users))
+    |> where([i, u], u.id == ^user_id or i.user_id == ^user_id)
+    |> order_by([i, u], asc: :name)
+    |> distinct([i, u], i.id)
   end
 
   def get_interview!(id), do: Repo.get!(Interview, id)

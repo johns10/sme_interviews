@@ -29,17 +29,26 @@
       id={"interview-#{interview.id}"}
     >
       <.td class="!p-0 flex flex-grow">
-        <%= live_patch interview.name, to: Routes.interview_show_path(@socket, :show, interview), class: "flex-grow px-6 py-4" %>
+        <%= live_patch to: Routes.interview_show_path(@socket, :show, interview), class: "flex flex-grow px-6 py-4" do %>
+          <%= if interview.user_id == @current_user.id do %>
+            <Heroicons.Solid.user_circle />
+          <% else %>
+            <Heroicons.Solid.user_group />
+          <% end %>
+          <span class="ml-2"><%= interview.name %></span>
+        <% end %>
       </.td>
       <.td class="flex items-center !p-0">
-        <.link link_type="live_patch" to={Routes.interview_index_path(@socket, :edit, interview)} class="mr-4" label="Edit Name" />
-        <.link 
-          to="#" 
-          phx_click="delete" 
-          phx_value_id={interview.id} 
-          label="Delete" 
-          class="mr-4"
-        />
+        <%= if interview.user_id == @current_user.id do %>
+          <.link link_type="live_patch" to={Routes.interview_index_path(@socket, :edit, interview)} class="mr-4" label="Edit Name" />
+          <.link 
+            to="#" 
+            phx_click="delete" 
+            phx_value_id={interview.id} 
+            label="Delete" 
+            class="mr-4"
+          />
+      <% end %>
       </.td>
     </.tr>
   <% end %>

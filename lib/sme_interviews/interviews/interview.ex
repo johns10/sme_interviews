@@ -3,6 +3,7 @@ defmodule SmeInterviews.Interviews.Interview do
   import Ecto.Changeset
   alias SmeInterviews.Questions.Question
   alias SmeInterviews.Accounts.User
+  alias SmeInterviews.InterviewUsers.InterviewUser
 
   schema "interviews" do
     field :description, :string
@@ -11,6 +12,8 @@ defmodule SmeInterviews.Interviews.Interview do
     belongs_to :user, User
 
     has_many :questions, Question
+
+    many_to_many :users, User, join_through: InterviewUser
 
     timestamps()
   end
