@@ -94,6 +94,49 @@ defmodule SmeInterviews.AccountsTest do
     end
   end
 
+  describe "invite_user/1" do
+    setup do
+      %{user: user_fixture()}
+    end
+
+    test "requires email" do
+      {:error, changeset} = Accounts.invite_user(%{})
+
+      assert %{
+        email: ["can't be blank"],
+        invited_by_user_id: ["can't be blank"]
+        } = errors_on(changeset)
+    end
+
+    test "validates email when given" do
+      {:error, changeset} = Accounts.invite_user(%{email: "not valid"})
+      assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
+    end
+
+    test "validates maximum values for email for security" do
+      too_long = String.duplicate("db", 100)
+      {:error, changeset} = Accounts.invite_user(%{email: too_long})
+      assert "should be at most 160 character(s)" in errors_on(changeset).email
+    end
+
+    test "validates email uniqueness" do
+      %{email: email} = user_fixture()
+      {:error, changeset} = Accounts.invite_user(%{email: email})
+      assert "has already been taken" in errors_on(changeset).email
+
+      # Now try with the upper cased email too, to check that email case is ignored.
+      {:error, changeset} = Accounts.invite_user(%{email: String.upcase(email)})
+      assert "has already been taken" in errors_on(changeset).email
+    end
+
+    test "invites user", %{user: user} do
+      email = unique_user_email()
+      attrs = %{email: email, invited_by_user_id: user.id}
+      {:ok, new_user} = Accounts.invite_user(attrs)
+      assert new_user.email == email
+    end
+  end
+
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_registration(%User{})
@@ -378,6 +421,25 @@ defmodule SmeInterviews.AccountsTest do
       assert user_token.user_id == user.id
       assert user_token.sent_to == user.email
       assert user_token.context == "confirm"
+    end
+  end
+
+  describe "deliver_user_invitation_instructions/2" do
+    setup do
+      %{user: user_fixture()}
+    end
+
+    test "sends token through notification", %{user: user} do
+      token =
+        extract_user_token(fn url ->
+          Accounts.deliver_user_invitation_instructions(user, url)
+        end)
+
+      {:ok, token} = Base.url_decode64(token, padding: false)
+      assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, token))
+      assert user_token.user_id == user.id
+      assert user_token.sent_to == user.email
+      assert user_token.context == "invite"
     end
   end
 

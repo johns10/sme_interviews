@@ -32,12 +32,12 @@ defmodule SmeInterviewsWeb.Router do
       # live "/interviews/:id", InterviewLive.Show, :show
       # live "/interviews/:id/show/edit", InterviewLive.Show, :edit
 
-      live "/interview_users", InterviewUserLive.Index, :index
-      live "/interview_users/new", InterviewUserLive.Index, :new
-      live "/interview_users/:id/edit", InterviewUserLive.Index, :edit
+      # live "/interview_users", InterviewUserLive.Index, :index
+      # live "/interview_users/new", InterviewUserLive.Index, :new
+      # live "/interview_users/:id/edit", InterviewUserLive.Index, :edit
 
-      live "/interview_users/:id", InterviewUserLive.Show, :show
-      live "/interview_users/:id/show/edit", InterviewUserLive.Show, :edit
+      # live "/interview_users/:id", InterviewUserLive.Show, :show
+      # live "/interview_users/:id/show/edit", InterviewUserLive.Show, :edit
 
       live "/questions", QuestionLive.Index, :index
       live "/questions/new", QuestionLive.Index, :new
@@ -89,6 +89,7 @@ defmodule SmeInterviewsWeb.Router do
     live "/interviews/:id/edit", InterviewLive.Index, :edit
 
     live "/interviews/:id", InterviewLive.Show, :show
+    live "/interviews/:id/edit_users", InterviewLive.Show, :edit_users
     live "/interviews/:id/show/edit", InterviewLive.Show, :edit
   end
 
@@ -134,6 +135,8 @@ defmodule SmeInterviewsWeb.Router do
   scope "/", SmeInterviewsWeb do
     pipe_through [:browser]
 
+    get "/users/invitation/:token", UserInvitationController, :edit
+    post "/users/invitation/:token", UserInvitationController, :update
     delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create

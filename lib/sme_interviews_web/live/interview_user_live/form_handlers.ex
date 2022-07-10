@@ -51,4 +51,36 @@ defmodule SmeInterviewsWeb.InterviewUserLive.FormHandlers do
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
+
+  def save_no_redirect(socket, :edit, interview_user_params) do
+    case InterviewUsers.update_interview_user(socket.assigns.interview_user, interview_user_params) do
+      {:ok, interview_user} ->
+        changeset = InterviewUsers.change_interview_user(interview_user)
+        form_changeset = InterviewUsers.change_interview_user_form(%InterviewUserForm{})
+        {:noreply,
+         socket
+         |> put_flash(:info, "Interview user updated successfully")
+         |> assign(:changeset, changeset)
+         |> assign(:form_changeset, form_changeset)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
+  def save_no_redirect(socket, :new, interview_user_params) do
+    case InterviewUsers.create_preloaded_interview_user(interview_user_params) do
+      {:ok, interview_user} ->
+        changeset = InterviewUsers.change_interview_user(interview_user)
+        form_changeset = InterviewUsers.change_interview_user_form(%InterviewUserForm{})
+        {:noreply,
+         socket
+         |> put_flash(:info, "Interview user created successfully")
+         |> assign(:changeset, changeset)
+         |> assign(:form_changeset, form_changeset)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
 end

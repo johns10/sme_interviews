@@ -1,0 +1,21 @@
+<div> 
+  <.form
+    let={f}
+    for={@form_changeset}
+    id="interview_user-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+
+    <%= hidden_input f, :interview_id, value: @interview_id %>
+
+    <div class="flex">
+      <.email_input form={f} field={:email} class="rounded-r-none" />
+      <.button color="success" type="submit" class="flex-shrink rounded-l-none" phx_disable_with="Saving...">
+        Invite
+      </.button>
+    </div>
+
+    <.form_field_error form={f} field={:email} />
+  </.form>
+</div>

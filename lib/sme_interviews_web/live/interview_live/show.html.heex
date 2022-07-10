@@ -4,6 +4,7 @@
       <.icon_button icon={:arrow_left} link_type="a" to={Routes.interview_index_path(@socket, :index)} class="w-6 h-6 mr-4" />
       <.h1 class="mr-2">Interview <%= @interview.name %></.h1>
       <.icon_button icon={:pencil} link_type="live_patch" to={Routes.interview_show_path(@socket, :edit, @interview)} class="h-8 w-8" id="edit-interview" />
+      <.icon_button icon={:users} link_type="live_patch" to={Routes.interview_show_path(@socket, :edit_users, @interview)} id="edit-interview-users" />
     </div>
     <.live_component
       module={SmeInterviewsWeb.InterviewLive.DescriptionFormComponent}
@@ -65,6 +66,18 @@
         id={"interview-form-#{@interview.id}"}
         action={@live_action}
         interview={@interview}
+        return_to={Routes.interview_show_path(@socket, :show, @interview)}
+      />
+    </.modal>
+  <% end %>
+
+  <%= if @live_action in [:edit_users] do %>
+    <.modal title="Users with Access" return_to={Routes.interview_show_path(@socket, :show, @interview)}>
+      <.live_component
+        module={SmeInterviewsWeb.InterviewUserLive.ListComponent}
+        id={"interview-user-list"}
+        interview_id={@interview.id}
+        current_user={@current_user}
         return_to={Routes.interview_show_path(@socket, :show, @interview)}
       />
     </.modal>

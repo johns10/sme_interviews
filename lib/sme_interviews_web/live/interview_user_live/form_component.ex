@@ -8,15 +8,11 @@ defmodule SmeInterviewsWeb.InterviewUserLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"interview_user_form" => interview_user_params}, socket) do
+  def handle_event("validate", %{"interview_user" => interview_user_params}, socket) do
     validate(interview_user_params, socket)
   end
 
-  def handle_event("save", %{"interview_user_form" => interview_user_params}, socket) do
-    validate_interview_user_form(interview_user_params)
-    |> case do
-      %{errors: []} -> save_with_redirect(socket, socket.assigns.action, interview_user_params)
-      form_changeset -> {:noreply, assign(socket, :form_changeset, form_changeset)}
-    end
+  def handle_event("save", %{"interview_user" => interview_user_params}, socket) do
+    save_with_redirect(socket, socket.assigns.action, interview_user_params)
   end
 end

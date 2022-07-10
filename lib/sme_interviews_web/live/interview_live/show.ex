@@ -8,6 +8,10 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
   alias SmeInterviews.Answers
   alias SmeInterviews.Answers.Answer
   alias SmeInterviews.ChatMessages.ChatMessage
+  alias SmeInterviews.InterviewUsers
+  alias SmeInterviews.InterviewUsers.InterviewUser
+  alias SmeInterviewsWeb.ChatMessageLive.ChatBar
+  alias SmeInterviewsWeb.InterviewUserLive.ListComponent
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
@@ -17,8 +21,7 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
      socket
      |> assign(:active_question_id, nil)
      |> assign(:main_span, 3)
-     |> assign(:sidebar_span, 0),
-     layout: {SmeInterviewsWeb.LayoutView, "empty.html"}}
+     |> assign(:sidebar_span, 0), layout: {SmeInterviewsWeb.LayoutView, "empty.html"}}
   end
 
   @impl true
@@ -98,10 +101,22 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
     {:noreply, assign(socket, :interview, interview)}
   end
 
-  def handle_info(%{event: "create", payload: %ChatMessage{question_id: question_id} = chat_message}, socket) do
-    send_update(self(), SmeInterviewsWeb.ChatMessageLive.ChatBar, id: "chat", chat_message: chat_message)
+  def handle_info(%{event: "create", payload: %ChatMessage{} = message}, socket) do
+    send_update(self(), ChatBar, id: "chat", chat_message: message)
     {:noreply, socket}
   end
+
+  def handle_info(%{event: "create", payload: %InterviewUser{} = interview_user}, socket) do
+    send_update(self(), ListComponent, id: "interview-user-list", create: interview_user)
+    {:noreply, socket}
+  end
+
+  def handle_info(%{event: "delete", payload: %InterviewUser{} = interview_user}, socket) do
+    send_update(self(), ListComponent, id: "interview-user-list", delete: interview_user)
+    {:noreply, socket}
+  end
+
+  def handle_info({:email, _}, socket), do: {:noreply, socket}
 
   @impl true
   def handle_event("delete-answer", %{"id" => id}, socket) do
@@ -114,6 +129,13 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
   def handle_event("delete-question", %{"id" => id}, socket) do
     question = Questions.get_question!(id)
     {:ok, _} = Questions.delete_question(question)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("delete-interview-user", %{"id" => id}, socket) do
+    interview_user = InterviewUsers.get_interview_user!(id)
+    {:ok, _} = InterviewUsers.delete_interview_user(interview_user)
 
     {:noreply, socket}
   end
@@ -132,5 +154,6 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
   end
 
   defp page_title(:show), do: "Show Interview"
+  defp page_title(:edit_users), do: "Edit Interview"
   defp page_title(:edit), do: "Edit Interview"
 end

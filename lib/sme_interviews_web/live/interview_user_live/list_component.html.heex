@@ -1,0 +1,32 @@
+<div id={@id}>
+  <.table>
+    <.tr class="flex"> 
+      <.th class="flex-grow">Email</.th>
+      <.th></.th>
+    </.tr>
+    <%= for interview_user <- @interview_user_collection do %>
+      <.tr class="flex">
+        <.td class="flex-grow">
+          <%= interview_user.user.email %>
+        </.td>
+        <.td>
+          <.link 
+            to="#" 
+            phx_click="delete-interview-user" 
+            phx_value_id={interview_user.id} 
+            label="Remove" 
+          />
+        </.td>
+      </.tr>
+    <% end %>
+  </.table>
+    <.live_component
+      title
+      module={SmeInterviewsWeb.InterviewUserLive.InlineFormComponent}
+      interview_user={%InterviewUser{}}
+      id={"create-interview-user-form"}
+      action={:new}
+      interview_id={@interview_id}
+      current_user={@current_user}
+    />
+</div>

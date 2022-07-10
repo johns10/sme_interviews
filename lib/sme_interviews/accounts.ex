@@ -81,6 +81,17 @@ defmodule SmeInterviews.Accounts do
   end
 
   @doc """
+  Invites a user
+  """
+  def invite_user(attrs) do
+    %User{}
+    |> User.invitation_changeset(attrs)
+    |> Ecto.Changeset.put_change(:password, Ecto.UUID.generate())
+    |> User.validate_password([])
+    |> Repo.insert()
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 
   ## Examples
@@ -91,6 +102,10 @@ defmodule SmeInterviews.Accounts do
   """
   def change_user_registration(%User{} = user, attrs \\ %{}) do
     User.registration_changeset(user, attrs, hash_password: false)
+  end
+
+  def change_user_invitation(%User{} = user, attrs \\ %{}) do
+    User.invitation_changeset(user, attrs)
   end
 
   ## Settings
@@ -267,6 +282,17 @@ defmodule SmeInterviews.Accounts do
     end
   end
 
+  def deliver_user_invitation_instructions(%User{} = user, invitation_url_fun)
+      when is_function(invitation_url_fun, 1) do
+    if user.confirmed_at do
+      {:error, :already_confirmed}
+    else
+      {encoded_token, user_token} = UserToken.build_email_token(user, "invite")
+      Repo.insert!(user_token)
+      UserNotifier.deliver_invitation_instructions(user, invitation_url_fun.(encoded_token))
+    end
+  end
+
   @doc """
   Confirms a user by the given token.
 
@@ -287,6 +313,22 @@ defmodule SmeInterviews.Accounts do
     Ecto.Multi.new()
     |> Ecto.Multi.update(:user, User.confirm_changeset(user))
     |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, ["confirm"]))
+  end
+
+  def accept_invitation(token, password) do
+    with {:ok, query} <- UserToken.verify_email_token_query(token, "invite"),
+         %User{} = user <- Repo.one(query),
+         {:ok, %{user: user}} <- Repo.transaction(accept_invitation_user_multi(user, password)) do
+      {:ok, user}
+    else
+      _ -> :error
+    end
+  end
+
+  defp accept_invitation_user_multi(user, password) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:user, User.accept_invitation_changeset(user, %{password: password}))
+    |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, ["invite"]))
   end
 
   ## Reset password

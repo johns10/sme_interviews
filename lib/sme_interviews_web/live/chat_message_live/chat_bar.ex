@@ -10,7 +10,7 @@ defmodule SmeInterviewsWeb.ChatMessageLive.ChatBar do
      |> assign(assigns)
      |> assign(:chat_message_collection, list_chat_message(question_id))}
   end
-  def update(%{chat_message: chat_message} = assigns, socket) do
+  def update(%{chat_message: chat_message}, socket) do
     current_messages = socket.assigns.chat_message_collection
     updated_messages = safe_create(current_messages, chat_message)
     {:ok, socket |> assign(:chat_message_collection, updated_messages)}

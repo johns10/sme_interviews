@@ -3,19 +3,19 @@
 
   <.form
     let={f}
-    for={@form_changeset}
+    for={@changeset}
     id="interview_user-form"
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save">
 
-    <.form_label form={f} field={:email} />
-    <.email_input form={f} field={:email} />
-    <.form_field_error form={f} field={:email} />
+    <.form_label form={f} field={:user_id} />
+    <.text_input form={f} field={:user_id} />
+    <.form_field_error form={f} field={:user_id} />
  
 
     <.form_label form={f} field={:interview_id} />
-    <.number_input form={f} field={:interview_id}} />
+    <.text_input form={f} field={:interview_id} />
     <.form_field_error form={f} field={:interview_id} /> 
 
     <div>
