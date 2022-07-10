@@ -35,3 +35,9 @@ npm-debug.log
 .vscode
 .elixir_ls
 
+# Ignore vim
+.*~
+*~
+
+# Ignore MacOs
+.DS_STORE
