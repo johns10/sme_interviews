@@ -9,7 +9,7 @@ config :sme_interviews, SmeInterviewsWeb.Endpoint,
   # url: [host: "${APP_NAME}.gigalixirapp.com", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json",
   version: Mix.Project.config[:version], # to bust cache during hot upgrades
-  check_origin: ["//gigalixirapp.com", "https://opulent-frizzy-toad.gigalixirapp.com"]
+  check_origin: ["//gigalixirapp.com", "https://opulent-frizzy-toad.gigalixirapp.com", "https://app.smeinterviews.com"]
 
 config :sme_interviews, SmeInterviews.Repo,
   adapter: Ecto.Adapters.Postgres,
