@@ -89,3 +89,13 @@
 [x-cloak=""] {
   display: none;
 }
+
+body {
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
+}
+
+html {
+  height: -webkit-fill-available;
+}
