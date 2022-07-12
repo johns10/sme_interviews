@@ -1,11 +1,7 @@
 <.h1>Accept invitation</.h1>
 
 <.form let={f} for={:user} action={Routes.user_invitation_path(@conn, :update, @token)}>
-  <.form_field
-    type="password_input"
-    form={f}
-    field={:password}
-  />
+  <.form_field type="password_input" form={f} field={:password} />
   <.button type="submit" color="success" label="Accept Invitation" class="w-full" />
 </.form>
 
