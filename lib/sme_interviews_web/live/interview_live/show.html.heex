@@ -1,4 +1,4 @@
-<div class="flex flex-col max-h-screen h-screen overflow-hidden">
+<div class="flex flex-col max-h-screen h-screen overflow-hidden" id="show-interview">
   <.container class="mb-4 sticky top-0 !px-0 !mx-0">
     <div class="flex items-start justify-start px-0 pt-4">
       <.icon_button 
@@ -7,26 +7,32 @@
         class="w-6 h-6 mr-4" 
       />
       <.h1 class="mr-2">Interview <%= @interview.name %></.h1>
-      <.icon_button 
-        icon={:pencil} 
-        link_type="live_patch" 
-        to={Routes.interview_show_path(@socket, :edit, @interview)} 
-        class="h-8 w-8" 
-        id="edit-interview" 
-      />
-      <.icon_button 
-        icon={:users} 
-        link_type="live_patch" 
-        to={Routes.interview_show_path(@socket, :edit_users, @interview)} 
-        id="edit-interview-users" 
-      />
+      <%= if can_update_interview?(@current_user, @interview) do %>
+        <.icon_button 
+          icon={:pencil} 
+          link_type="live_patch" 
+          to={Routes.interview_show_path(@socket, :edit, @interview)} 
+          class="h-8 w-8" 
+          id="edit-interview" 
+        />
+        <.icon_button 
+          icon={:users} 
+          link_type="live_patch" 
+          to={Routes.interview_show_path(@socket, :edit_users, @interview)} 
+          id="edit-interview-users" 
+        />
+      <% end %>
     </div>
-    <.live_component
-      module={SmeInterviewsWeb.InterviewLive.DescriptionFormComponent}
-      id={"interview-description-form-#{@interview.id}"}
-      action={:edit}
-      interview={@interview}
-    />
+    <%= if can_update_interview?(@current_user, @interview) do %>
+      <.live_component
+        module={SmeInterviewsWeb.InterviewLive.DescriptionFormComponent}
+        id={"interview-description-form-#{@interview.id}"}
+        action={:edit}
+        interview={@interview}
+      />
+    <% else %>
+      <.p><%= @interview.description %></.p>
+    <% end %>
   </.container>
 
   <div class="flex flex-grow overflow-hidden">

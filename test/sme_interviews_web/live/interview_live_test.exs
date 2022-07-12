@@ -80,7 +80,10 @@ defmodule SmeInterviewsWeb.InterviewLiveTest do
   end
 
   describe "Show" do
-    setup [:create_interview]
+    setup [
+      :register_confirm_and_log_in_user,
+      :create_interview
+    ]
 
     test "displays interview", %{conn: conn, interview: interview} do
       {:ok, _show_live, html} = live(conn, Routes.interview_show_path(conn, :show, interview))

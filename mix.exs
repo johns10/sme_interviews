@@ -53,6 +53,7 @@ defmodule SmeInterviews.MixProject do
       {:petal_components, "~> 0.16.0"},
       {:hackney, "~> 1.18"},
       {:gen_smtp, "~> 1.1"},
+      {:bodyguard, "~> 2.4"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]

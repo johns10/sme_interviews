@@ -21,9 +21,17 @@ defmodule SmeInterviewsWeb.InterviewLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Interview")
-    |> assign(:interview, Interviews.get_interview!(id))
+    interview = Interviews.get_interview!(id)
+    case Bodyguard.permit(Interviews, :update_interview, socket.assigns.current_user, interview) do
+      :ok ->
+        socket
+        |> assign(:page_title, "Edit Interview")
+        |> assign(:interview, interview)
+      {:error, :unauthorized} ->
+        socket
+        |> push_patch(to: socket.assigns.return_to)
+        |> put_flash(:error, "You are not permitted to perform this action")
+    end
   end
 
   defp apply_action(socket, :new, _params) do
@@ -45,6 +53,7 @@ defmodule SmeInterviewsWeb.InterviewLive.Index do
 
     {:noreply, assign(socket, :interviews, list_interviews(socket.assigns.current_user.id))}
   end
+
   def handle_event("close_modal", _, socket) do
     {:noreply, push_patch(socket, to: socket.assigns.return_to)}
   end

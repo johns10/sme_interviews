@@ -25,6 +25,9 @@ defmodule SmeInterviews.Subscription do
   def channel(%SmeInterviews.Questions.Question{interview_id: interview_id}) do
     "interview:#{interview_id}"
   end
+  def channel(%SmeInterviews.Interviews.Interview{id: id}) do
+    "interview:#{id}"
+  end
   def channel(%SmeInterviews.Answers.Answer{question_id: question_id}) do
     "question:#{question_id}"
   end

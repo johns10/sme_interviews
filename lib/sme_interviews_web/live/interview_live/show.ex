@@ -3,6 +3,7 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
   on_mount SmeInterviewsWeb.UserLiveAuth
 
   alias SmeInterviews.Interviews
+  alias SmeInterviews.Interviews.Interview
   alias SmeInterviews.Questions
   alias SmeInterviews.Questions.Question
   alias SmeInterviews.Answers
@@ -21,21 +22,61 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
      socket
      |> assign(:active_question_id, nil)
      |> assign(:main_span, 3)
-     |> assign(:sidebar_span, 0), layout: {SmeInterviewsWeb.LayoutView, "empty.html"}}
+     |> assign(:sidebar_span, 0)
+     |> assign(:return_to, Routes.interview_show_path(socket, :show, id)),
+     layout: {SmeInterviewsWeb.LayoutView, "empty.html"}}
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id} = params, _, socket) do
     interview = Interviews.get_complete_interview!(id)
     SmeInterviewsWeb.Endpoint.subscribe("interview:#{interview.id}")
 
-    {:noreply,
-     socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:interview, interview)}
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  def apply_action(socket, action, %{"id" => id}) when action in [:edit, :edit_users] do
+    interview = Interviews.get_complete_interview!(id)
+
+    case Bodyguard.permit(Interviews, :update_interview, socket.assigns.current_user, interview) do
+      :ok ->
+        socket
+        |> assign(:page_title, "Edit Interview")
+        |> assign(:interview, interview)
+
+      {:error, _} ->
+        socket
+        |> push_patch(to: socket.assigns.return_to)
+        |> put_flash(:error, "You are not permitted to perform this action")
+    end
+  end
+
+  def apply_action(socket, :show, %{"id" => id}) do
+    interview = Interviews.get_complete_interview!(id)
+
+    case Bodyguard.permit(Interviews, :show_interview, socket.assigns.current_user, interview) do
+      :ok ->
+        socket
+        |> assign(:page_title, "Show Interview")
+        |> assign(:interview, interview)
+
+      {:error, _} ->
+        socket
+        |> push_patch(to: Routes.interview_index_path(socket, :index))
+        |> put_flash(:error, "You are not permitted to view this interview")
+    end
   end
 
   @impl true
+  def handle_info(%{event: "update", payload: %Interview{name: name, description: description}}, socket) do
+    interview =
+      socket.assigns.interview
+      |> Map.put(:name, name)
+      |> Map.put(:description, description)
+
+    {:noreply, assign(socket, :interview, interview)}
+  end
+
   def handle_info(%{event: "create", payload: %Question{} = question}, socket) do
     question = Map.put(question, :answers, [])
     questions = safe_create(socket.assigns.interview.questions, question)
@@ -151,6 +192,13 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
 
   def handle_event("close-chat", _, socket) do
     {:noreply, socket |> assign(:active_question_id, nil)}
+  end
+
+  def can_update_interview?(user, interview) do
+    case Bodyguard.permit(Interviews, :update_interview, user, interview) do
+      :ok -> true
+      {:error, _} -> false
+    end
   end
 
   defp page_title(:show), do: "Show Interview"

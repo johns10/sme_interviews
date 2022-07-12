@@ -12,6 +12,7 @@ defmodule SmeInterviews.Interviews.Interview do
     belongs_to :user, User
 
     has_many :questions, Question
+    has_many :interview_users, InterviewUser
 
     many_to_many :users, User, join_through: InterviewUser
 
