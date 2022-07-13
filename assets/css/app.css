@@ -92,10 +92,12 @@
 
 body {
   min-height: 100vh;
-  /* mobile viewport bug fix */
+  min-height: -moz-available;
   min-height: -webkit-fill-available;
+  min-height: fill-available;
 }
 
 html {
+  height: fill-available;
   height: -webkit-fill-available;
 }
