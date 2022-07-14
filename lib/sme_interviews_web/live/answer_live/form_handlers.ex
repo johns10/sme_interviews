@@ -1,6 +1,7 @@
 defmodule SmeInterviewsWeb.AnswerLive.FormHandlers do
   import Phoenix.LiveView
   alias SmeInterviews.Answers
+  alias SmeInterviews.Answers.Answer
 
   def update_socket(%{answer: answer} = assigns, socket) do
     changeset = Answers.change_answer(answer)
@@ -22,10 +23,12 @@ defmodule SmeInterviewsWeb.AnswerLive.FormHandlers do
 
   def save_no_redirect(socket, :edit, answer_params) do
     case Answers.update_answer(socket.assigns.answer, answer_params) do
-      {:ok, _answer} ->
+      {:ok, answer} ->
+        changeset = Answers.change_answer(answer)
         {:noreply,
          socket
-         |> put_flash(:info, "Answer updated successfully")}
+         |> put_flash(:info, "Answer updated successfully")
+         |> assign(:changeset, changeset)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -34,8 +37,8 @@ defmodule SmeInterviewsWeb.AnswerLive.FormHandlers do
 
   def save_no_redirect(socket, :new, answer_params) do
     case Answers.create_answer(answer_params) do
-      {:ok, answer} ->
-        changeset = Answers.change_answer(answer)
+      {:ok, _answer} ->
+        changeset = Answers.change_answer(%Answer{})
         {:noreply,
          socket
          |> put_flash(:info, "Answer created successfully")

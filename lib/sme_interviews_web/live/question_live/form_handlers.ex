@@ -1,6 +1,7 @@
 defmodule SmeInterviewsWeb.QuestionLive.FormHandlers do
   import Phoenix.LiveView
   alias SmeInterviews.Questions
+  alias SmeInterviews.Questions.Question
 
   def update_socket(%{question: question} = assigns, socket) do
     changeset = Questions.change_question(question)
@@ -34,8 +35,8 @@ defmodule SmeInterviewsWeb.QuestionLive.FormHandlers do
 
   def save_no_redirect(socket, :new, question_params) do
     case Questions.create_question(question_params) do
-      {:ok, question} ->
-        changeset = Questions.change_question(question)
+      {:ok, _question} ->
+        changeset = Questions.change_question(%Question{})
         {:noreply,
          socket
          |> put_flash(:info, "Question created successfully")

@@ -1,6 +1,7 @@
 defmodule SmeInterviewsWeb.ChatMessageLive.FormHandlers do
   import Phoenix.LiveView
   alias SmeInterviews.ChatMessages
+  alias SmeInterviews.ChatMessages.ChatMessage
 
   def update_socket(%{chat_message: chat_message} = assigns, socket) do
     changeset = ChatMessages.change_chat_message(chat_message)
@@ -22,12 +23,10 @@ defmodule SmeInterviewsWeb.ChatMessageLive.FormHandlers do
 
   def save_no_redirect(socket, :edit, params) do
     case ChatMessages.update_chat_message(socket.assigns.chat_message, params) do
-      {:ok, chat_message} ->
-        changeset = ChatMessages.change_chat_message(chat_message)
+      {:ok, _chat_message} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Chat message updated successfully")
-         |> assign(:changeset, changeset)}
+         |> put_flash(:info, "Chat message updated successfully")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -37,8 +36,8 @@ defmodule SmeInterviewsWeb.ChatMessageLive.FormHandlers do
 
   def save_no_redirect(socket, :new, params) do
     case ChatMessages.create_chat_message(params) do
-      {:ok, chat_message} ->
-        changeset = ChatMessages.change_chat_message(chat_message)
+      {:ok, _chat_message} ->
+        changeset = ChatMessages.change_chat_message(%ChatMessage{})
         {:noreply,
          socket
          |> put_flash(:info, "Chat message created successfully")
