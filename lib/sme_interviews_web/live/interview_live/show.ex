@@ -76,6 +76,7 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
 
     {:noreply, assign(socket, :interview, interview)}
   end
+  def handle_info(%{payload: %Interview{}}, socket), do: {:noreply, socket}
 
   def handle_info(%{event: "create", payload: %Question{} = question}, socket) do
     question = Map.put(question, :answers, [])
