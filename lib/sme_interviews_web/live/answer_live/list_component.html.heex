@@ -22,13 +22,6 @@
       />
     </div>
   <% end %>
-  <%= if @question.answers != [] do %>
-    <div class="relative flex py-4 items-center">
-      <div class="flex-grow border-t border-gray-500"></div>
-      <span class="flex-shrink mx-4 text-gray-500">New Answer</span>
-      <div class="flex-grow border-t border-gray-500"></div>
-    </div>
-  <% end %>
   <.live_component
     module={SmeInterviewsWeb.AnswerLive.InlineFormComponentNew}
     id={"new-answer-#{@question.id}"}
