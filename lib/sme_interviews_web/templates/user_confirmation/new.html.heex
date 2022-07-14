@@ -1,7 +1,7 @@
 <.h1>Resend confirmation instructions</.h1>
 
 <.form let={f} for={:user} action={Routes.user_confirmation_path(@conn, :create)}>
-  <.form_field type="email_input" form={f} field={:password} />
+  <.form_field type="email_input" form={f} field={:email} />
   <.button type="submit" color="success" label="Resend confirmation instructions" class="w-full" />
 </.form>
 

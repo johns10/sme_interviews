@@ -5,7 +5,13 @@
     <.p>Click the "Interviews" button above to get started!</.p>
   <% else %>
     <.p>You haven't confirmed your user. You'll need to do so before you can use the app.</.p>
-    <.p>You'll need to confirm your user before you can use the App.</.p>
+    <.p>To confirm your user, check your inbox for an email with the title 'Confirmation Instructions.'</.p>
+    <.p>Click the link in the email to confirm your account. You can use it normally afterwards.</.p>
+    <.p>
+      If you haven't received your confirmation email, 
+      <.link label="click here" to={Routes.user_confirmation_path(@conn, :create)} link_type="a" class="text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:text-gray-900 hover:underline" />
+      to resend it.
+    </.p>
   <% end %>
 <% else %>
   <.p>You haven't logged in. You'll need to log in to use the app.</.p>
