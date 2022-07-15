@@ -20,14 +20,18 @@ config :sme_interviews, SmeInterviews.Repo,
 
 config :logger, level: :info
 
+# config :sme_interviews, SmeInterviews.Mailer,
+#   adapter: Swoosh.Adapters.SMTP,
+#   relay: "smeinterviews.com",
+#   username: "info@smeinterviews.com",
+#   password: "${SMTP_PASSWORD}",
+#   ssl: true,
+#   tls: :if_available,
+#   auth: :always,
+#   port: 465,
+#   retries: 2,
+#   no_mx_lookups: true
+
 config :sme_interviews, SmeInterviews.Mailer,
-  adapter: Swoosh.Adapters.SMTP,
-  relay: "smeinterviews.com",
-  username: "info@smeinterviews.com",
-  password: "${SMTP_PASSWORD}",
-  ssl: true,
-  tls: :if_available,
-  auth: :always,
-  port: 465,
-  retries: 2,
-  no_mx_lookups: true
+  adapter: Swoosh.Adapters.Sendgrid,
+  api_key: "${SENDGRID_API_KEY}"
