@@ -79,7 +79,7 @@ config :sme_interviews, SmeInterviews.Mailer,
 
 # config :sme_interviews, SmeInterviews.Mailer,
 #   adapter: Swoosh.Adapters.Sendgrid,
-#   api_key: "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"
+#   api_key: ""
 
 # config :sme_interviews, SmeInterviews.Mailer,
 #   adapter: Swoosh.Adapters.SMTP,
