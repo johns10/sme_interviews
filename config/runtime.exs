@@ -81,5 +81,5 @@ if config_env() == :prod do
 
   config :sme_interviews, SmeInterviews.Mailer,
     adapter: Swoosh.Adapters.Sendgrid,
-    api_key: "${SENDGRID_API_KEY}"
+    api_key: System.get_env("SENDGRID_API_KEY")
 end
