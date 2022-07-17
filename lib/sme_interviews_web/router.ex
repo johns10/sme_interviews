@@ -17,7 +17,7 @@ defmodule SmeInterviewsWeb.Router do
 
   defp set_owasp_headers(conn, _opts) do
     conn
-    |> put_resp_header("content-security-policy", "default-src 'self'; script-src 'self' <tab>'unsafe-eval'; connect-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline';base-uri 'self';form-action 'self'")
+    |> put_resp_header("content-security-policy", "default-src 'self'; script-src 'self' 'unsafe-eval'; connect-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline';base-uri 'self';form-action 'self'")
     |> put_resp_header("referrer-policy", "strict-origin-when-cross-origin")
   end
 
