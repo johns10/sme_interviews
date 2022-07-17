@@ -1,7 +1,5 @@
 import zoomSdk from "@zoom/appssdk"
 
-zoomSdk = window.zoomSdk
-
 window.addEventListener("phx:configure_zoom_sdk", () => configureZoomSdk)
 window.addEventListener("phx:authorize_zoom_user", () => authorizeUser)
 
