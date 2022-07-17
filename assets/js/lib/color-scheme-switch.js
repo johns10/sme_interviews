@@ -1,4 +1,5 @@
 // Pairs with color_scheme_switch.ex
+import Cookies from 'js-cookie'
 
 window.toggleColorScheme = function () {
   console.log("toggleColorScheme");
