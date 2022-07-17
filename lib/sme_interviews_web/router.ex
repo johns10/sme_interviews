@@ -17,8 +17,8 @@ defmodule SmeInterviewsWeb.Router do
 
   defp set_owasp_headers(conn, _opts) do
     conn
-    |> put_resp_header("Content-Security-Policy", "default-src 'none'; script-src 'self' https://unpkg.com; connect-src 'self'; img-src 'self'; style-src 'self';base-uri 'self';form-action 'self'")
-    |> put_resp_header("Referrer-Policy", "strict-origin-when-cross-origin")
+    |> put_resp_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-eval'; connect-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline';base-uri 'self';form-action 'self'")
+    |> put_resp_header("referrer-policy", "strict-origin-when-cross-origin")
   end
 
   pipeline :api do
