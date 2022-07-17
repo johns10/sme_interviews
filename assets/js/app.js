@@ -23,6 +23,7 @@ import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 import "./lib/color-scheme-switch";
 import ColorThemeHook from "./hooks/color-theme-hook";
+import Alpine from 'alpinejs';
 
 let Hooks = { ColorThemeHook }
 
@@ -31,6 +32,9 @@ Hooks.MaintainAttrs = {
   beforeUpdate(){ this.prevAttrs = this.attrs().map(name => [name, this.el.getAttribute(name)]) },
   updated(){ this.prevAttrs.forEach(([name, val]) => this.el.setAttribute(name, val)) }
 }
+
+window.Alpine = Alpine;
+Alpine.start();
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")

@@ -1,5 +1,10 @@
 {
-    "scripts": {
-      "deploy": "cd .. && mix assets.deploy && rm -f _build/esbuild"
-    }
+  "scripts": {
+    "deploy": "cd .. && mix assets.deploy && rm -f _build/esbuild"
+  },
+  "dependencies": {
+    "@alpinejs/collapse": "^3.10.2",
+    "@zoom/appssdk": "^0.16.1",
+    "alpinejs": "^3.10.2"
   }
+}
