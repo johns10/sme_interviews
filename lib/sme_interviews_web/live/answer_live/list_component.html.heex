@@ -10,16 +10,18 @@
           answer={answer}
         />
       </div>
-      <.icon_button 
-        icon={:x} 
-        color="danger" 
-        label="X" 
-        variant="outline" 
-        phx_click="delete-answer" 
-        phx_value_id={answer.id} 
-        class="ml-2" 
-        data-confirm="Are you sure you want to delete this answer?" 
-      />
+      <.tooltip_top_left text="Delete Answer">
+        <.icon_button 
+          icon={:x} 
+          color="danger" 
+          label="X" 
+          variant="outline" 
+          phx_click="delete-answer" 
+          phx_value_id={answer.id} 
+          class="ml-2" 
+          data-confirm="Are you sure you want to delete this answer?" 
+        />
+      </.tooltip_top_left>
     </div>
   <% end %>
   <.live_component

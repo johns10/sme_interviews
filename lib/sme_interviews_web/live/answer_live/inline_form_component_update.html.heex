@@ -2,7 +2,8 @@
   <.form
     let={f}
     for={@changeset}
-    id={"answer-form-#{@answer.id}"}
+    id={"answer-form-#{@answer.id}"}  
+    class="mb-0"
     phx-target={@myself}
     phx-change="save">
 
@@ -13,11 +14,12 @@
         <.textarea form={f} field={:body} rows="1" phx_debounce="blur" class="border-0 outline-0 ring-0" phx_hook="MaintainAttrs" data_attrs="style" />
         <.form_field_error form={f} field={:body} class="mt-1"  />
       </div>
-
-      <div class="flex-shrink mr-4">
-        <.switch form={f} field={:selected} />
-        <.form_field_error form={f} field={:selected} class="mt-1" />
-      </div>
+      <.tooltip_top_left text="Mark this answer as correct">
+        <div class="flex-shrink mr-4">
+          <.switch form={f} field={:selected} />
+          <.form_field_error form={f} field={:selected} class="mt-1" />
+        </div>
+      </.tooltip_top_left>
     </div>
   
   </.form>

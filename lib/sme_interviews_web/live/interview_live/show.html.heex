@@ -8,19 +8,23 @@
       />
       <.h1 class="mr-2">Interview <%= @interview.name %></.h1>
       <%= if can_update_interview?(@current_user, @interview) do %>
-        <.icon_button 
-          icon={:pencil} 
-          link_type="live_patch" 
-          to={Routes.interview_show_path(@socket, :edit, @interview)} 
-          class="h-8 w-8" 
-          id="edit-interview" 
-        />
-        <.icon_button 
-          icon={:users} 
-          link_type="live_patch" 
-          to={Routes.interview_show_path(@socket, :edit_users, @interview)} 
-          id="edit-interview-users" 
-        />
+        <.tooltip_bottom text="Edit the name of this interview">
+          <.icon_button 
+            icon={:pencil} 
+            link_type="live_patch" 
+            to={Routes.interview_show_path(@socket, :edit, @interview)} 
+            class="h-8 w-8" 
+            id="edit-interview" 
+          />
+        </.tooltip_bottom>
+        <.tooltip_bottom text="Invite other users to join this interview">
+          <.icon_button 
+            icon={:users} 
+            link_type="live_patch" 
+            to={Routes.interview_show_path(@socket, :edit_users, @interview)} 
+            id="edit-interview-users" 
+          />
+        </.tooltip_bottom>
       <% end %>
     </div>
     <%= if can_update_interview?(@current_user, @interview) do %>
@@ -58,7 +62,7 @@
       </div>
     </main>
     <%= if @active_question_id do %>
-      <aside class="flex flex-col overflow-hidden basis-1/3">
+      <aside class="flex flex-col overflow-hidden basis-1/3 m-2 p-2 rounded border border-gray-200 dark:border-gray-700 dark:text-gray-400">
         <div class="flex flex-col overflow-hidden flex-grow">
           <.h2>Chat</.h2>
           <div class="overflow-auto">
@@ -68,7 +72,7 @@
               id="chat" />
           </div>
         </div>
-        <div class="p-2">
+        <div>
           <.live_component 
             module={SmeInterviewsWeb.ChatMessageLive.InlineFormComponentNew}
             chat_message={%SmeInterviews.ChatMessages.ChatMessage{}}
