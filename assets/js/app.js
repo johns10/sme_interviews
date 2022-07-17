@@ -24,7 +24,8 @@ import topbar from "../vendor/topbar";
 import "./lib/color-scheme-switch";
 import ColorThemeHook from "./hooks/color-theme-hook";
 import Alpine from 'alpinejs';
-
+import collapse from '@alpinejs/collapse';
+ 
 let Hooks = { ColorThemeHook }
 
 Hooks.MaintainAttrs = {
@@ -34,6 +35,7 @@ Hooks.MaintainAttrs = {
 }
 
 window.Alpine = Alpine;
+Alpine.plugin(collapse);
 Alpine.start();
 
 let csrfToken = document
