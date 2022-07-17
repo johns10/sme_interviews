@@ -12,6 +12,13 @@ defmodule SmeInterviewsWeb.Router do
     plug :put_secure_browser_headers
     plug :fetch_current_user
     plug :set_color_scheme
+    plug :set_owasp_headers
+  end
+
+  defp set_owasp_headers(conn, _opts) do
+    conn
+    |> put_resp_header("Content-Security-Policy", "default-src 'none'; script-src 'self' https://unpkg.com; connect-src 'self'; img-src 'self'; style-src 'self';base-uri 'self';form-action 'self'")
+    |> put_resp_header("Referrer-Policy", "strict-origin-when-cross-origin")
   end
 
   pipeline :api do
