@@ -1,7 +1,7 @@
 import zoomSdk from "@zoom/appssdk"
 
-window.addEventListener("phx:configure_zoom_sdk", () => configureZoomSdk)
-window.addEventListener("phx:authorize_zoom_user", () => authorizeUser)
+window.addEventListener("phx:configure_zoom_sdk", () => { configureZoomSdk() })
+window.addEventListener("phx:authorize_zoom_user", () => { authorizeUser() })
 
 window.dec2hex = function (dec) {
   return ("0" + dec.toString(16)).substr(-2);
@@ -40,7 +40,6 @@ window.generateCodeChallengeFromVerifier = async function (v) {
 }
 
 window.configureZoomSdk = function() {
-  console.log("configure zoom sdk")
   return zoomSdk.config({capabilities: [
     "authorize", 
     "onAuthorized"

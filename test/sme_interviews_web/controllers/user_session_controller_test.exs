@@ -68,6 +68,20 @@ defmodule SmeInterviewsWeb.UserSessionControllerTest do
       assert redirected_to(conn) == "/foo/bar"
     end
 
+    test "logs the user in with app", %{conn: conn, user: user} do
+      conn =
+        conn
+        |> post(Routes.user_session_path(conn, :create), %{
+          "user" => %{
+            "email" => user.email,
+            "password" => valid_user_password(),
+            "app" => "zoom"
+          }
+        })
+
+      assert redirected_to(conn) == "/zoom_app/auth"
+    end
+
     test "emits error message with invalid credentials", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{

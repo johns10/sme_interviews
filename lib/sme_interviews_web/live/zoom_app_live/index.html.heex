@@ -1,2 +1,6 @@
-<p>test</p>
-connected: <%= @zoom_connected? %>
+<%= if @zoom_connected? do %>
+  <.h1>Account Connected!</.h1>
+<% else %>
+  <.h1>SME Interviews account not authorized</.h1>
+  <.button color="success" label="Authorize" class="w-full" phx-click="authorize" />
+<% end %>

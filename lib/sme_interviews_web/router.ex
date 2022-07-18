@@ -78,6 +78,8 @@ defmodule SmeInterviewsWeb.Router do
     pipe_through [:browser]
 
     get "/", PageController, :index
+
+    live "/zoom_app/auth", ZoomAppLive.Index, :index
   end
 
   scope "/", SmeInterviewsWeb do
@@ -94,8 +96,6 @@ defmodule SmeInterviewsWeb.Router do
     live "/interviews/:id", InterviewLive.Show, :show
     live "/interviews/:id/edit_users", InterviewLive.Show, :edit_users
     live "/interviews/:id/show/edit", InterviewLive.Show, :edit
-
-    live "/zoom_app/auth", ZoomAppLive.Index, :index
   end
 
   # Enables the Swoosh mailbox preview in development.
