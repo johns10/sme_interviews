@@ -2,5 +2,6 @@
   <.h1>Account Connected!</.h1>
 <% else %>
   <.h1>SME Interviews account not authorized</.h1>
+  <div phx-hook="ZoomAuthorizationHook" id="zoom-authorize">test</div>
   <.button color="success" label="Authorize" class="w-full" phx-click="authorize" />
 <% end %>
