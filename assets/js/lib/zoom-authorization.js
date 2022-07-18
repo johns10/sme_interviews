@@ -51,7 +51,7 @@ window.authorizeUser = function () {
   let challenge = generateCodeChallengeFromVerifier(verifier);
   let sdk = configureZoomSdk();
   Promise.all([challenge, sdk]).then(([challenge, sdk]) => {
-    return sdk.callZoomApi("authorize", {codeChallenge: challenge});
+    return zoomSdk.callZoomApi("authorize", {codeChallenge: challenge});
   }).then(res => {
     console.log(res);
   })
