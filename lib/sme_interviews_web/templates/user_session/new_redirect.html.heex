@@ -1,0 +1,36 @@
+<.h1>Log in</.h1>
+
+<.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
+  <%= if @error_message do %>
+    <div class="alert alert-danger">
+      <p><%= @error_message %></p>
+    </div>
+  <% end %>
+
+  <%= hidden_input(f, :app, value: @app) %>
+  
+  <.form_field
+    type="email_input"
+    form={f}
+    field={:email}
+  />
+
+  <.form_field
+    type="password_input"
+    form={f}
+    field={:password}
+  />
+
+  <.form_field
+    type="checkbox"
+    form={f}
+    field={:remember_me}
+  />
+  
+  <.button type="submit" color="success" label="Log In" class="w-full" />
+</.form>
+<div class="flex justify-center py-2">
+  <.link label="Register" to={Routes.user_registration_path(@conn, :new)} class="text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:text-gray-900 hover:underline" />
+  <div class="px-4 text-gray-700 dark:text-gray-400">|</div> 
+  <.link label="Forgot your password?" to={Routes.user_reset_password_path(@conn, :new)} class="text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:text-gray-900 hover:underline" />
+</div>
