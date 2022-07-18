@@ -22,12 +22,13 @@ import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 import "./lib/color-scheme-switch";
-import "./lib/authorize-zoom";
+import "./lib/zoom-authorization";
 import ColorThemeHook from "./hooks/color-theme-hook";
+import ZoomAuthorizationHook from "./hooks/zoom-authorization";
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
  
-let Hooks = { ColorThemeHook }
+let Hooks = { ColorThemeHook, ZoomAuthorizationHook }
 
 Hooks.MaintainAttrs = {
   attrs(){ return this.el.getAttribute("data-attrs").split(", ") },

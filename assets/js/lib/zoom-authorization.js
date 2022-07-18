@@ -47,10 +47,11 @@ window.configureZoomSdk = function() {
 }
 
 window.authorizeUser = function () {
-  window.configureZoomSdk().then(() => {
-    return generateCodeVerifier();
-  }).then(challenge => {
-    return zoomSdk.callZoomApi("authorize", {codeChallenge: challenge});
+  const verifier = generateCodeVerifier()
+  generateCodeChallengeFromVerifier(verifier).then(challenge => {
+    return configureZoomSdk()
+  }).then(sdk => {
+    return sdk.callZoomApi("authorize", {codeChallenge: challenge});
   }).then(res => {
     console.log(res)
   })
