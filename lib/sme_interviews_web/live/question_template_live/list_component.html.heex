@@ -1,0 +1,30 @@
+<div>
+  <%= for question_template <- @interview_template.question_templates do %>
+    <h2 x-data="{expanded: false}">
+      <div class="flex-col w-full p-3 text-left text-gray-500 border border-gray-200 dark:border-gray-700 dark:text-gray-400 accordion-button">
+        <div class="flex items-center">
+          <div class="flex-grow">
+            <.live_component
+              module={SmeInterviewsWeb.QuestionTemplateLive.InlineFormComponentUpdate}
+              id={"#{question_template.id}"}
+              action={:edit}
+              interview_template={@interview_template}
+              question_template={question_template}
+            />
+          </div>
+          <.tooltip_top_left text="Delete question template">
+            <.icon_button 
+              icon={:x} 
+              id={"delete-question_template-" <> to_string(question_template.id)}
+              color="danger"
+              phx_click="delete-question_template" 
+              phx_value_id={question_template.id} 
+              class="ml-2"
+              data-confirm="Are you sure you want to delete this question template? This action will delete all it's answers and chat entries." 
+            />
+          </.tooltip_top_left>
+        </div>
+      </div>
+    </h2>
+  <% end %>
+</div>

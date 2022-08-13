@@ -1,4 +1,54 @@
-<h1>Show Interview template</h1>
+
+<div class="flex flex-col max-h-screen h-screen overflow-hidden" id="show-interview">
+  <.container class="mb-4 sticky top-0 !px-0 !mx-0">
+    <div class="flex items-start justify-start px-0 pt-4">
+      <.icon_button 
+        icon={:arrow_left} 
+        link_type="a" to={Routes.interview_template_index_path(@socket, :index)} 
+        class="w-6 h-6 mr-4" 
+      />
+      <.h1 class="mr-2"><%= @interview_template.name %></.h1>
+      <.tooltip_bottom text="Edit the name of this interview">
+        <.icon_button 
+          icon={:pencil} 
+          link_type="live_patch" 
+          to={Routes.interview_template_show_path(@socket, :edit, @interview_template)} 
+          class="h-8 w-8" 
+          id="edit-interview_template" 
+        />
+      </.tooltip_bottom>
+    </div>
+      <.live_component
+        module={SmeInterviewsWeb.InterviewTemplateLive.DescriptionFormComponent}
+        id={"interview_template-description-form-#{@interview_template.id}"}
+        action={:edit}
+        interview_template={@interview_template}
+      />
+  </.container>
+
+  <div class="flex flex-grow overflow-hidden">
+    <main class="flex flex-col flex-grow overflow-hidden basis-2/3">
+      <div class="flex flex-col flex-grow overflow-hidden">
+        <.h2>Questions</.h2>
+        <div class="overflow-auto">
+          <.live_component
+            module={SmeInterviewsWeb.QuestionTemplateLive.ListComponent}
+            id="questions"
+            interview_template={@interview_template}
+          />
+        </div>
+      </div>
+      <div class="p-2">
+        <.live_component
+          module={SmeInterviewsWeb.QuestionTemplateLive.InlineFormComponentNew}
+          id={"new-question-#{@interview_template.id}"}
+          interview_template={@interview_template}
+          question_template={%SmeInterviews.QuestionTemplates.QuestionTemplate{}}
+        />
+      </div>
+    </main>
+  </div>
+</div>
 
 <%= if @live_action in [:edit] do %>
   <.modal title={@page_title} return_to={Routes.interview_template_show_path(@socket, :show, @interview_template)}>
@@ -12,20 +62,3 @@
     />
   </.modal>
 <% end %>
-
-<ul>
-
-  <li>
-    <strong>Description:</strong>
-    <%= @interview_template.description %>
-  </li>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @interview_template.name %>
-  </li>
-
-</ul>
-
-<span><%= live_patch "Edit", to: Routes.interview_template_show_path(@socket, :edit, @interview_template), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.interview_template_index_path(@socket, :index) %></span>

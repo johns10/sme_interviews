@@ -3,6 +3,7 @@ defmodule SmeInterviewsWeb.InterviewTemplateLiveTest do
 
   import Phoenix.LiveViewTest
   import SmeInterviews.InterviewTemplatesFixtures
+  import SmeInterviews.QuestionTemplatesFixtures
 
   @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
@@ -111,7 +112,7 @@ defmodule SmeInterviewsWeb.InterviewTemplateLiveTest do
       {:ok, show_live, _html} =
         live(conn, Routes.interview_template_show_path(conn, :show, interview_template))
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
+      assert show_live |> element("#edit-interview_template") |> render_click() =~
                "Edit Interview template"
 
       assert_patch(
@@ -133,6 +134,53 @@ defmodule SmeInterviewsWeb.InterviewTemplateLiveTest do
         )
 
       assert html =~ "Interview template updated successfully"
+    end
+
+    test "creates a new question template", %{conn: conn, interview_template: template} do
+      {:ok, show_live, _html} =
+        live(conn, Routes.interview_template_show_path(conn, :show, template))
+
+      show_live
+      |> form("#question_template-form", question_template: %{body: "test"})
+      |> render_submit()
+
+      assert_receive(%{event: "create", payload: %{body: "test"}})
+
+      assert render(show_live) =~ "test"
+    end
+
+    test "updates a question template", %{conn: conn, interview_template: template} do
+      question_template =
+        question_template_fixture(%{body: "old", interview_template_id: template.id})
+
+      {:ok, show_live, _html} =
+        live(conn, Routes.interview_template_show_path(conn, :show, template))
+
+      show_live
+      |> form("#question_template-form-#{question_template.id}",
+        question_template: %{body: "test"}
+      )
+      |> render_change()
+
+      assert_receive(%{event: "update", payload: %{body: "test"}})
+
+      assert render(show_live) =~ "test"
+    end
+
+    test "deletes a question template", %{conn: conn, interview_template: template} do
+      question_template =
+        question_template_fixture(%{body: "test", interview_template_id: template.id})
+
+      {:ok, show_live, _html} =
+        live(conn, Routes.interview_template_show_path(conn, :show, template))
+
+      assert show_live
+             |> element("#delete-question_template-#{question_template.id}")
+             |> render_click()
+
+      assert_receive(%{event: "delete", payload: %{body: "test"}})
+
+      refute has_element?(show_live, "#delete-question_template-#{question_template.id}")
     end
   end
 end

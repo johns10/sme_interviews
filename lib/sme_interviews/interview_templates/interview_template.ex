@@ -1,5 +1,5 @@
 defmodule SmeInterviews.InterviewTemplates.InterviewTemplate do
-  use Ecto.Schema
+  use SmeInterviews.Schema
   import Ecto.Changeset
   alias SmeInterviews.Accounts.User
   alias SmeInterviews.QuestionTemplates.QuestionTemplate

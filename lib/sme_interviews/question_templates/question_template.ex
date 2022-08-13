@@ -1,5 +1,5 @@
 defmodule SmeInterviews.QuestionTemplates.QuestionTemplate do
-  use Ecto.Schema
+  use SmeInterviews.Schema
   import Ecto.Changeset
   alias SmeInterviews.InterviewTemplates.InterviewTemplate
 
@@ -14,7 +14,8 @@ defmodule SmeInterviews.QuestionTemplates.QuestionTemplate do
   @doc false
   def changeset(question_template, attrs) do
     question_template
-    |> cast(attrs, [:body])
+    |> cast(attrs, [:interview_template_id, :body])
+    |> foreign_key_constraint(:interview_template_id)
     |> validate_required([:body])
   end
 end

@@ -6,7 +6,7 @@ defmodule SmeInterviews.Repo.Migrations.CreateQuestionTemplate do
       add :body, :string
       add :interview_template_id, references("interview_templates", on_delete: :delete_all)
 
-      timestamps()
+      timestamps(type: :naive_datetime_usec)
     end
 
     create index(:question_templates, [:interview_template_id])
