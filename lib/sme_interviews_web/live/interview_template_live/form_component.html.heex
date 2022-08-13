@@ -1,0 +1,19 @@
+<div>
+  <.form
+    let={f}
+    for={@changeset}
+    id="interview_template-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+ 
+    <.form_field
+      type="text_input"
+      form={f}
+      field={:name}
+      placeholder="Interview Template Name"
+    /> 
+  
+    <.button type="submit" color="success" label="Save" />
+  </.form>
+</div>

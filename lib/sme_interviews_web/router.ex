@@ -17,7 +17,10 @@ defmodule SmeInterviewsWeb.Router do
 
   defp set_owasp_headers(conn, _opts) do
     conn
-    |> put_resp_header("content-security-policy", "default-src 'self'; script-src 'self' 'unsafe-eval'; connect-src 'self' wss://opulent-frizzy-toad.gigalixirapp.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline';base-uri 'self';form-action 'self'")
+    |> put_resp_header(
+      "content-security-policy",
+      "default-src 'self'; script-src 'self' 'unsafe-eval'; connect-src 'self' wss://opulent-frizzy-toad.gigalixirapp.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline';base-uri 'self';form-action 'self'"
+    )
     |> put_resp_header("referrer-policy", "strict-origin-when-cross-origin")
   end
 
@@ -67,6 +70,7 @@ defmodule SmeInterviewsWeb.Router do
       live "/chat_message/:id", ChatMessageLive.Show, :show
       live "/chat_message/:id/show/edit", ChatMessageLive.Show, :edit
     end
+
     scope "/dev" do
       pipe_through :browser
 
@@ -96,6 +100,13 @@ defmodule SmeInterviewsWeb.Router do
     live "/interviews/:id", InterviewLive.Show, :show
     live "/interviews/:id/edit_users", InterviewLive.Show, :edit_users
     live "/interviews/:id/show/edit", InterviewLive.Show, :edit
+
+    live "/interview_templates", InterviewTemplateLive.Index, :index
+    live "/interview_templates/new", InterviewTemplateLive.Index, :new
+    live "/interview_templates/:id/edit", InterviewTemplateLive.Index, :edit
+
+    live "/interview_templates/:id", InterviewTemplateLive.Show, :show
+    live "/interview_templates/:id/show/edit", InterviewTemplateLive.Show, :edit
   end
 
   # Enables the Swoosh mailbox preview in development.
