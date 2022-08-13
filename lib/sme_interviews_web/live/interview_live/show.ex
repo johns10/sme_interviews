@@ -68,7 +68,10 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
   end
 
   @impl true
-  def handle_info(%{event: "update", payload: %Interview{name: name, description: description}}, socket) do
+  def handle_info(
+        %{event: "update", payload: %Interview{name: name, description: description}},
+        socket
+      ) do
     interview =
       socket.assigns.interview
       |> Map.put(:name, name)
@@ -76,6 +79,7 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
 
     {:noreply, assign(socket, :interview, interview)}
   end
+
   def handle_info(%{payload: %Interview{}}, socket), do: {:noreply, socket}
 
   def handle_info(%{event: "create", payload: %Question{} = question}, socket) do
