@@ -1,0 +1,12 @@
+<div>
+  <.form
+    let={f}
+    for={@changeset}
+    id={@id}
+    phx-target={@myself}
+    phx-change="save">
+
+    <.textarea form={f} field={:description} rows="1" phx_debounce="blur" phx_hook="MaintainAttrs" data_attrs="style" />
+    <.form_field_error form={f} field={:body} class="mt-1" />
+  </.form>
+</div>
