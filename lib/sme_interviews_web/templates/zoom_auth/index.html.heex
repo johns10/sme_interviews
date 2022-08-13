@@ -1,0 +1,17 @@
+<.h1>Connect your account</.h1>
+
+<.button 
+  link_type="a" 
+  to={Routes.user_session_path(@conn, :new, %{zoom_auth_code: @code})} 
+  color="primary" 
+  label="Log in" 
+  class="w-full my-4" 
+/>
+
+<.button 
+  link_type="a" 
+  to={Routes.user_registration_path(@conn, :new, %{zoom_auth_code: @code})} 
+  color="secondary" 
+  label="Sign up" 
+  class="w-full my-4" 
+/>

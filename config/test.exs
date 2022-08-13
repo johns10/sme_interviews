@@ -31,3 +31,10 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :sme_interviews, SmeInterviews.Zoom,
+  oauth_client_id: "NXcqqPd9RICrnTV8c07qHA",
+  oauth_client_secret: "f48hSO8380ZuH3h2Ck4m1pJ8NYr11L57",
+  redirect_uri: "https://zoom.us",
+  host: "https://zoom.us",
+  oauth_token_endpoint: "https://zoom.us/oauth/token"

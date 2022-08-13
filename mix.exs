@@ -54,6 +54,7 @@ defmodule SmeInterviews.MixProject do
       {:hackney, "~> 1.18"},
       {:gen_smtp, "~> 1.1"},
       {:bodyguard, "~> 2.4"},
+      {:httpoison, "~> 1.8"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]

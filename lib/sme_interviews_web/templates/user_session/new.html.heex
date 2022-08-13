@@ -7,6 +7,8 @@
     </div>
   <% end %>
 
+  <%= hidden_input(f, :zoom_auth_code, value: @zoom_auth_code) %>
+
   <.form_field
     type="email_input"
     form={f}

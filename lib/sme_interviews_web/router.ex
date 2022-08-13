@@ -17,7 +17,16 @@ defmodule SmeInterviewsWeb.Router do
 
   defp set_owasp_headers(conn, _opts) do
     conn
-    |> put_resp_header("content-security-policy", "default-src 'self'; script-src 'self' 'unsafe-eval'; connect-src 'self' wss://opulent-frizzy-toad.gigalixirapp.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline';base-uri 'self';form-action 'self'")
+    |> put_resp_header("strict-transport-security", "Strict-Transport-Security: max-age=86400; includeSubDomains")
+    |> put_resp_header("content-security-policy", """
+      default-src 'self';
+      script-src 'self' 'unsafe-eval';
+      connect-src 'self' wss://opulent-frizzy-toad.gigalixirapp.com wss://smeinterviews.local:4001;
+      img-src 'self' data: https:;
+      style-src 'self' 'unsafe-inline';
+      base-uri 'self';
+      form-action 'self';
+    """ |> String.replace("\r", "") |> String.replace("\n", ""))
     |> put_resp_header("referrer-policy", "strict-origin-when-cross-origin")
   end
 
@@ -79,7 +88,7 @@ defmodule SmeInterviewsWeb.Router do
 
     get "/", PageController, :index
 
-    live "/zoom_app/auth", ZoomAppLive.Index, :index
+    get "/zoom_auth", ZoomAuthController, :index
   end
 
   scope "/", SmeInterviewsWeb do

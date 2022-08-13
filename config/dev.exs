@@ -19,6 +19,12 @@ config :sme_interviews, SmeInterviewsWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
+  https: [
+    port: 4001,
+    cipher_suite: :strong,
+    keyfile: "priv/cert/selfsigned_key.pem",
+    certfile: "priv/cert/selfsigned.pem"
+  ],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
@@ -92,3 +98,10 @@ config :sme_interviews, SmeInterviews.Mailer,
 #   port: 465,
 #   retries: 2,
 #   no_mx_lookups: true
+
+config :sme_interviews, SmeInterviews.Zoom,
+  client_id: "NXcqqPd9RICrnTV8c07qHA",
+  client_secret: "f48hSO8380ZuH3h2Ck4m1pJ8NYr11L57",
+  redirect_uri: "https://zoom.us",
+  host: "https://zoom.us",
+  oauth_token_endpoint: "https://zoom.us/"

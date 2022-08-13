@@ -39,7 +39,7 @@ window.generateCodeChallengeFromVerifier = async function (v) {
   return base64encoded;
 }
 
-window.configureZoomSdk = function() {
+window.configureZoomSdk = async function() {
   return zoomSdk.config({capabilities: [
     "authorize", 
     "onAuthorized"
@@ -50,8 +50,10 @@ window.authorizeUser = function () {
   const verifier = generateCodeVerifier();
   let challenge = generateCodeChallengeFromVerifier(verifier);
   let sdk = configureZoomSdk();
-  Promise.all([challenge, sdk]).then(([challenge, sdk]) => {
-    return zoomSdk.callZoomApi("authorize", {codeChallenge: challenge});
+  Promise.all([challenge, sdk]).then(([challenge, _sdk]) => {
+    console.log(challenge)
+    console.log(_sdk)
+    //return zoomSdk.callZoomApi("authorize", {codeChallenge: challenge});
   }).then(res => {
     console.log(res);
   })
