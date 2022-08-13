@@ -14,7 +14,7 @@ defmodule SmeInterviewsWeb.InterviewTemplateLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:interview_template, InterviewTemplates.get_interview_template!(id))}
+     |> assign(:interview_template, InterviewTemplates.get_complete_interview_template!(id))}
   end
 
   defp page_title(:show), do: "Show Interview template"

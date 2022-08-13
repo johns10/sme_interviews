@@ -14,6 +14,13 @@ defmodule SmeInterviews.InterviewTemplates do
 
   def get_interview_template!(id), do: Repo.get!(InterviewTemplate, id)
 
+  def get_complete_interview_template!(id) do
+    InterviewTemplate
+    |> where([i], i.id == ^id)
+    |> preload([:question_templates])
+    |> Repo.one!()
+  end
+
   def create_interview_template(attrs \\ %{}) do
     %InterviewTemplate{}
     |> InterviewTemplate.changeset(attrs)
