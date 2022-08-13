@@ -3,7 +3,7 @@ defmodule SmeInterviewsWeb.PageLive do
   on_mount SmeInterviewsWeb.UserLiveAuth
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     {:ok, socket}
   end
 

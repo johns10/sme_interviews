@@ -1,0 +1,39 @@
+<h1>Listing Question template</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal title={@page_title} return_to={Routes.question_template_index_path(@socket, :index)}>
+    <.live_component
+      module={SmeInterviewsWeb.QuestionTemplateLive.FormComponent}
+      id={@question_template.id || :new}
+      title={@page_title}
+      action={@live_action}
+      question_template={@question_template}
+      return_to={Routes.question_template_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Body</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="question_template">
+    <%= for question_template <- @question_template_collection do %>
+      <tr id={"question_template-#{question_template.id}"}>
+        <td><%= question_template.body %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.question_template_show_path(@socket, :show, question_template) %></span>
+          <span><%= live_patch "Edit", to: Routes.question_template_index_path(@socket, :edit, question_template) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: question_template.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Question template", to: Routes.question_template_index_path(@socket, :new) %></span>

@@ -69,6 +69,13 @@ defmodule SmeInterviewsWeb.Router do
 
       live "/chat_message/:id", ChatMessageLive.Show, :show
       live "/chat_message/:id/show/edit", ChatMessageLive.Show, :edit
+
+      live "/question_templates", QuestionTemplateLive.Index, :index
+      live "/question_templates/new", QuestionTemplateLive.Index, :new
+      live "/question_templates/:id/edit", QuestionTemplateLive.Index, :edit
+
+      live "/question_templates/:id", QuestionTemplateLive.Show, :show
+      live "/question_templates/:id/show/edit", QuestionTemplateLive.Show, :edit
     end
 
     scope "/dev" do

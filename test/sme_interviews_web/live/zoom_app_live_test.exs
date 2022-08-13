@@ -1,7 +1,6 @@
 defmodule SmeInterviewsWeb.ZoomAppLiveTest do
   use SmeInterviewsWeb.ConnCase
   import Phoenix.LiveViewTest
-  import SmeInterviews.InterviewsFixtures
 
   describe "Unauthenticated Index" do
     test "redirects", %{conn: conn} do

@@ -1,0 +1,26 @@
+<h1>Show Question template</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal title={@page_title} return_to={Routes.question_template_show_path(@socket, :show, @question_template)}>
+    <.live_component
+      module={SmeInterviewsWeb.QuestionTemplateLive.FormComponent}
+      id={@question_template.id}
+      title={@page_title}
+      action={@live_action}
+      question_template={@question_template}
+      return_to={Routes.question_template_show_path(@socket, :show, @question_template)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Body:</strong>
+    <%= @question_template.body %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.question_template_show_path(@socket, :edit, @question_template), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.question_template_index_path(@socket, :index) %></span>
