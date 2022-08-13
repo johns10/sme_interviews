@@ -2,6 +2,7 @@ defmodule SmeInterviews.InterviewsTest do
   use SmeInterviews.DataCase
 
   alias SmeInterviews.Interviews
+  alias SmeInterviews.InterviewTemplatesFixtures
 
   describe "interviews" do
     alias SmeInterviews.Interviews.Interview
@@ -28,6 +29,16 @@ defmodule SmeInterviews.InterviewsTest do
       assert interview.name == "some name"
     end
 
+    test "create_interview/1 with an interview template creates an interview" do
+      assert {:ok, %Interview{} = interview} =
+               InterviewTemplatesFixtures.interview_template_fixture()
+               |> Map.put(:question_templates, [])
+               |> Interviews.create_interview()
+
+      assert interview.description == "some description"
+      assert interview.name == "some name"
+    end
+
     test "create_interview/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Interviews.create_interview(@invalid_attrs)
     end
@@ -36,7 +47,9 @@ defmodule SmeInterviews.InterviewsTest do
       interview = interview_fixture()
       update_attrs = %{description: "some updated description", name: "some updated name"}
 
-      assert {:ok, %Interview{} = interview} = Interviews.update_interview(interview, update_attrs)
+      assert {:ok, %Interview{} = interview} =
+               Interviews.update_interview(interview, update_attrs)
+
       assert interview.description == "some updated description"
       assert interview.name == "some updated name"
     end

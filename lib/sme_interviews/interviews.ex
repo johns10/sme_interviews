@@ -4,7 +4,9 @@ defmodule SmeInterviews.Interviews do
   """
   import Ecto.Query, warn: false
   alias SmeInterviews.Repo
+  alias SmeInterviews.Questions
   alias SmeInterviews.Interviews.Interview
+  alias SmeInterviews.InterviewTemplates.InterviewTemplate
   alias SmeInterviews.Subscription
 
   @behaviour Bodyguard.Policy
@@ -13,9 +15,11 @@ defmodule SmeInterviews.Interviews do
   def authorize(:update_interview, _user, _interview), do: :error
 
   def authorize(:show_interview, %{id: id}, %{user_id: id}), do: :ok
+
   def authorize(:show_interview, user, %{users: %Ecto.Association.NotLoaded{}} = interview) do
     authorize(:show_interview, user, Repo.preload(interview, [:users]))
   end
+
   def authorize(:show_interview, %{id: id}, %{users: users}) do
     user_ids = Enum.map(users, & &1.id)
     if id in user_ids, do: :ok, else: :error
@@ -52,7 +56,25 @@ defmodule SmeInterviews.Interviews do
 
   def preload_interview(interview, preloads), do: Repo.preload(interview, preloads)
 
-  def create_interview(attrs \\ %{}) do
+  def create_interview(attrs \\ %{})
+
+  def create_interview(%InterviewTemplate{question_templates: question_templates} = template)
+      when is_list(question_templates) do
+    {:ok, interview} =
+      template
+      |> Map.put(:question_templates, nil)
+      |> create_interview()
+
+    {:ok, Map.put(interview, :questions, Questions.create_questions(question_templates))}
+  end
+
+  def create_interview(%InterviewTemplate{} = template) do
+    template
+    |> Map.take(Interview.template_fields())
+    |> create_interview()
+  end
+
+  def create_interview(attrs) do
     %Interview{}
     |> Interview.changeset(attrs)
     |> Repo.insert()

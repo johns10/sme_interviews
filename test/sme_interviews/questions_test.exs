@@ -2,6 +2,7 @@ defmodule SmeInterviews.QuestionsTest do
   use SmeInterviews.DataCase
 
   alias SmeInterviews.Questions
+  alias SmeInterviews.QuestionTemplatesFixtures
 
   describe "questions" do
     alias SmeInterviews.Questions.Question
@@ -26,6 +27,14 @@ defmodule SmeInterviews.QuestionsTest do
       assert {:ok, %Question{} = question} = Questions.create_question(valid_attrs)
       assert question.body == "some body"
       assert question.status == :open
+    end
+
+    test "create_question/1 with an question template creates an question" do
+      assert {:ok, %Question{} = question} =
+               QuestionTemplatesFixtures.question_template_fixture()
+               |> Questions.create_question()
+
+      assert question.body == "some body"
     end
 
     test "create_question/1 with invalid data returns error changeset" do

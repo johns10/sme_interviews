@@ -5,6 +5,9 @@ defmodule SmeInterviews.Interviews.Interview do
   alias SmeInterviews.Accounts.User
   alias SmeInterviews.InterviewUsers.InterviewUser
 
+  @template_fields [:description, :name, :user_id]
+  def template_fields, do: @template_fields
+
   schema "interviews" do
     field :description, :string
     field :name, :string
