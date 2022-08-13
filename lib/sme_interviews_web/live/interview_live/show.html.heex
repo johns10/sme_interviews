@@ -6,7 +6,7 @@
         link_type="a" to={Routes.interview_index_path(@socket, :index)} 
         class="w-6 h-6 mr-4" 
       />
-      <.h1 class="mr-2">Interview <%= @interview.name %></.h1>
+      <.h1 class="mr-2"><%= @interview.name %></.h1>
       <%= if can_update_interview?(@current_user, @interview) do %>
         <.tooltip_bottom text="Edit the name of this interview">
           <.icon_button 

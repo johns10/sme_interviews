@@ -2,6 +2,7 @@ defmodule SmeInterviewsWeb.InterviewTemplateLive.Show do
   use SmeInterviewsWeb, :live_view
   on_mount SmeInterviewsWeb.UserLiveAuth
 
+  alias SmeInterviews.Interviews
   alias SmeInterviews.InterviewTemplates
   alias SmeInterviews.QuestionTemplates.QuestionTemplate
   alias SmeInterviews.QuestionTemplates
@@ -59,6 +60,15 @@ defmodule SmeInterviewsWeb.InterviewTemplateLive.Show do
     {:ok, _} = QuestionTemplates.delete_question_template(question_template)
 
     {:noreply, socket}
+  end
+
+  def handle_event("clone_interview_template", %{"id" => id}, socket) do
+    {:ok, interview} =
+      id
+      |> InterviewTemplates.get_complete_interview_template!()
+      |> Interviews.create_interview()
+
+    {:noreply, push_redirect(socket, to: Routes.interview_show_path(socket, :edit, interview))}
   end
 
   defp page_title(:show), do: "Show Interview template"

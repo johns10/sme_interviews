@@ -6,8 +6,8 @@ defmodule SmeInterviewsWeb.InterviewTemplateLive.Index do
   alias SmeInterviews.InterviewTemplates.InterviewTemplate
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :interview_templates, list_interview_templates())}
+  def mount(_params, _session, %{assigns: %{current_user: user}} = socket) do
+    {:ok, assign(socket, :interview_templates, list_interview_templates(user.id))}
   end
 
   @impl true
@@ -37,11 +37,12 @@ defmodule SmeInterviewsWeb.InterviewTemplateLive.Index do
   def handle_event("delete", %{"id" => id}, socket) do
     interview_template = InterviewTemplates.get_interview_template!(id)
     {:ok, _} = InterviewTemplates.delete_interview_template(interview_template)
+    templates = list_interview_templates(socket.assigns.current_user.id)
 
-    {:noreply, assign(socket, :interview_templates, list_interview_templates())}
+    {:noreply, assign(socket, :interview_templates, templates)}
   end
 
-  defp list_interview_templates do
-    InterviewTemplates.list_interview_templates()
+  defp list_interview_templates(user_id) do
+    InterviewTemplates.list_interview_templates(filters: [user_id: user_id])
   end
 end

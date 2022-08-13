@@ -65,7 +65,9 @@ defmodule SmeInterviews.Interviews do
       |> Map.put(:question_templates, nil)
       |> create_interview()
 
-    {:ok, Map.put(interview, :questions, Questions.create_questions(question_templates))}
+    questions = Questions.create_questions(question_templates, interview)
+
+    {:ok, Map.put(interview, :questions, questions)}
   end
 
   def create_interview(%InterviewTemplate{} = template) do

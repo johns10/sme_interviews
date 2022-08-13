@@ -8,8 +8,21 @@ defmodule SmeInterviews.InterviewTemplates do
 
   alias SmeInterviews.InterviewTemplates.InterviewTemplate
 
-  def list_interview_templates do
-    Repo.all(InterviewTemplate)
+  def list_interview_templates(opts \\ []) do
+    filters = Keyword.get(opts, :filters, [])
+
+    InterviewTemplate
+    |> maybe_filter_by_user_id(filters[:user_id])
+    |> Repo.all()
+  end
+
+  defp maybe_filter_by_user_id(query, nil), do: query
+
+  defp maybe_filter_by_user_id(query, user_id) do
+    query
+    |> where([i], i.user_id == ^user_id)
+    |> order_by([i], asc: :name)
+    |> distinct([i], i.id)
   end
 
   def get_interview_template!(id), do: Repo.get!(InterviewTemplate, id)

@@ -18,7 +18,7 @@ defmodule SmeInterviews.InterviewTemplates.InterviewTemplate do
   @doc false
   def changeset(interview_template, attrs) do
     interview_template
-    |> cast(attrs, [:description, :name])
+    |> cast(attrs, [:description, :name, :user_id])
     |> validate_required([:name])
   end
 end

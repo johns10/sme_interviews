@@ -9,8 +9,8 @@ defmodule SmeInterviewsWeb.InterviewTemplateLiveTest do
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
 
-  defp create_interview_template(_) do
-    interview_template = interview_template_fixture()
+  defp create_interview_template(%{user: %{id: id}}) do
+    interview_template = interview_template_fixture(%{user_id: id})
     %{interview_template: interview_template}
   end
 
