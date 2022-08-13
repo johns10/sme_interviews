@@ -14,6 +14,12 @@
            Interviews 
           </span>
         </.link>
+        <.link label="Interviews" to={Routes.interview_template_index_path(@socket, :index)} class="inline-flex items-center gap-2 p-2 text-gray-500 rounded dark:text-gray-400 dark:hover:text-gray-500 hover:text-gray-400 group">
+          <Heroicons.Solid.template />
+          <span class="hidden font-semibold sm:block">
+           Templates 
+          </span>
+        </.link>
       <% end %>
       <.dropdown>
         <:trigger_element>

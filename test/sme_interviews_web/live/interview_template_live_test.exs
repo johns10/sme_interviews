@@ -29,7 +29,7 @@ defmodule SmeInterviewsWeb.InterviewTemplateLiveTest do
     test "saves new interview_template", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, Routes.interview_template_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Interview template") |> render_click() =~
+      assert index_live |> element("a", "New Template") |> render_click() =~
                "New Interview template"
 
       assert_patch(index_live, Routes.interview_template_index_path(conn, :new))
