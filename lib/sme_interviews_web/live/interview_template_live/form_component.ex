@@ -1,27 +1,15 @@
 defmodule SmeInterviewsWeb.InterviewTemplateLive.FormComponent do
   use SmeInterviewsWeb, :live_component
 
+  import SmeInterviewsWeb.InterviewTemplateLive.FormHandlers
   alias SmeInterviews.InterviewTemplates
 
   @impl true
-  def update(%{interview_template: interview_template} = assigns, socket) do
-    changeset = InterviewTemplates.change_interview_template(interview_template)
-
-    {:ok,
-     socket
-     |> assign(assigns)
-     |> assign(:changeset, changeset)}
-  end
+  def update(assigns, socket), do: update_socket(assigns, socket)
 
   @impl true
-  def handle_event("validate", %{"interview_template" => interview_template_params}, socket) do
-    changeset =
-      socket.assigns.interview_template
-      |> InterviewTemplates.change_interview_template(interview_template_params)
-      |> Map.put(:action, :validate)
-
-    {:noreply, assign(socket, :changeset, changeset)}
-  end
+  def handle_event("validate", %{"interview_template" => interview_params}, socket),
+    do: validate(interview_params, socket)
 
   def handle_event("save", %{"interview_template" => interview_template_params}, socket) do
     save_interview_template(socket, socket.assigns.action, interview_template_params)
