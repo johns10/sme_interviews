@@ -92,3 +92,17 @@ config :sme_interviews, SmeInterviews.Mailer,
 #   port: 465,
 #   retries: 2,
 #   no_mx_lookups: true
+
+config :ex_aws, :s3,
+  debug_requests: false,
+  access_key_id: "",
+  secret_access_key: "",
+  region: "",
+  access_key_id: "minioadmin",
+  secret_access_key: "minioadmin",
+  scheme: "http://",
+  region: "local",
+  host: "localhost",
+  port: 9000,
+  minio_path: "data",
+  ui: true

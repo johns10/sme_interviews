@@ -41,3 +41,7 @@ npm-debug.log
 
 # Ignore MacOs
 .DS_STORE
+
+# Minio dir
+
+/data

@@ -7,18 +7,7 @@ defmodule SmeInterviews.Application do
 
   @impl true
   def start(_type, _args) do
-    children = [
-      # Start the Ecto repository
-      SmeInterviews.Repo,
-      # Start the Telemetry supervisor
-      SmeInterviewsWeb.Telemetry,
-      # Start the PubSub system
-      {Phoenix.PubSub, name: SmeInterviews.PubSub},
-      # Start the Endpoint (http/https)
-      SmeInterviewsWeb.Endpoint
-      # Start a worker by calling: SmeInterviews.Worker.start_link(arg)
-      # {SmeInterviews.Worker, arg}
-    ]
+    children = children(Mix.env())
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
@@ -32,5 +21,17 @@ defmodule SmeInterviews.Application do
   def config_change(changed, _new, removed) do
     SmeInterviewsWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp children(:dev), do: children() ++ [{MinioServer, Application.get_env(:ex_aws, :s3)}]
+  defp children(_), do: children()
+
+  defp children() do
+    [
+      SmeInterviews.Repo,
+      SmeInterviewsWeb.Telemetry,
+      {Phoenix.PubSub, name: SmeInterviews.PubSub},
+      SmeInterviewsWeb.Endpoint
+    ]
   end
 end
