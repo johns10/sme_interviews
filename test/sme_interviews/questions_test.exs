@@ -3,6 +3,7 @@ defmodule SmeInterviews.QuestionsTest do
 
   alias SmeInterviews.Questions
   alias SmeInterviews.QuestionTemplatesFixtures
+  alias SmeInterviews.InterviewsFixtures
 
   describe "questions" do
     alias SmeInterviews.Questions.Question
@@ -30,9 +31,11 @@ defmodule SmeInterviews.QuestionsTest do
     end
 
     test "create_question/1 with an question template creates an question" do
+      interview = InterviewsFixtures.interview_fixture()
+
       assert {:ok, %Question{} = question} =
                QuestionTemplatesFixtures.question_template_fixture()
-               |> Questions.create_question()
+               |> Questions.create_question(interview)
 
       assert question.body == "some body"
     end
