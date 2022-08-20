@@ -2,14 +2,14 @@
   <.form
     let={f}
     for={@changeset}
-    id="interview-form"
+    id="voice_sample-form"
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save"
   >
     <%= hidden_input(f, :user_id, value: @user_id) %>
 
-    <.form_field type="textarea" form={f} field={:name} placeholder="VoiceSample Text" />
+    <.form_field type="textarea" form={f} field={:text} placeholder="Interview Name" />
 
     <.button type="submit" color="success" label="Save" />
   </.form>

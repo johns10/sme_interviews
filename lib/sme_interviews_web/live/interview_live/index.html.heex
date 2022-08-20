@@ -5,7 +5,6 @@
     <.live_component
       module={SmeInterviewsWeb.InterviewLive.FormComponent}
       id={@interview.id || :new}
-      title={@page_title}
       action={@live_action}
       interview={@interview}
       return_to={@return_to}
@@ -16,18 +15,15 @@
 
 <.table class="my-4">
   <.tr class="flex">
-  <%= if Enum.count(@interviews) > 0 do %>
-    <.th class="flex-grow">Name</.th>
-  <% else %>
-    <.th class="flex-grow">There aren't any interviews yet. Let's create one!</.th>
-  <% end %>
+    <%= if Enum.count(@interviews) > 0 do %>
+      <.th class="flex-grow">Name</.th>
+    <% else %>
+      <.th class="flex-grow">There aren't any interviews yet. Let's create one!</.th>
+    <% end %>
     <.th></.th>
   </.tr>
   <%= for interview <- @interviews do %>
-    <.tr 
-      class="flex" 
-      id={"interview-#{interview.id}"}
-    >
+    <.tr class="flex" id={"interview-#{interview.id}"}>
       <.td class="!p-0 flex flex-grow">
         <%= live_patch to: Routes.interview_show_path(@socket, :show, interview), class: "flex flex-grow px-6 py-4" do %>
           <%= if interview.user_id == @current_user.id do %>
@@ -40,15 +36,20 @@
       </.td>
       <.td class="flex items-center !p-0">
         <%= if interview.user_id == @current_user.id do %>
-          <.link link_type="live_patch" to={Routes.interview_index_path(@socket, :edit, interview)} class="mr-4" label="Edit Name" />
-          <.link 
-            to="#" 
-            phx_click="delete" 
-            phx_value_id={interview.id} 
-            label="Delete" 
+          <.link
+            link_type="live_patch"
+            to={Routes.interview_index_path(@socket, :edit, interview)}
+            class="mr-4"
+            label="Edit Name"
+          />
+          <.link
+            to="#"
+            phx_click="delete"
+            phx_value_id={interview.id}
+            label="Delete"
             class="mr-4"
           />
-      <% end %>
+        <% end %>
       </.td>
     </.tr>
   <% end %>

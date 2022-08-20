@@ -1,0 +1,46 @@
+<.h1>Listing Voice Samples</.h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal title={@page_title}>
+    <.live_component
+      module={SmeInterviewsWeb.VoiceSampleLive.FormComponent}
+      id={@voice_sample.id || :new}
+      action={@live_action}
+      voice_sample={@voice_sample}
+      return_to={@return_to}
+      user_id={@current_user.id}
+    />
+  </.modal>
+<% end %>
+
+<.table class="my-4">
+  <.tr>
+    <.th>Text</.th>
+  </.tr>
+  <%= for voice_sample <- @voice_samples do %>
+    <.tr class="flex" id={"voice_sample-#{voice_sample.id}"}>
+      <.td class="flex-grow"><%= voice_sample.text %></.td>
+
+      <.td>
+        <span>
+          <%= live_patch("Edit",
+            to: Routes.voice_sample_index_path(@socket, :edit, voice_sample)
+          ) %>
+        </span>
+        <span>
+          <.link
+            to="#"
+            phx_click="delete"
+            phx_value_id={voice_sample.id}
+            data-confirm="Are you sure?"
+            label="Delete"
+          />
+        </span>
+      </.td>
+    </.tr>
+  <% end %>
+</.table>
+
+<.link link_type="live_patch" to={Routes.voice_sample_index_path(@socket, :new)}>
+  <.button color="success" label="New Voice Sample" />
+</.link>

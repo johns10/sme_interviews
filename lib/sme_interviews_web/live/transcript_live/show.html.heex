@@ -1,0 +1,32 @@
+<h1>Show VoiceSample</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal title={@page_title}>
+    <.live_component
+      module={SmeInterviewsWeb.VoiceSampleLive.FormComponent}
+      id={@voice_sample.id}
+      action={@live_action}
+      voice_sample={@voice_sample}
+      return_to={@return_to}
+      user_id={@current_user.id}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+  <li>
+    <strong>Text:</strong>
+    <%= @voice_sample.text %>
+  </li>
+</ul>
+
+<span>
+  <%= live_patch("Edit",
+    to: Routes.voice_sample_show_path(@socket, :edit, @voice_sample),
+    class: "button"
+  ) %>
+</span>
+|
+<span>
+  <%= live_redirect("Back", to: Routes.voice_sample_index_path(@socket, :index)) %>
+</span>

@@ -3,8 +3,6 @@ defmodule SmeInterviewsWeb.InterviewLiveTest do
   import Phoenix.LiveViewTest
   import SmeInterviews.InterviewsFixtures
 
-  setup :register_confirm_and_log_in_user
-
   @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
