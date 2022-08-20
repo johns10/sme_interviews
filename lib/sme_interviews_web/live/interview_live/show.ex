@@ -41,7 +41,7 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
     case Bodyguard.permit(Interviews, :update_interview, socket.assigns.current_user, interview) do
       :ok ->
         socket
-        |> assign(:page_title, "Edit Interview")
+        |> assign(:page_title, page_title(action))
         |> assign(:interview, interview)
 
       {:error, _} ->
@@ -51,13 +51,13 @@ defmodule SmeInterviewsWeb.InterviewLive.Show do
     end
   end
 
-  def apply_action(socket, :show, %{"id" => id}) do
+  def apply_action(socket, action, %{"id" => id}) do
     interview = Interviews.get_complete_interview!(id)
 
     case Bodyguard.permit(Interviews, :show_interview, socket.assigns.current_user, interview) do
       :ok ->
         socket
-        |> assign(:page_title, "Show Interview")
+        |> assign(:page_title, page_title(action))
         |> assign(:interview, interview)
 
       {:error, _} ->
