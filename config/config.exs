@@ -26,6 +26,8 @@ config :sme_interviews, SmeInterviewsWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :sme_interviews, SmeInterviews.Mailer, adapter: Swoosh.Adapters.Local
 
+config :sme_interviews, SmeInterviews.TextSnippets, location: ["priv", "text_snippets"]
+
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, Swoosh.ApiClient.Hackney
 
@@ -47,7 +49,9 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :petal_components, :error_translator_function, {SmeInterviewsWeb.ErrorHelpers, :translate_error}
+config :petal_components,
+       :error_translator_function,
+       {SmeInterviewsWeb.ErrorHelpers, :translate_error}
 
 config :tailwind,
   version: "3.0.12",
