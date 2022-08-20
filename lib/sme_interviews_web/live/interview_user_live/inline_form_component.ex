@@ -20,20 +20,28 @@ defmodule SmeInterviewsWeb.InterviewUserLive.InlineFormComponent do
   def handle_event("save", %{"interview_user_form" => params}, socket) do
     with {:form, {:ok, result}} <- {:form, InterviewUsers.create_interview_user_form(params)},
          %InterviewUserForm{email: email, interview_id: interview_id} <- result,
-         {:ok, %User{id: id}} <- upsert_user(email, socket) do
-
+         {:user, {:ok, %User{id: id}}} <- {:user, upsert_user(email, socket)} do
       interview_user_params = %{user_id: id, interview_id: interview_id}
       save_no_redirect(socket, socket.assigns.action, interview_user_params)
     else
-      {:form, {:error, form_changeset}} ->
+      {:form, {:error, %Ecto.Changeset{} = form_changeset}} ->
         {:noreply, assign(socket, :form_changeset, form_changeset)}
+
+      {:user, {:error, %Ecto.Changeset{} = _user_changeset}} ->
+        IO.puts("Failed to create user")
+        {:noreply, socket}
+
+      e ->
+        IO.inspect(e)
     end
   end
 
   defp upsert_user(email, %{assigns: %{current_user: user}} = socket) do
     Accounts.get_user_by_email(email)
     |> case do
-      %User{} = user -> {:ok, user}
+      %User{} = user ->
+        {:ok, user}
+
       nil ->
         case Accounts.invite_user(%{email: email, invited_by_user_id: user.id}) do
           {:ok, user} ->
