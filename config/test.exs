@@ -26,7 +26,7 @@ config :sme_interviews, SmeInterviewsWeb.Endpoint,
 # In test we don't send emails.
 config :sme_interviews, SmeInterviews.Mailer, adapter: Swoosh.Adapters.Test
 
-config :sme_interviews, SmeInterviews.TextSnippets, location: ["priv", "text_snippets", "test"]
+config :sme_interviews, SmeInterviews.TextSnippets, location: ["priv", "test_text_snippets"]
 
 # Print only warnings and errors during test
 config :logger, level: :warn

@@ -9,8 +9,17 @@
   >
     <%= hidden_input(f, :user_id, value: @user_id) %>
 
-    <.form_field type="textarea" form={f} field={:text} placeholder="Interview Name" />
+    <.form_field type="textarea" form={f} field={:text} />
 
-    <.button type="submit" color="success" label="Save" />
+    <.link
+      phx-target={@myself}
+      to="#"
+      phx_click="generate_random_text_snippet"
+      label="Generate Random Text Snippet"
+      class="text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:text-gray-900 hover:underline"
+    />
+    <br />
+
+    <.button class="mt-4" type="submit" color="success" label="Save" />
   </.form>
 </div>

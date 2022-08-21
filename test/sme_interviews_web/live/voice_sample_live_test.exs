@@ -45,6 +45,16 @@ defmodule SmeInterviewsWeb.VoiceSampleLiveTest do
       assert html =~ "some text"
     end
 
+    test "populates random text snippet", %{conn: conn} do
+      {:ok, index_live, _html} = live(conn, Routes.voice_sample_index_path(conn, :index))
+
+      assert index_live |> element("a", "New Voice Sample") |> render_click() =~
+               "Generate Random Text Snippet"
+
+      assert index_live |> element("a", "Generate Random Text Snippet") |> render_click() =~
+               "Test text snippet."
+    end
+
     test "updates voice_sample in listing", %{
       conn: conn,
       voice_sample: voice_sample

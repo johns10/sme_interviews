@@ -4,6 +4,7 @@ defmodule SmeInterviewsWeb.VoiceSampleLive.Index do
 
   alias SmeInterviews.VoiceSamples
   alias SmeInterviews.VoiceSamples.VoiceSample
+  alias SmeInterviews.TextSnippets
 
   @impl true
   def mount(_params, _session, socket) do
@@ -29,7 +30,7 @@ defmodule SmeInterviewsWeb.VoiceSampleLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Voice Sample")
-    |> assign(:voice_sample, %VoiceSample{})
+    |> assign(:voice_sample, %VoiceSample{text: TextSnippets.get_random_text_snippet()})
   end
 
   defp apply_action(socket, :index, _params) do
