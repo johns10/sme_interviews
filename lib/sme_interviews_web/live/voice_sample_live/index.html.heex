@@ -1,4 +1,25 @@
-<.h1>Listing Voice Samples</.h1>
+<div id="microphone-state" phx-hook="GetMicrophonePermissionState" />
+
+<div class="flex items-center">
+  <.h1>Voice Samples</.h1>
+  <%= if @microphone_permission == :granted do %>
+    <.badge color="success" variant="outline" label="lg" size="lg" class="ml-4">
+      <Heroicons.Solid.check class="w-5 h-5 mr-1" />
+      Mic check 1, 2
+    </.badge>
+  <% end %>
+  <%= if @microphone_permission == :denied do %>
+    <.badge color="danger" variant="outline" label="lg" size="lg" class="ml-4">
+      <Heroicons.Solid.x_circle class="w-5 h-5 mr-1" />
+      Mic access denied. Reset permissions.
+    </.badge>
+  <% end %>
+  <%= if @microphone_permission == :prompt do %>
+    <.button color="info" phx-hook="RequestMicrophoneAccess" class="ml-4">
+      Request microphone access
+    </.button>
+  <% end %>
+</div>
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal title={@page_title}>

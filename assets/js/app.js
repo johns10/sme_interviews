@@ -25,15 +25,18 @@ import "./lib/color-scheme-switch";
 import "./lib/zoom-authorization";
 import ColorThemeHook from "./hooks/color-theme-hook";
 import ZoomAuthorizationHook from "./hooks/zoom-authorization";
+import MaintainAttrs from "./hooks/maintain-attrs";
+import GetMicrophonePermissionState from "./hooks/get-microphone-permission-state";
+import RequestMicrophoneAccess from "./hooks/request-microphone-permission";
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
- 
-let Hooks = { ColorThemeHook, ZoomAuthorizationHook }
 
-Hooks.MaintainAttrs = {
-  attrs(){ return this.el.getAttribute("data-attrs").split(", ") },
-  beforeUpdate(){ this.prevAttrs = this.attrs().map(name => [name, this.el.getAttribute(name)]) },
-  updated(){ this.prevAttrs.forEach(([name, val]) => this.el.setAttribute(name, val)) }
+let Hooks = {
+  ColorThemeHook,
+  ZoomAuthorizationHook,
+  MaintainAttrs,
+  RequestMicrophoneAccess,
+  GetMicrophonePermissionState
 }
 
 window.Alpine = Alpine;

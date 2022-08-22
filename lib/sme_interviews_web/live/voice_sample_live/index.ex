@@ -11,6 +11,7 @@ defmodule SmeInterviewsWeb.VoiceSampleLive.Index do
     {
       :ok,
       socket
+      |> assign(:microphone_permission, :unknown)
       |> assign(:voice_samples, list_voice_samples())
       |> assign(:return_to, Routes.voice_sample_index_path(socket, :index))
     }
@@ -49,6 +50,10 @@ defmodule SmeInterviewsWeb.VoiceSampleLive.Index do
 
   def handle_event("close_modal", _, socket) do
     {:noreply, push_patch(socket, to: socket.assigns.return_to)}
+  end
+
+  def handle_event("mic-permission-updated", %{"state" => state}, socket) do
+    {:noreply, assign(socket, :microphone_permission, String.to_atom(state))}
   end
 
   defp list_voice_samples do
