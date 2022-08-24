@@ -1,7 +1,7 @@
 <.h1>Interviews</.h1>
 
 <%= if @live_action in [:new, :edit] do %>
-  <.modal title={@page_title} return_to={Routes.interview_index_path(@socket, :index)}>
+  <.modal title={@page_title}>
     <.live_component
       module={SmeInterviewsWeb.InterviewLive.FormComponent}
       id={@interview.id || :new}
@@ -56,5 +56,5 @@
 </.table>
 
 <.link link_type="live_patch" to={Routes.interview_index_path(@socket, :new)}>
-  <.button color="success" label="New Interview" to={Routes.interview_index_path(@socket, :new)} />
+  <.button color="success" label="New Interview" />
 </.link>

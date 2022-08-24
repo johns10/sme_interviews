@@ -11,7 +11,8 @@ defmodule SmeInterviewsWeb.VoiceSampleLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)}
+     |> assign(:changeset, changeset)
+     |> assign(:download_url, generate_download_url(voice_sample.aws_path))}
   end
 
   @impl true
@@ -32,6 +33,16 @@ defmodule SmeInterviewsWeb.VoiceSampleLive.FormComponent do
     attrs = %{text: TextSnippets.get_random_text_snippet()}
     changeset = VoiceSamples.change_voice_sample(socket.assigns.voice_sample, attrs)
     {:noreply, socket |> assign(:changeset, changeset)}
+  end
+
+  def handle_event("generate_upload_url", _, socket) do
+    bucket = Application.get_env(:sme_interviews, :s3_bucket_name, "smeinterviews")
+
+    {:ok, upload_url} =
+      ExAws.Config.new(:s3)
+      |> ExAws.S3.presigned_url(:put, bucket, filename(socket.assigns.voice_sample.aws_path))
+
+    {:noreply, push_event(socket, "upload_url_generated", %{url: upload_url})}
   end
 
   defp save_voice_sample(socket, :edit, voice_sample_params) do
@@ -61,5 +72,24 @@ defmodule SmeInterviewsWeb.VoiceSampleLive.FormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
+  end
+
+  defp filename(nil), do: "#{Ecto.UUID.generate()}.wav"
+
+  defp filename(path) do
+    ["", _bucket, filename] = String.split(path, "/")
+    filename
+  end
+
+  defp generate_download_url(nil), do: nil
+
+  defp generate_download_url(path) do
+    ["", bucket, filename] = String.split(path, "/")
+
+    {:ok, url} =
+      ExAws.Config.new(:s3)
+      |> ExAws.S3.presigned_url(:get, bucket, filename)
+
+    url
   end
 end

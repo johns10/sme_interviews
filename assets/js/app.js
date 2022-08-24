@@ -28,6 +28,7 @@ import ZoomAuthorizationHook from "./hooks/zoom-authorization";
 import MaintainAttrs from "./hooks/maintain-attrs";
 import GetMicrophonePermissionState from "./hooks/get-microphone-permission-state";
 import RequestMicrophoneAccess from "./hooks/request-microphone-permission";
+import { SubmitRecording, StartRecording, StopRecording, DeleteRecording } from "./hooks/record-audio"
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
 
@@ -36,7 +37,11 @@ let Hooks = {
   ZoomAuthorizationHook,
   MaintainAttrs,
   RequestMicrophoneAccess,
-  GetMicrophonePermissionState
+  GetMicrophonePermissionState,
+  SubmitRecording,
+  StartRecording,
+  StopRecording,
+  DeleteRecording
 }
 
 window.Alpine = Alpine;

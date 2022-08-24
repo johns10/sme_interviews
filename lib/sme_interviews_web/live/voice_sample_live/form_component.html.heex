@@ -8,18 +8,73 @@
     phx-submit="save"
   >
     <%= hidden_input(f, :user_id, value: @user_id) %>
+    <%= hidden_input(f, :aws_path, id: "aws_path") %>
 
-    <.form_field type="textarea" form={f} field={:text} />
-
-    <.link
-      phx-target={@myself}
-      to="#"
-      phx_click="generate_random_text_snippet"
-      label="Generate Random Text Snippet"
-      class="text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:text-gray-900 hover:underline"
-    />
+    <label
+      class="mb-2 font-medium text-sm block text-gray-900 dark:text-gray-200 phx-no-feedback"
+      for="voice_sample-form_text"
+      phx-feedback-for="voice_sample[text]"
+    >
+      Text
+      <.link
+        phx-target={@myself}
+        to="#"
+        phx_click="generate_random_text_snippet"
+        label="(Generate Random Text Snippet)"
+        class="text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:text-gray-900 hover:underline"
+      />
+    </label>
+    <.textarea form={f} field={:text} />
+    <.form_field_error form={f} field={:text} />
     <br />
 
-    <.button class="mt-4" type="submit" color="success" label="Save" />
+    <.form_label form={f} field={:aws_file} label="Audio Recording" />
+    <div class="flex" id="audio-recorder" class="bg-gray-100 dark:bg-gray-700">
+      <.card variant="outline">
+        <.card_content>
+          <div class="flex">
+            <.icon_button
+              phx-hook="StartRecording"
+              id="record-button"
+              type="button"
+              link_type="button"
+              icon={:microphone}
+              size="xl"
+              fill="black"
+              class="flex-grow flex justify-center items-center"
+            />
+            <.icon_button
+              id="stop-button"
+              phx-hook="StopRecording"
+              type="button"
+              link_type="button"
+              icon={:stop}
+              size="xl"
+              class="flex-grow flex justify-center items-center !text-red-800"
+            />
+            <.icon_button
+              id="delete-button"
+              phx-hook="DeleteRecording"
+              type="button"
+              link_type="button"
+              icon={:trash}
+              size="xl"
+              class="flex-grow flex justify-center items-center"
+            />
+          </div>
+          <audio id="player" class="m-2" src={@download_url} controls></audio>
+        </.card_content>
+      </.card>
+    </div>
+    <.form_field_error form={f} field={:aws_path} class="mt-1" />
+
+    <.button
+      id="voice_sample-form-submit"
+      class="mt-4 disabled:bg-gray-600"
+      type="button"
+      color="success"
+      label="Save"
+      phx-hook="SubmitRecording"
+    />
   </.form>
 </div>

@@ -42,6 +42,10 @@ defmodule SmeInterviewsWeb.InterviewTemplateLive.Index do
     {:noreply, assign(socket, :interview_templates, templates)}
   end
 
+  def handle_event("close_modal", _, socket) do
+    {:noreply, push_patch(socket, to: Routes.interview_template_index_path(socket, :index))}
+  end
+
   defp list_interview_templates(user_id) do
     InterviewTemplates.list_interview_templates(filters: [user_id: user_id])
   end

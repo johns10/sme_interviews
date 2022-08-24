@@ -44,6 +44,7 @@ defmodule SmeInterviewsWeb.VoiceSampleLive.Index do
   def handle_event("delete", %{"id" => id}, socket) do
     voice_sample = VoiceSamples.get_voice_sample!(id)
     {:ok, _} = VoiceSamples.delete_voice_sample(voice_sample)
+    {:ok, _} = delete_voice_sample_file(voice_sample.aws_path)
 
     {:noreply, assign(socket, :voice_samples, list_voice_samples())}
   end
@@ -58,5 +59,14 @@ defmodule SmeInterviewsWeb.VoiceSampleLive.Index do
 
   defp list_voice_samples do
     VoiceSamples.list_voice_samples()
+  end
+
+  defp delete_voice_sample_file(nil), do: {:ok, :noop}
+
+  defp delete_voice_sample_file(path) do
+    ["", bucket, filename] = String.split(path, "/")
+
+    ExAws.S3.delete_object(bucket, filename)
+    |> ExAws.request()
   end
 end
