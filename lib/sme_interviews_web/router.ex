@@ -83,6 +83,13 @@ defmodule SmeInterviewsWeb.Router do
 
       live "/voice_samples/:id", VoiceSampleLive.Show, :show
       live "/voice_samples/:id/show/edit", VoiceSampleLive.Show, :edit
+
+      live "/entries", EntryLive.Index, :index
+      live "/entries/new", EntryLive.Index, :new
+      live "/entries/:id/edit", EntryLive.Index, :edit
+
+      live "/entries/:id", EntryLive.Show, :show
+      live "/entries/:id/show/edit", EntryLive.Show, :edit
     end
 
     scope "/dev" do

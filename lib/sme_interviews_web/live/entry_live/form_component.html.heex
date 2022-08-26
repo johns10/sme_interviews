@@ -1,0 +1,26 @@
+<div>
+  <.form
+    let={f}
+    for={@changeset}
+    id="entry-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save"
+  >
+    <%= label(f, :from) %>
+    <%= datetime_select(f, :from) %>
+    <%= error_tag(f, :from) %>
+
+    <%= label(f, :to) %>
+    <%= datetime_select(f, :to) %>
+    <%= error_tag(f, :to) %>
+
+    <%= label(f, :text) %>
+    <%= textarea(f, :text) %>
+    <%= error_tag(f, :text) %>
+
+    <div>
+      <%= submit("Save", phx_disable_with: "Saving...") %>
+    </div>
+  </.form>
+</div>

@@ -1,0 +1,34 @@
+<h1>Show Entry</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal title={@page_title} return_to={Routes.entry_show_path(@socket, :show, @entry)}>
+    <.live_component
+      module={SmeInterviewsWeb.EntryLive.FormComponent}
+      id={@entry.id}
+      action={@live_action}
+      entry={@entry}
+      return_to={Routes.entry_show_path(@socket, :show, @entry)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+  <li>
+    <strong>From:</strong>
+    <%= @entry.from %>
+  </li>
+
+  <li>
+    <strong>To:</strong>
+    <%= @entry.to %>
+  </li>
+
+  <li>
+    <strong>Text:</strong>
+    <%= @entry.text %>
+  </li>
+</ul>
+
+<span>
+  <%= live_patch("Edit", to: Routes.entry_show_path(@socket, :edit, @entry), class: "button") %>
+</span> | <span><%= live_redirect("Back", to: Routes.entry_index_path(@socket, :index)) %></span>
