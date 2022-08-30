@@ -21,7 +21,12 @@ defmodule SmeInterviews.EntriesTest do
     end
 
     test "create_entry/1 with valid data creates a entry" do
-      valid_attrs = %{from: ~N[2022-08-25 03:42:00], text: "some text", to: ~N[2022-08-25 03:42:00]}
+      valid_attrs = %{
+        from: ~N[2022-08-25 03:42:00],
+        text: "some text",
+        to: ~N[2022-08-25 03:42:00],
+        id: Ecto.UUID.generate()
+      }
 
       assert {:ok, %Entry{} = entry} = Entries.create_entry(valid_attrs)
       assert entry.from == ~N[2022-08-25 03:42:00]
@@ -35,7 +40,12 @@ defmodule SmeInterviews.EntriesTest do
 
     test "update_entry/2 with valid data updates the entry" do
       entry = entry_fixture()
-      update_attrs = %{from: ~N[2022-08-26 03:42:00], text: "some updated text", to: ~N[2022-08-26 03:42:00]}
+
+      update_attrs = %{
+        from: ~N[2022-08-26 03:42:00],
+        text: "some updated text",
+        to: ~N[2022-08-26 03:42:00]
+      }
 
       assert {:ok, %Entry{} = entry} = Entries.update_entry(entry, update_attrs)
       assert entry.from == ~N[2022-08-26 03:42:00]

@@ -13,15 +13,22 @@ defmodule SmeInterviewsWeb.Router do
     plug :fetch_current_user
     plug :set_color_scheme
     plug :set_owasp_headers
+    plug :set_cross_origin_headers
   end
 
   defp set_owasp_headers(conn, _opts) do
     conn
     |> put_resp_header(
       "content-security-policy",
-      "default-src 'self'; script-src 'self' 'unsafe-eval'; connect-src 'self' wss://opulent-frizzy-toad.gigalixirapp.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline';base-uri 'self';form-action 'self'"
+      "default-src 'self'; script-src 'self' 'unsafe-eval' 'nonce-coqui-script'; connect-src 'self' wss://opulent-frizzy-toad.gigalixirapp.com http:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline';base-uri 'self';form-action 'self';media-src 'self' blob: localhost:9000;"
     )
     |> put_resp_header("referrer-policy", "strict-origin-when-cross-origin")
+  end
+
+  defp set_cross_origin_headers(conn, _opts) do
+    conn
+    |> put_resp_header("cross-origin-embedder-policy", "require-corp")
+    |> put_resp_header("cross-origin-opener-policy", "same-origin")
   end
 
   pipeline :api do

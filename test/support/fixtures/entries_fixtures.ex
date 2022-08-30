@@ -11,6 +11,7 @@ defmodule SmeInterviews.EntriesFixtures do
     {:ok, entry} =
       attrs
       |> Enum.into(%{
+        id: Ecto.UUID.generate(),
         from: ~N[2022-08-25 03:42:00],
         text: "some text",
         to: ~N[2022-08-25 03:42:00]

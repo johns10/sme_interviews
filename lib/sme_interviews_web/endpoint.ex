@@ -20,7 +20,9 @@ defmodule SmeInterviewsWeb.Endpoint do
     at: "/",
     from: :sme_interviews,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt)
+    only: ~w(assets fonts images lib favicon.ico robots.txt),
+    only_matching: ~w(lib),
+    headers: %{"cross-origin-embedder-policy" => "require-corp"}
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

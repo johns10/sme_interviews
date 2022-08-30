@@ -64,6 +64,8 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
+config :sme_interviews, S3Provider: ExAws.S3, s3_bucket_name: :sme_interviews
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

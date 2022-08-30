@@ -5,6 +5,7 @@ defmodule SmeInterviewsWeb.EntryLiveTest do
   import SmeInterviews.EntriesFixtures
 
   @create_attrs %{
+    id: Ecto.UUID.generate(),
     from: %{day: 25, hour: 3, minute: 42, month: 8, year: 2022},
     text: "some text",
     to: %{day: 25, hour: 3, minute: 42, month: 8, year: 2022}

@@ -7,6 +7,10 @@
     phx-change="validate"
     phx-submit="save"
   >
+    <%= label(f, :id) %>
+    <%= text_input(f, :id) %>
+    <%= error_tag(f, :id) %>
+
     <%= label(f, :from) %>
     <%= datetime_select(f, :from) %>
     <%= error_tag(f, :from) %>
