@@ -8,7 +8,7 @@ defmodule SmeInterviews.EntriesTest do
 
     import SmeInterviews.EntriesFixtures
 
-    @invalid_attrs %{from: nil, text: nil, to: nil}
+    @invalid_attrs %{from: "face", text: nil, to: nil}
 
     test "list_entries/0 returns all entries" do
       entry = entry_fixture()

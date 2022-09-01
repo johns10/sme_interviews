@@ -18,7 +18,6 @@ defmodule SmeInterviews.Entries.Entry do
   def changeset(entry, attrs) do
     entry
     |> cast(attrs, [:id, :from, :to, :text])
-    |> validate_required([:from])
     |> foreign_key_constraint(:interview_id)
   end
 end

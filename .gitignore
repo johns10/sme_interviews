@@ -32,6 +32,9 @@ sme_interviews-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Ignore Jest's coverage Reports
+/assets/coverage/
+
 .vscode
 .elixir_ls
 
