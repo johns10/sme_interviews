@@ -1,40 +1,59 @@
-import { fetchFile } from '../lib/utils'
+import vad from '../lib/vad';
 import Database from '../lib/database'
-import { shiftBuffer, assignFile, newSpeechEvent, putAudio } from '../lib/utterances'
+import { assignFile, newSpeechEvent, putAudio } from '../lib/utterances'
 database = new Database();
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 
 class Recorder {
   constructor({ hooks }) {
-    this.chunk = new Blob()
-    this.stream = null
-    this.recognize = null
-    this.speechEvent = null
     this.hooks = hooks
-    this.recorderOpts = {
-      audioBitsPerSecond: 16000,
-      channelCount: 1
-    }
+    this.chunk = new Blob()
+    this.audioContext = null
+    this.stream = null
+    this.vad = null
+    this.speechEvent = null
   }
 
-  async initialize() {
+  initialize() {
     navigator
       .mediaDevices
       .getUserMedia({ audio: true, video: false })
       .then(stream => {
+        this.audioContext = new AudioContext()
+        console.log(stream)
         this.stream = stream
-        this.startRecognize()
+        this.startRecognizer()
         this.startRecorder()
-        this.enableBuffer()
       })
   }
 
+  startRecognizer() {
+    const vadSource = this.audioContext.createMediaStreamSource(this.stream)
+    this.vad = new vad({
+      voice_start: () => this.startUtterance(),
+      voice_stop: () => this.stopUtterance(),
+      source: vadSource
+    })
+  }
+
+  startRecorder() {
+    const { mediaStream } = this.audioContext.createMediaStreamSource(this.stream)
+    this.recorder = new MediaRecorder(mediaStream, {
+      audioBitsPerSecond: 16000,
+      channelCount: 1
+    })
+    this.recorder.addEventListener("dataavailable", event => this.handleRecordedAudio(event));
+    this.recorder.start()
+  }
+
   startUtterance() {
+    console.log('starting utterance')
     this.speechEvent = newSpeechEvent()
     this.hooks.pushEvent("utterance-started", this.speechEvent)
   }
 
-  endUtterance() {
+  stopUtterance() {
+    console.log('ending utterance')
     this.speechEvent.status = 'ended'
     this.recorder.requestData()
   }
@@ -45,6 +64,7 @@ class Recorder {
   }
 
   storeRecordedAudio(event) {
+    console.log('storing recorded audio')
     const chunks = [this.chunk, event.data]
     const { id } = this.speechEvent
     const file = assignFile({ chunks, speechEvent: this.speechEvent })
@@ -52,10 +72,8 @@ class Recorder {
       putAudio({ url: reply.url, file })
         .then(() => this.hooks.pushEvent("utterance-uploaded", { id }))
       this.speechEvent = null
-      this.stopRecognize()
       this.stopRecorder()
       this.startRecorder()
-      this.startRecognize()
     })
   }
 
@@ -63,15 +81,10 @@ class Recorder {
     setTimeout(() => {
       if (this.speechEvent?.status != 'started') {
         this.recorder.requestData()
+        this.startRecognize()
       }
       this.enableBuffer()
     }, 1000)
-  }
-
-  startRecorder() {
-    this.recorder = new MediaRecorder(this.stream, this.recorderOpts)
-    this.recorder.addEventListener("dataavailable", event => this.handleRecordedAudio(event));
-    this.recorder.start()
   }
 
   stopRecorder() {
