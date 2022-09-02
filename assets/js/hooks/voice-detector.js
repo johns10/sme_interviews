@@ -20,7 +20,6 @@ class Recorder {
       .getUserMedia({ audio: true, video: false })
       .then(stream => {
         this.audioContext = new AudioContext()
-        console.log(stream)
         this.stream = stream
         this.startRecognizer()
         this.startRecorder()
@@ -104,11 +103,11 @@ class Recorder {
   }
 }
 
-const Transcriber = {
+const VoiceDetector = {
   mounted() {
     recorder = new Recorder({ hooks: this })
     recorder.initialize()
   }
 };
 
-export default Transcriber;
+export default VoiceDetector;
