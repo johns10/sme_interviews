@@ -30,6 +30,7 @@ import GetMicrophonePermissionState from "./hooks/get-microphone-permission-stat
 import RequestMicrophoneAccess from "./hooks/request-microphone-permission";
 import { SubmitRecording, StartRecording, StopRecording, DeleteRecording } from "./hooks/record-audio"
 import VoiceDetector from './hooks/voice-detector'
+import Transcriber from './hooks/transcriber'
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
 
@@ -43,7 +44,8 @@ let Hooks = {
   StartRecording,
   StopRecording,
   DeleteRecording,
-  VoiceDetector
+  VoiceDetector,
+  Transcriber
 }
 
 window.Alpine = Alpine;

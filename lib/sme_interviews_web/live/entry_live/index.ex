@@ -9,10 +9,15 @@ defmodule SmeInterviewsWeb.EntryLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    config = ExAws.Config.new(:s3)
+    {:ok, model_url} = provider().presigned_url(config, :get, @bucket, "model.tflite")
+    {:ok, scorer_url} = provider().presigned_url(config, :get, @bucket, "model.scorer")
+
     {:ok,
      socket
+     |> assign(:model_url, model_url)
+     |> assign(:scorer_url, scorer_url)
      |> assign(:entries, list_entries())
-     |> assign(:current_entry, %Entry{id: "test"})
      |> assign(:speaking?, false)}
   end
 
@@ -48,32 +53,49 @@ defmodule SmeInterviewsWeb.EntryLive.Index do
     {:noreply, assign(socket, :entries, list_entries())}
   end
 
-  def handle_event("utterance-started", %{"id" => id}, socket) do
-    {:ok, entry} = Entries.create_entry(%{from: DateTime.utc_now(), id: id})
-    {:noreply, socket |> assign(:current_entry, entry) |> assign(:speaking?, true)}
+  def handle_event("utterance-started", %{"id" => id, "status" => status}, socket) do
+    {:ok, entry} = Entries.create_entry(%{from: DateTime.utc_now(), id: id, status: status})
+    entries = socket.assigns.entries ++ [entry]
+    {:noreply, socket |> assign(:entries, entries) |> assign(:speaking?, true)}
+  end
+
+  def handle_event("utterance-updated", attrs, socket) do
+    entries = update_entries(socket.assigns.entries, attrs)
+    {:noreply, socket |> assign(:entries, entries)}
   end
 
   def handle_event("utterance-ended", %{"id" => id}, socket) do
-    {:ok, entry} =
-      socket.assigns.current_entry
-      |> Entries.update_entry(%{to: DateTime.utc_now(), id: id})
+    entries = update_entries(socket.assigns.entries, %{"id" => id, "to" => DateTime.utc_now()})
 
     {:reply, %{url: presigned_url(id, :put)},
      socket
-     |> assign(:entries, socket.assigns.entries ++ [entry])
-     |> assign(:current_entry, %Entry{id: "test"})
+     |> assign(:entries, entries)
      |> assign(:speaking?, false)}
   end
 
   def handle_event("utterance-uploaded", %{"id" => id}, socket) do
-    entries =
-      socket.assigns.entries
-      |> Enum.map(fn
-        %{id: ^id} = entry -> Map.put(entry, :get_url, presigned_url(id, :get))
-        entry -> entry
-      end)
+    attrs = %{"id" => id, "get_url" => presigned_url(id, :get)}
+    entries = update_entries(socket.assigns.entries, attrs)
+    {:noreply, socket |> assign(:entries, entries) |> push_event("utterance-available", %{})}
+  end
 
+  def handle_event("transcription-finished", attrs, socket) do
+    entries = update_entries(socket.assigns.entries, attrs)
     {:noreply, socket |> assign(:entries, entries)}
+  end
+
+  def handle_event("transcriber-idle", _, socket) do
+    entry =
+      case Entries.list_incomplete_entries() do
+        [] ->
+          nil
+
+        entries ->
+          entry = entries |> Enum.at(0)
+          Map.put(entry, :get_url, presigned_url(entry.id, :get))
+      end
+
+    {:reply, %{entry: entry}, socket}
   end
 
   defp list_entries do
@@ -84,6 +106,17 @@ defmodule SmeInterviewsWeb.EntryLive.Index do
         |> provider().presigned_url(:get, @bucket, "utterances/#{entry.id}.wav")
 
       Map.put(entry, :get_url, url)
+    end)
+  end
+
+  defp update_entries(entries, %{"id" => id} = attrs) do
+    {:ok, entry} =
+      Entries.get_entry!(id)
+      |> Entries.update_entry(attrs)
+
+    Enum.map(entries, fn
+      %Entry{id: ^id} -> entry
+      old_entry -> old_entry
     end)
   end
 

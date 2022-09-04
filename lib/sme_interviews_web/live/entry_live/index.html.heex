@@ -6,97 +6,18 @@
   <Heroicons.Solid.dots_horizontal class="w-6 h-6 text-gray-500" />
 <% end %>
 
-<div id="transcriber" phx-hook="Transcriber"></div>
-<script src="lib/stt_wasm.js" />
-<script nonce="coqui-script">
-  var activeModel;
-         var audioContext;
-         var stt;
+<div
+  id="transcriber"
+  phx-hook="Transcriber"
+  data-model-file="model.tflite"
+  data-model-version="0.0"
+  data-model-url={@model_url}
+>
+  <div id="model-data" data-file-name="model.tflite" data-version="1.0" data-url={@model_url} />
+  <div id="scorer-data" data-file-name="model.scorer" data-version="0.0" data-url={@scorer_url} />
+</div>
+<div id="voice-detector" phx-hook="VoiceDetector"></div>
 
-         // https://stackoverflow.com/q/33738873/261698
-         function converFloat32ToInt16(buffer) {
-             return Int16Array.from(buffer, x => x * 32767);
-         }
-
-         function loadModel(modelFiles) {
-             console.log(`Loading models`, modelFiles);
-
-             let reader = new FileReader();
-             reader.onload = (e) => {
-                 activeModel = new stt.Model(new Uint8Array(reader.result));
-                 const modelSampleRate = activeModel.getSampleRate();
-                 console.log(`Model sample rate: ${modelSampleRate}`);
-
-                 // Create an audio context for future processing.
-                 audioContext = new AudioContext({
-                     // Use the model's sample rate so that the decoder will resample for us.
-                     sampleRate: modelSampleRate
-                 });
-
-                 const scorerInput = document.getElementById("scorerpicker");
-                 scorerInput.addEventListener("change", (e) => loadScorer(e.target.files[0]), false);
-                 scorerInput.disabled = false;
-
-                 // Now that a model is available, enable opening the audio file.
-                 const audioInput = document.getElementById("audiopicker");
-                 audioInput.addEventListener("change", (e) => processAudio(e.target.files[0]), false);
-                 audioInput.disabled = false;
-             };
-             reader.readAsArrayBuffer(modelFiles[0]);
-         };
-
-         function loadScorer(scorerFile) {
-             console.log(`Loading scorer`, scorerFile);
-
-             const reader = new FileReader();
-             reader.onload = (e) => {
-                 activeModel.enableExternalScorer(new Uint8Array(reader.result));
-                 console.log("Scorer loaded");
-             };
-             reader.readAsArrayBuffer(scorerFile);
-         };
-
-         function processAudio(audioFile) {
-             console.log(`Loading audio file`, audioFile);
-
-             let reader = new FileReader();
-             reader.onload = (e) => {
-                 audioContext.decodeAudioData(reader.result).then(decodedAudio => {
-                     const processedAudio = converFloat32ToInt16(decodedAudio.getChannelData(0));
-
-                     // Convert the `processedAudio` to something that can be passed
-                     // across the WASM boundaries.
-                     const toPass = new stt.VectorShort();
-                     processedAudio.forEach(e => toPass.push_back(e));
-
-                     const now = Date.now();
-                     const result = activeModel.speechToText(toPass);
-                     const elapsedSeconds = (Date.now() - now)/1000;
-
-                     document.getElementById("result").textContent = result;
-                     console.log(`Transcription: ${result}`);
-
-                     document.getElementById("elapsedSeconds").textContent = elapsedSeconds;
-                     console.log(`Elapsed: ${elapsedSeconds} seconds`)
-                 });
-             };
-             reader.readAsArrayBuffer(audioFile);
-         };
-         
-         window.STT = STT
-         STT().then(module => {
-            // stt = module;
-             // window.stt = stt
-
-             // Now that we know the WASM module is ready, enable
-             // the file picker for the model.
-             // const input = document.getElementById("modelpicker");
-             // console.log('here');
-
-             // input.addEventListener("change", (e) => loadModel(e.target.files), false);
-             // input.disabled = false;
-         });
-</script>
 <%= if @live_action in [:new, :edit] do %>
   <.modal title={@page_title} return_to={Routes.entry_index_path(@socket, :index)}>
     <.live_component
@@ -115,18 +36,18 @@
       <th>From</th>
       <th>To</th>
       <th>Text</th>
-      <th>Url</th>
+      <th>Status</th>
 
       <th></th>
     </tr>
   </thead>
   <tbody id="entries">
-    <%= for entry <- @entries ++ [@current_entry] do %>
+    <%= for entry <- @entries do %>
       <tr id={"entry-#{entry.id}"}>
         <td><%= entry.from %></td>
         <td><%= entry.to %></td>
         <td><%= entry.text %></td>
-        <td><%= entry.get_url %></td>
+        <td><%= entry.status %></td>
         <audio src={entry.get_url} controls crossorigin />
 
         <td>

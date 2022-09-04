@@ -8,6 +8,12 @@ defmodule SmeInterviews.Entries do
 
   alias SmeInterviews.Entries.Entry
 
+  def list_incomplete_entries do
+    Entry
+    |> where([e], e.status != :transcription_complete)
+    |> Repo.all()
+  end
+
   def list_entries do
     Repo.all(Entry)
   end

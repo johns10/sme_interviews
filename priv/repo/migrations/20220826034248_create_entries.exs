@@ -7,6 +7,7 @@ defmodule SmeInterviews.Repo.Migrations.CreateEntries do
       add :from, :naive_datetime
       add :to, :naive_datetime
       add :text, :text
+      add :status, :string
       add :interview_id, references(:interviews, on_delete: :nothing)
 
       timestamps(type: :naive_datetime_usec)
