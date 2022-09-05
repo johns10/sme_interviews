@@ -41,7 +41,8 @@ config :esbuild,
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ],
   transcription_worker: [
-    args: ~w(js/transcription-worker.js --bundle --target=es2017 --outdir=../priv/static/assets),
+    args:
+      ~w(js/transcription-worker.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/js/bin/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]

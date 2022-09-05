@@ -1,19 +1,13 @@
-import { ensureModel } from '../lib/models'
-import { fetchFile } from '../lib/utils';
-import Database from '../lib/database'
-
 var worker
 
 const Transcriber = {
   async mounted() {
-    db = new Database()
     audioContext = new AudioContext()
-    await db.initialize()
     worker = new Worker('assets/transcription-worker.js', { type: 'module' })
     const { ...modelData } = document.getElementById("model-data").dataset
     const { ...scorerData } = document.getElementById("scorer-data").dataset
     this.handleEvent("utterance-available", () => worker.postMessage({ type: 'poll' }))
-    worker.postMessage({ type: 'start', modelData, scorerData })
+    worker.postMessage({ type: 'start', modelData, scorerData, url: window.location.origin + "/assets/" })
     worker.onmessage = ({ data: data }) => {
       const { type } = data
       if (type == 'started') this.pushEvent('transcriber-idle', {}, startTranscribing)

@@ -27,7 +27,7 @@ defmodule SmeInterviews.Entries.Entry do
   @doc false
   def changeset(entry, attrs) do
     entry
-    |> cast(attrs, [:id, :from, :to, :text, :status])
+    |> cast(attrs, [:id, :from, :to, :text, :status, :get_url])
     |> foreign_key_constraint(:interview_id)
   end
 end

@@ -1,22 +1,31 @@
 <.h1>Listing Entries</.h1>
 
-<%= if @speaking? do %>
-  <Heroicons.Solid.chat_alt class="w-6 h-6 text-green-500" />
-<% else %>
-  <Heroicons.Solid.dots_horizontal class="w-6 h-6 text-gray-500" />
-<% end %>
+<strong x-data x-text="$store.recorder.speaking"></strong>
 
-<div
-  id="transcriber"
-  phx-hook="Transcriber"
-  data-model-file="model.tflite"
-  data-model-version="0.0"
-  data-model-url={@model_url}
->
-  <div id="model-data" data-file-name="model.tflite" data-version="1.0" data-url={@model_url} />
-  <div id="scorer-data" data-file-name="model.scorer" data-version="0.0" data-url={@scorer_url} />
+<div x-data id="voice-detector" phx-hook="VoiceDetector" class="flex m-2">
+  <.card variant="outline" class="my-2">
+    <.card_content class="!p-2">
+      <div class="flex content-center">
+        <.icon_button
+          id="record-button"
+          type="button"
+          link_type="button"
+          icon={:microphone}
+          size="xl"
+          :class="$store.recorder.on ? '!text-red-800 animate-pulse' : ''"
+        />
+        <Heroicons.Solid.chat_alt
+          :class="$store.recorder.speaking ? '' : 'hidden'"
+          class="w-6 h-6 text-green-500"
+        />
+        <Heroicons.Solid.dots_horizontal
+          :class="$store.recorder.speaking ? 'hidden' : ''"
+          class="w-6 h-6 text-gray-500"
+        />
+      </div>
+    </.card_content>
+  </.card>
 </div>
-<div id="voice-detector" phx-hook="VoiceDetector"></div>
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal title={@page_title} return_to={Routes.entry_index_path(@socket, :index)}>

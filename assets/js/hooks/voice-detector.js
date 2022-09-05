@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import Database from '../lib/database'
-import { assignFile, putAudio } from '../lib/utterances'
+import Alpine from 'alpinejs';
 database = new Database();
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 
@@ -13,20 +13,27 @@ class SpeechEvent {
     this.hooks = hooks
     this.id = v4()
     this.status = null
-    this.audio = null
+    this.file = null
     this.url = null
+    this.from = null
+    this.to = null
   }
 
   fields() {
     return {
       id: this.id,
-      status: this.status
+      status: this.status,
+      from: this.from,
+      to: this.to
     }
   }
 
   start() {
+    console.group([this.id])
+    console.log('utterance started')
     this.status = 'started'
-    this.hooks.pushEvent("utterance-started", this.fields())
+    Alpine.store('recorder').startSpeaking()
+    this.from = Math.floor(Date.now() / 1000)
   }
 
   startRecorder(audioContext, stream) {
@@ -41,7 +48,10 @@ class SpeechEvent {
   }
 
   end() {
+    console.log('utterance ended')
     this.status = 'ended'
+    this.to = Math.floor(Date.now() / 1000)
+    Alpine.store('recorder').stopSpeaking()
     this.recorder.stop()
   }
 
@@ -51,21 +61,29 @@ class SpeechEvent {
   }
 
   storeRecordedAudio(event) {
+    console.log('storing recorded audio')
     const blob = new Blob([this.chunk, event.data], { 'type': 'audio/wav; codecs=0' });
-    const file = new File([blob], `${this.id}.wav`, { type: blob.type })
-    this.hooks.pushEvent("utterance-ended", { id: this.id }, (reply) => {
-      fetch(reply.url, { method: 'put', body: file })
-        .then(() => this.hooks.pushEvent("utterance-uploaded", { id: this.id }))
-    })
+    this.file = new File([blob], `${this.id}.wav`, { type: blob.type })
   }
 
   transcribe({ results }) {
-    this.hooks.pushEvent("utterance-updated", {
-      id: this.id,
-      status: "interim_transcription",
-      text: results[0][0].transcript,
-      confidence: results[0][0].confidence
-    })
+    console.log('transcribing audio')
+    this.to = Math.floor(Date.now() / 1000)
+    if (results[0][0]) {
+      this.hooks.pushEvent("utterance-transcribed", {
+        text: results[0][0].transcript,
+        confidence: results[0][0].confidence,
+        ...this.fields()
+      }, reply => fetch(reply.url, { method: 'put', body: this.file })
+        .then(() => this.hooks.pushEvent("utterance-uploaded", { id: this.id }))
+      )
+    }
+    console.groupEnd()
+  }
+
+  kill() {
+    this.recorder.stop()
+    delete (this.recorder)
   }
 }
 
@@ -75,9 +93,7 @@ class Recorder {
     this.chunk = new Blob()
     this.audioContext = null
     this.stream = null
-    this.vad = null
     this.speechEvent = null
-    this.pastEvents = []
   }
 
   initialize() {
@@ -98,6 +114,12 @@ class Recorder {
     this.speechEvent = null
     this.speechEvent = this.newSpeechEvent()
     this.startRecognize()
+  }
+
+  stop() {
+    this.speechEvent.kill()
+    this.stopRecognize()
+    this.speechEvent = null
   }
 
   startRecognize() {
@@ -141,10 +163,29 @@ class Recorder {
   }
 }
 
+Alpine.store('recorder', {
+  on: false,
+  speaking: false,
+  turnOn() { this.on = true },
+  turnOff() { this.on = false },
+  startSpeaking() { this.speaking = true },
+  stopSpeaking() { this.speaking = false }
+})
+
+Alpine.start()
+
 const VoiceDetector = {
   mounted() {
-    recorder = new Recorder({ hooks: this })
-    recorder.initialize()
+    recorderManager = new Recorder({ hooks: this })
+    this.el.addEventListener("click", () => {
+      if (recorderManager.speechEvent) {
+        recorderManager.stop()
+        Alpine.store('recorder').turnOff()
+      } else {
+        recorderManager.initialize()
+        Alpine.store('recorder').turnOn()
+      }
+    })
   }
 };
 

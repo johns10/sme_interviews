@@ -53,30 +53,19 @@ defmodule SmeInterviewsWeb.EntryLive.Index do
     {:noreply, assign(socket, :entries, list_entries())}
   end
 
-  def handle_event("utterance-started", %{"id" => id, "status" => status}, socket) do
-    {:ok, entry} = Entries.create_entry(%{from: DateTime.utc_now(), id: id, status: status})
-    entries = socket.assigns.entries ++ [entry]
-    {:noreply, socket |> assign(:entries, entries) |> assign(:speaking?, true)}
-  end
-
-  def handle_event("utterance-updated", attrs, socket) do
-    entries = update_entries(socket.assigns.entries, attrs)
-    {:noreply, socket |> assign(:entries, entries)}
-  end
-
-  def handle_event("utterance-ended", %{"id" => id}, socket) do
-    entries = update_entries(socket.assigns.entries, %{"id" => id, "to" => DateTime.utc_now()})
+  def handle_event("utterance-transcribed", %{"id" => id} = attrs, socket) do
+    {:ok, entry} = create_entry(attrs)
 
     {:reply, %{url: presigned_url(id, :put)},
      socket
-     |> assign(:entries, entries)
+     |> assign(:entries, socket.assigns.entries ++ [entry])
      |> assign(:speaking?, false)}
   end
 
   def handle_event("utterance-uploaded", %{"id" => id}, socket) do
     attrs = %{"id" => id, "get_url" => presigned_url(id, :get)}
     entries = update_entries(socket.assigns.entries, attrs)
-    {:noreply, socket |> assign(:entries, entries) |> push_event("utterance-available", %{})}
+    {:noreply, socket |> assign(:entries, entries)}
   end
 
   def handle_event("transcription-finished", attrs, socket) do
@@ -107,6 +96,16 @@ defmodule SmeInterviewsWeb.EntryLive.Index do
 
       Map.put(entry, :get_url, url)
     end)
+  end
+
+  defp create_entry(%{"from" => from, "to" => to} = attrs) do
+    IO.inspect(attrs)
+
+    attrs
+    |> Map.put("from", DateTime.from_unix!(from))
+    |> Map.put("to", DateTime.from_unix!(to))
+    |> IO.inspect()
+    |> Entries.create_entry()
   end
 
   defp update_entries(entries, %{"id" => id} = attrs) do
