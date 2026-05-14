@@ -11,6 +11,9 @@
 
     <.form_field type="textarea" form={f} field={:name} placeholder="VoiceSample Text" />
 
+    <.form_label form={f} field={:type} />
+    <.select form={f} field={:type} options={[{:value, "value"}]} prompt="Choose a value" />
+    <.form_field_error form={f} field={:type} />
     <.button type="submit" color="success" label="Save" />
   </.form>
 </div>

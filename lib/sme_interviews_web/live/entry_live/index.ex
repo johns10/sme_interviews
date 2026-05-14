@@ -2,6 +2,7 @@ defmodule SmeInterviewsWeb.EntryLive.Index do
   use SmeInterviewsWeb, :live_view
   on_mount SmeInterviewsWeb.UserLiveAuth
 
+  alias SmeInterviews.Utils
   alias SmeInterviews.Entries
   alias SmeInterviews.Entries.Entry
 
@@ -99,8 +100,6 @@ defmodule SmeInterviewsWeb.EntryLive.Index do
   end
 
   defp create_entry(%{"from" => from, "to" => to} = attrs) do
-    IO.inspect(attrs)
-
     attrs
     |> Map.put("from", DateTime.from_unix!(from))
     |> Map.put("to", DateTime.from_unix!(to))

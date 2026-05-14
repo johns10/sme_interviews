@@ -39,45 +39,89 @@
   </.modal>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>From</th>
-      <th>To</th>
-      <th>Text</th>
-      <th>Status</th>
+<%= for {entry, next} <- Utils.take_two(@entries) do %>
+  <div class="flex">
+    <div class="flex-col pr-1 basis-16 shrink-0 content-between" id={"timestamps-" <> entry.id}>
+      <.p class="px-0 mx-0 text-xs">
+        <%= Timex.format!(entry.from, "{h24}:{m}:{s}") %>
+      </.p>
+      <.p class="px-0 mx-0 !mb-0 text-xs">
+        <%= Timex.format!(entry.to, "{h24}:{m}:{s}") %>
+      </.p>
+    </div>
+    <div class="flex-col basis-1 shrink-0 bg-red-800 w-1" id={"color-bar-" <> entry.id}></div>
+    <div class="pl-1">
+      <.p><%= entry.text %></.p>
+    </div>
+  </div>
+  <%= !next || if entry.from != next.to do %>
+    <div class="flex">
+      <div class="basis-16 text-xs">
+        <div>
+          <.p class="text-right pr-2 !mb-0">
+            <%= (Timex.to_unix(next.from) - Timex.to_unix(entry.to))
+            |> case do
+              duration when duration > 0 and duration < 60 ->
+                duration
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="entries">
-    <%= for entry <- @entries do %>
-      <tr id={"entry-#{entry.id}"}>
-        <td><%= entry.from %></td>
-        <td><%= entry.to %></td>
-        <td><%= entry.text %></td>
-        <td><%= entry.status %></td>
-        <audio src={entry.get_url} controls crossorigin />
+              duration when duration > 60 and duration < 3600 ->
+                floor(duration / 60) * 60
 
-        <td>
-          <span>
-            <%= live_redirect("Show", to: Routes.entry_show_path(@socket, :show, entry)) %>
-          </span>
-          <span>
-            <%= live_patch("Edit", to: Routes.entry_index_path(@socket, :edit, entry)) %>
-          </span>
-          <span>
-            <%= link("Delete",
-              to: "#",
-              phx_click: "delete",
-              phx_value_id: entry.id,
-              data: [confirm: "Are you sure?"]
-            ) %>
-          </span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+              duration when duration > 3600 and duration < 86400 ->
+                floor(duration / 3600) * 3600
+
+              duration when duration > 86400 and duration < 2_628_000 ->
+                floor(duration / 86400) * 86400
+
+              duration when duration > 2_628_000 and duration < 31_540_000 ->
+                floor(duration / 2_628_000) * 2_628_000
+            end
+            |> Timex.Duration.from_seconds()
+            |> Timex.format_duration(:humanized)
+            |> String.replace("minute", "min")
+            |> String.replace("second", "sec") %>
+          </.p>
+        </div>
+      </div>
+      <div class="basis-1 bg-gray-600" />
+    </div>
+  <% end %>
+<% end %>
+<.table>
+  <.tr>
+    <.th>From</.th>
+    <.th>To</.th>
+    <.th>Text</.th>
+    <.th>Status</.th>
+
+    <.th></.th>
+  </.tr>
+  <%= for entry <- @entries do %>
+    <.tr id={"entry-#{entry.id}"}>
+      <.td><%= entry.from %></.td>
+      <.td><%= entry.to %></.td>
+      <.td><%= entry.text %></.td>
+      <.td><%= entry.status %></.td>
+      <audio src={entry.get_url} controls crossorigin />
+
+      <.td>
+        <span>
+          <%= live_redirect("Show", to: Routes.entry_show_path(@socket, :show, entry)) %>
+        </span>
+        <span>
+          <%= live_patch("Edit", to: Routes.entry_index_path(@socket, :edit, entry)) %>
+        </span>
+        <span>
+          <%= link("Delete",
+            to: "#",
+            phx_click: "delete",
+            phx_value_id: entry.id,
+            data: [confirm: "Are you sure?"]
+          ) %>
+        </span>
+      </.td>
+    </.tr>
+  <% end %>
+</.table>
 
 <span><%= live_patch("New Entry", to: Routes.entry_index_path(@socket, :new)) %></span>

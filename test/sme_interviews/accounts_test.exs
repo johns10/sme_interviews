@@ -103,9 +103,9 @@ defmodule SmeInterviews.AccountsTest do
       {:error, changeset} = Accounts.invite_user(%{})
 
       assert %{
-        email: ["can't be blank"],
-        invited_by_user_id: ["can't be blank"]
-        } = errors_on(changeset)
+               email: ["can't be blank"],
+               invited_by_user_id: ["can't be blank"]
+             } = errors_on(changeset)
     end
 
     test "validates email when given" do

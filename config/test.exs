@@ -33,3 +33,11 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :ex_aws, :s3,
+  access_key_id: "minioadmin",
+  secret_access_key: "minioadmin",
+  scheme: "http://",
+  host: "localhost",
+  port: 9000,
+  minio_path: "data"

@@ -56,6 +56,7 @@ defmodule SmeInterviews.MixProject do
       {:bodyguard, "~> 2.4"},
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.0"},
+      {:timex, "~> 3.7.9"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
       {:minio_server, "~> 0.3.2", only: [:test, :dev]}
